@@ -32,6 +32,71 @@ export type Database = {
         }
         Relationships: []
       }
+      condicoes_comerciais: {
+        Row: {
+          caixas_por_camada: number | null
+          caixas_por_pallet: number | null
+          categoria: string | null
+          codigo_ean: string | null
+          codigo_sku: string
+          created_at: string
+          descricao: string
+          empresa_id: string | null
+          id: string
+          itens_por_caixa: number | null
+          niv_por_ean: number | null
+          preco_apos_descontos: number | null
+          preco_com_impostos: number | null
+          preco_unitario: number | null
+          ton_por_ean: number | null
+          updated_at: string
+        }
+        Insert: {
+          caixas_por_camada?: number | null
+          caixas_por_pallet?: number | null
+          categoria?: string | null
+          codigo_ean?: string | null
+          codigo_sku: string
+          created_at?: string
+          descricao: string
+          empresa_id?: string | null
+          id?: string
+          itens_por_caixa?: number | null
+          niv_por_ean?: number | null
+          preco_apos_descontos?: number | null
+          preco_com_impostos?: number | null
+          preco_unitario?: number | null
+          ton_por_ean?: number | null
+          updated_at?: string
+        }
+        Update: {
+          caixas_por_camada?: number | null
+          caixas_por_pallet?: number | null
+          categoria?: string | null
+          codigo_ean?: string | null
+          codigo_sku?: string
+          created_at?: string
+          descricao?: string
+          empresa_id?: string | null
+          id?: string
+          itens_por_caixa?: number | null
+          niv_por_ean?: number | null
+          preco_apos_descontos?: number | null
+          preco_com_impostos?: number | null
+          preco_unitario?: number | null
+          ton_por_ean?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "condicoes_comerciais_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       empresas: {
         Row: {
           codigo: string
