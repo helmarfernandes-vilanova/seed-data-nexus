@@ -26,6 +26,153 @@ interface EstoqueRow {
   LIVRO: number;
 }
 
+// Processar importação em background
+async function processImport(
+  supabase: any,
+  data: EstoqueRow[]
+) {
+  console.log('Starting background processing');
+  let processedRows = 0;
+  let errors = 0;
+  const BATCH_SIZE = 50; // Processar em lotes de 50
+
+  // Coletar dados únicos primeiro para batch inserts
+  const empresasMap = new Map<string, any>();
+  const fornecedoresMap = new Map<string, any>();
+  const categoriasSet = new Set<string>();
+
+  // Primeira passada: coletar dados únicos
+  for (const row of data) {
+    if (row.Empresa) empresasMap.set(String(row.Empresa), { codigo: String(row.Empresa), nome: `Empresa ${row.Empresa}` });
+    if (row.FORNECEDOR) fornecedoresMap.set(String(row.FORNECEDOR), { codigo: String(row.FORNECEDOR), nome: `Fornecedor ${row.FORNECEDOR}` });
+    if (row.CATEGORIA) categoriasSet.add(row.CATEGORIA);
+  }
+
+  console.log(`Inserting ${empresasMap.size} empresas`);
+  // Inserir empresas em lote
+  if (empresasMap.size > 0) {
+    const { error } = await supabase
+      .from('empresas')
+      .upsert(Array.from(empresasMap.values()), { onConflict: 'codigo', ignoreDuplicates: false });
+    if (error) console.error('Erro ao inserir empresas:', error);
+  }
+
+  console.log(`Inserting ${fornecedoresMap.size} fornecedores`);
+  // Inserir fornecedores em lote
+  if (fornecedoresMap.size > 0) {
+    const { error } = await supabase
+      .from('fornecedores')
+      .upsert(Array.from(fornecedoresMap.values()), { onConflict: 'codigo', ignoreDuplicates: false });
+    if (error) console.error('Erro ao inserir fornecedores:', error);
+  }
+
+  console.log(`Inserting ${categoriasSet.size} categorias`);
+  // Inserir categorias em lote
+  if (categoriasSet.size > 0) {
+    const { error } = await supabase
+      .from('categorias')
+      .upsert(Array.from(categoriasSet).map(nome => ({ nome })), { onConflict: 'nome', ignoreDuplicates: false });
+    if (error) console.error('Erro ao inserir categorias:', error);
+  }
+
+  // Buscar IDs de empresas, fornecedores e categorias
+  const { data: empresas } = await supabase.from('empresas').select('id, codigo');
+  const { data: fornecedores } = await supabase.from('fornecedores').select('id, codigo');
+  const { data: categorias } = await supabase.from('categorias').select('id, nome');
+
+  const empresasIdMap = new Map(empresas?.map((e: any) => [e.codigo, e.id]) || []);
+  const fornecedoresIdMap = new Map(fornecedores?.map((f: any) => [f.codigo, f.id]) || []);
+  const categoriasIdMap = new Map(categorias?.map((c: any) => [c.nome, c.id]) || []);
+
+  console.log('Inserting produtos em lotes');
+  // Processar produtos em lotes
+  for (let i = 0; i < data.length; i += BATCH_SIZE) {
+    const batch = data.slice(i, i + BATCH_SIZE);
+    const produtos = batch.map(row => ({
+      codigo: String(row.PRODUTO),
+      ean: row.EAN ? String(row.EAN) : null,
+      descricao: row.DESCRIÇÃO,
+      categoria_id: categoriasIdMap.get(row.CATEGORIA),
+      fornecedor_id: fornecedoresIdMap.get(String(row.FORNECEDOR)),
+      qt_cx_compra: row.QT_CX_COMPRA || null,
+    }));
+
+    const { error } = await supabase
+      .from('produtos')
+      .upsert(produtos, { onConflict: 'codigo,fornecedor_id', ignoreDuplicates: false });
+
+    if (error) {
+      console.error(`Erro no lote ${i / BATCH_SIZE}:`, error);
+      errors += batch.length;
+    } else {
+      processedRows += batch.length;
+    }
+
+    if (i % 200 === 0) {
+      console.log(`Progresso: ${i}/${data.length} produtos processados`);
+    }
+  }
+
+  console.log('Buscando IDs dos produtos');
+  // Buscar todos os produtos para mapear IDs
+  const { data: produtosData } = await supabase
+    .from('produtos')
+    .select('id, codigo, fornecedor_id');
+
+  const produtosIdMap = new Map(
+    produtosData?.map((p: any) => [`${p.codigo}_${p.fornecedor_id}`, p.id]) || []
+  );
+
+  console.log('Inserting estoque em lotes');
+  // Processar estoque em lotes
+  processedRows = 0;
+  for (let i = 0; i < data.length; i += BATCH_SIZE) {
+    const batch = data.slice(i, i + BATCH_SIZE);
+    const estoques = batch
+      .map(row => {
+        const empresaId = empresasIdMap.get(String(row.Empresa));
+        const fornecedorId = fornecedoresIdMap.get(String(row.FORNECEDOR));
+        const produtoId = produtosIdMap.get(`${row.PRODUTO}_${fornecedorId}`);
+
+        if (!produtoId || !empresaId) return null;
+
+        return {
+          produto_id: produtoId,
+          empresa_id: empresaId,
+          qtd_disponivel: row['QTD DISPONIVEL'] || 0,
+          pendente: row.PENDENTE || 0,
+          dias_estoque: row['DIAS ESTOQUE'] || null,
+          m_3: row['M-3'] || null,
+          m_2: row['M-2'] || null,
+          m_1: row['M-1'] || null,
+          m_0: row['M-0'] || null,
+          custo_un: row['CUSTO UN'] || null,
+          custo_cx: row['CUSTO CX'] || null,
+          livro: row.LIVRO || null,
+        };
+      })
+      .filter(e => e !== null);
+
+    const { error } = await supabase
+      .from('estoque')
+      .upsert(estoques, { onConflict: 'produto_id,empresa_id', ignoreDuplicates: false });
+
+    if (error) {
+      console.error(`Erro no lote de estoque ${i / BATCH_SIZE}:`, error);
+      errors += batch.length;
+    } else {
+      processedRows += batch.length;
+    }
+
+    if (i % 200 === 0) {
+      console.log(`Progresso: ${i}/${data.length} itens de estoque processados`);
+    }
+  }
+
+  console.log(`Import completed: ${processedRows} processed, ${errors} errors`);
+  return { processedRows, errors };
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -61,90 +208,10 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${data.length} rows to process`);
 
-    let processedRows = 0;
-    let errors = 0;
+    // Processar a importação
+    const { processedRows, errors } = await processImport(supabase, data);
 
-    // Process in batches to avoid timeouts
-    for (const row of data) {
-      try {
-        // 1. Inserir ou buscar empresa
-        const { data: empresa, error: empresaError } = await supabase
-          .from('empresas')
-          .upsert({ codigo: String(row.Empresa), nome: `Empresa ${row.Empresa}` }, { onConflict: 'codigo' })
-          .select()
-          .single();
-
-        if (empresaError) throw empresaError;
-
-        // 2. Inserir ou buscar fornecedor
-        const { data: fornecedor, error: fornecedorError } = await supabase
-          .from('fornecedores')
-          .upsert({ codigo: String(row.FORNECEDOR), nome: `Fornecedor ${row.FORNECEDOR}` }, { onConflict: 'codigo' })
-          .select()
-          .single();
-
-        if (fornecedorError) throw fornecedorError;
-
-        // 3. Inserir ou buscar categoria
-        const { data: categoria, error: categoriaError } = await supabase
-          .from('categorias')
-          .upsert({ nome: row.CATEGORIA }, { onConflict: 'nome' })
-          .select()
-          .single();
-
-        if (categoriaError) throw categoriaError;
-
-        // 4. Inserir ou buscar produto
-        const { data: produto, error: produtoError } = await supabase
-          .from('produtos')
-          .upsert(
-            {
-              codigo: String(row.PRODUTO),
-              ean: row.EAN ? String(row.EAN) : null,
-              descricao: row.DESCRIÇÃO,
-              categoria_id: categoria.id,
-              fornecedor_id: fornecedor.id,
-              qt_cx_compra: row.QT_CX_COMPRA || null,
-            },
-            { onConflict: 'codigo,fornecedor_id' }
-          )
-          .select()
-          .single();
-
-        if (produtoError) throw produtoError;
-
-        // 5. Inserir ou atualizar estoque
-        const { error: estoqueError } = await supabase
-          .from('estoque')
-          .upsert(
-            {
-              produto_id: produto.id,
-              empresa_id: empresa.id,
-              qtd_disponivel: row['QTD DISPONIVEL'] || 0,
-              pendente: row.PENDENTE || 0,
-              dias_estoque: row['DIAS ESTOQUE'] || null,
-              m_3: row['M-3'] || null,
-              m_2: row['M-2'] || null,
-              m_1: row['M-1'] || null,
-              m_0: row['M-0'] || null,
-              custo_un: row['CUSTO UN'] || null,
-              custo_cx: row['CUSTO CX'] || null,
-              livro: row.LIVRO || null,
-            },
-            { onConflict: 'produto_id,empresa_id' }
-          );
-
-        if (estoqueError) throw estoqueError;
-
-        processedRows++;
-      } catch (error) {
-        console.error(`Error processing row:`, error);
-        errors++;
-      }
-    }
-
-    console.log(`Import completed: ${processedRows} processed, ${errors} errors`);
-
+    // Retornar resposta com resultado
     return new Response(
       JSON.stringify({
         success: true,

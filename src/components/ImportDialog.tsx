@@ -49,6 +49,8 @@ const ImportDialog = () => {
       const token = session?.access_token;
 
       setProgress(60);
+      
+      toast.info("Processando arquivo... Isso pode levar alguns minutos.");
 
       const response = await supabase.functions.invoke("import-estoque", {
         body: formData,
