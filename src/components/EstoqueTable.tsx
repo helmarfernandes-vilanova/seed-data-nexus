@@ -61,10 +61,12 @@ const EstoqueTable = () => {
         <TableHeader>
           <TableRow>
             <TableHead>Empresa</TableHead>
+            <TableHead>Fornecedor</TableHead>
             <TableHead>Produto</TableHead>
             <TableHead>EAN</TableHead>
+            <TableHead>Descrição</TableHead>
             <TableHead>Categoria</TableHead>
-            <TableHead className="text-right">Qt/Cx</TableHead>
+            <TableHead className="text-right">Qt Cx Compra</TableHead>
             <TableHead className="text-right">Qtd Disponível</TableHead>
             <TableHead className="text-right">Pendente</TableHead>
             <TableHead className="text-right">Dias Estoque</TableHead>
@@ -72,7 +74,7 @@ const EstoqueTable = () => {
             <TableHead className="text-right">M-2</TableHead>
             <TableHead className="text-right">M-1</TableHead>
             <TableHead className="text-right">M-0</TableHead>
-            <TableHead className="text-right">Custo Unit.</TableHead>
+            <TableHead className="text-right">Custo Un</TableHead>
             <TableHead className="text-right">Custo Cx</TableHead>
             <TableHead className="text-right">Livro</TableHead>
           </TableRow>
@@ -84,18 +86,21 @@ const EstoqueTable = () => {
                 {item.empresa?.codigo || "-"}
               </TableCell>
               <TableCell>
-                <div className="max-w-[300px]">
-                  <p className="font-medium truncate">{item.produto?.descricao || "-"}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {item.produto?.fornecedor?.nome || "Sem fornecedor"}
-                  </p>
-                </div>
+                {item.produto?.fornecedor?.nome || "-"}
               </TableCell>
-              <TableCell className="text-sm text-muted-foreground">
+              <TableCell className="font-medium">
+                {item.produto?.codigo || "-"}
+              </TableCell>
+              <TableCell className="text-sm">
                 {item.produto?.ean || "-"}
               </TableCell>
               <TableCell>
-                <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                <div className="max-w-[300px] truncate">
+                  {item.produto?.descricao || "-"}
+                </div>
+              </TableCell>
+              <TableCell>
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary whitespace-nowrap">
                   {item.produto?.categoria?.nome || "Sem categoria"}
                 </span>
               </TableCell>
@@ -103,13 +108,13 @@ const EstoqueTable = () => {
                 {item.produto?.qt_cx_compra ?? "-"}
               </TableCell>
               <TableCell className="text-right font-medium">
-                {Number(item.qtd_disponivel || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                {Number(item.qtd_disponivel || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
               <TableCell className="text-right">
-                {Number(item.pendente || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                {Number(item.pendente || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
               <TableCell className="text-right">
-                {item.dias_estoque !== null && item.dias_estoque !== undefined ? Number(item.dias_estoque).toFixed(0) : "-"}
+                {item.dias_estoque !== null && item.dias_estoque !== undefined ? Number(item.dias_estoque).toFixed(2) : "-"}
               </TableCell>
               <TableCell className="text-right">
                 {item.m_3 !== null && item.m_3 !== undefined ? Number(item.m_3).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
