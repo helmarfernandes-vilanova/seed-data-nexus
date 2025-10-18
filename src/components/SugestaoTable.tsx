@@ -23,27 +23,48 @@ const SugestaoTable = ({ empresaCodigo }: SugestaoTableProps) => {
   const { data: sugestoes, isLoading } = useQuery({
     queryKey: ["sugestao", empresaCodigo],
     queryFn: async () => {
-      // Buscar estoque com produtos e condições comerciais
+      // Buscar empresa ID
+      const { data: empresaData } = await supabase
+        .from("empresas")
+        .select("id")
+        .eq("codigo", empresaCodigo)
+        .single();
+
+      if (!empresaData) throw new Error("Empresa não encontrada");
+
+      // Buscar fornecedor 1941
+      const { data: fornecedorData } = await supabase
+        .from("fornecedores")
+        .select("id")
+        .eq("codigo", "1941")
+        .single();
+
+      if (!fornecedorData) throw new Error("Fornecedor 1941 não encontrado");
+
+      // Buscar estoque com produtos filtrado por fornecedor 1941 e empresa 501
       const { data: estoqueData, error: estoqueError } = await supabase
         .from("estoque")
         .select(`
           *,
-          produto:produtos(
+          produto:produtos!inner(
             codigo,
             ean,
             descricao,
+            qt_cx_compra,
+            fornecedor_id,
             categoria:categorias(nome)
           )
         `)
-        .eq("empresa_id", empresaCodigo);
+        .eq("empresa_id", empresaData.id)
+        .eq("produto.fornecedor_id", fornecedorData.id);
 
       if (estoqueError) throw estoqueError;
 
-      // Buscar condições comerciais
+      // Buscar condições comerciais para empresa 501
       const { data: condicoesData } = await supabase
         .from("condicoes_comerciais")
         .select("*")
-        .eq("empresa_id", empresaCodigo);
+        .eq("empresa_id", empresaData.id);
 
       // Combinar dados e calcular métricas
       return estoqueData?.map((item) => {
@@ -64,21 +85,18 @@ const SugestaoTable = ({ empresaCodigo }: SugestaoTableProps) => {
           ? somaEstoquePendente / (mediaM123 / 30)
           : null;
 
-        // Dias de Estoque
-        const diasEstoque = item.dias_estoque;
-
         return {
           id: item.id,
           codigoProduto: item.produto?.codigo || "",
           ean: item.produto?.ean || "",
           descricao: item.produto?.descricao || "",
           categoria: item.produto?.categoria?.nome || "",
-          embCompra: condicao?.itens_por_caixa || 0,
+          embCompra: item.produto?.qt_cx_compra || 0,
           estoque: item.qtd_disponivel || 0,
           pendente: item.pendente || 0,
           ddvUltimoMes: ddvUltimoMes ? Number(ddvUltimoMes.toFixed(2)) : null,
           ddv3Meses: ddv3Meses ? Number(ddv3Meses.toFixed(2)) : null,
-          diasEstoque,
+          diasEstoque: item.dias_estoque || 0,
           mes3: item.m_3 || 0,
           mes2: item.m_2 || 0,
           mes1: item.m_1 || 0,
