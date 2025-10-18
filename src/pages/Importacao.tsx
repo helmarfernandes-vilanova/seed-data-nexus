@@ -6,6 +6,7 @@ import { Upload, Loader2, CheckCircle, AlertCircle, FileSpreadsheet } from "luci
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 interface ImportStats {
   total: number;
@@ -114,14 +115,17 @@ const Importacao = () => {
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-              <FileSpreadsheet className="h-6 w-6 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
+                <FileSpreadsheet className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground">Importação NIV</h1>
+                <p className="text-muted-foreground">Importe condições comerciais de todas as empresas</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Importação NIV</h1>
-              <p className="text-muted-foreground">Importe condições comerciais de todas as empresas</p>
-            </div>
+            <ClearDatabaseButton />
           </div>
         </div>
       </header>
