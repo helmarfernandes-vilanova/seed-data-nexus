@@ -18,11 +18,22 @@ Deno.serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Deletar na ordem correta para respeitar foreign keys
+    console.log('Deleting condicoes_comerciais...');
+    const { error: condicoesError } = await supabase
+      .from('condicoes_comerciais')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+
+    if (condicoesError) {
+      console.error('Error deleting condicoes_comerciais:', condicoesError);
+      throw condicoesError;
+    }
+
     console.log('Deleting estoque...');
     const { error: estoqueError } = await supabase
       .from('estoque')
       .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+      .neq('id', '00000000-0000-0000-0000-000000000000');
 
     if (estoqueError) {
       console.error('Error deleting estoque:', estoqueError);
