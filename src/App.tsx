@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Estoque from "./pages/Estoque";
 import Niv from "./pages/Niv";
+import Importacao from "./pages/Importacao";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Navigate to="/estoque" replace />} />
                 <Route path="/estoque" element={<Estoque />} />
+                <Route path="/importacao" element={<Importacao />} />
                 <Route path="/niv/:empresa" element={<Niv />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

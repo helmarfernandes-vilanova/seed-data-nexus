@@ -1,4 +1,4 @@
-import { Building2, Package } from "lucide-react";
+import { Building2, Package, FileSpreadsheet } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/sidebar";
 
 const nivItems = [
-  { title: "Empresa 501", url: "/niv/501", empresa: "501" },
-  { title: "Empresa 502", url: "/niv/502", empresa: "502" },
-  { title: "Empresa 1", url: "/niv/1", empresa: "1" },
+  { title: "Importação", url: "/importacao", icon: FileSpreadsheet },
+  { title: "Empresa 501", url: "/niv/501", empresa: "501", icon: Building2 },
+  { title: "Empresa 502", url: "/niv/502", empresa: "502", icon: Building2 },
+  { title: "Empresa 1", url: "/niv/1", empresa: "1", icon: Building2 },
 ];
 
 export function AppSidebar() {
@@ -50,10 +51,10 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {nivItems.map((item) => (
-                <SidebarMenuItem key={item.empresa}>
+                <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
-                      <Building2 className="h-4 w-4" />
+                      <item.icon className="h-4 w-4" />
                       {open && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
