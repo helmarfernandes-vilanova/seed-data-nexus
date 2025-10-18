@@ -13,17 +13,19 @@ const Index = () => {
   const { data: stats } = useQuery({
     queryKey: ["stats"],
     queryFn: async () => {
-      const [produtos, empresas, fornecedores, estoque] = await Promise.all([
+      const [produtos, empresas, fornecedores, estoque, estoqueTotal] = await Promise.all([
         supabase.from("produtos").select("id", { count: "exact", head: true }),
         supabase.from("empresas").select("id", { count: "exact", head: true }),
         supabase.from("fornecedores").select("id", { count: "exact", head: true }),
         supabase.from("estoque").select("qtd_disponivel"),
+        supabase.from("estoque").select("id", { count: "exact", head: true }),
       ]);
 
       const totalItens = estoque.data?.reduce((sum, item) => sum + (Number(item.qtd_disponivel) || 0), 0) || 0;
 
       return {
-        totalProdutos: produtos.count || 0,
+        totalProdutosUnicos: produtos.count || 0,
+        totalLinhasEstoque: estoqueTotal.count || 0,
         totalEmpresas: empresas.count || 0,
         totalFornecedores: fornecedores.count || 0,
         totalItensEstoque: totalItens,
@@ -58,16 +60,16 @@ const Index = () => {
         {/* Cards de Estatísticas */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <StatsCard
-            title="Total de Produtos"
-            value={stats?.totalProdutos || 0}
+            title="Linhas de Estoque"
+            value={stats?.totalLinhasEstoque || 0}
             icon={Package}
-            description="Produtos cadastrados"
+            description="Total de itens cadastrados"
           />
           <StatsCard
-            title="Itens em Estoque"
+            title="Unidades em Estoque"
             value={Math.round(stats?.totalItensEstoque || 0)}
             icon={TrendingUp}
-            description="Unidades disponíveis"
+            description="Quantidade disponível"
           />
           <StatsCard
             title="Empresas"
