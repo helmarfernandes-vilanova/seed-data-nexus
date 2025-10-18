@@ -26,7 +26,6 @@ interface EstoqueRow {
   LIVRO: number;
 }
 
-// Processar importação em background
 async function processImport(
   supabase: any,
   data: EstoqueRow[]
@@ -34,22 +33,50 @@ async function processImport(
   console.log('Starting background processing');
   let processedRows = 0;
   let errors = 0;
-  const BATCH_SIZE = 50; // Processar em lotes de 50
 
-  // Coletar dados únicos primeiro para batch inserts
+  // Coletar dados únicos para batch inserts
   const empresasMap = new Map<string, any>();
   const fornecedoresMap = new Map<string, any>();
   const categoriasSet = new Set<string>();
+  const produtosMap = new Map<string, any>(); // key: codigo_fornecedor
 
   // Primeira passada: coletar dados únicos
   for (const row of data) {
-    if (row.Empresa) empresasMap.set(String(row.Empresa), { codigo: String(row.Empresa), nome: `Empresa ${row.Empresa}` });
-    if (row.FORNECEDOR) fornecedoresMap.set(String(row.FORNECEDOR), { codigo: String(row.FORNECEDOR), nome: `Fornecedor ${row.FORNECEDOR}` });
-    if (row.CATEGORIA) categoriasSet.add(row.CATEGORIA);
+    if (row.Empresa) {
+      empresasMap.set(String(row.Empresa), {
+        codigo: String(row.Empresa),
+        nome: `Empresa ${row.Empresa}`
+      });
+    }
+    
+    if (row.FORNECEDOR) {
+      fornecedoresMap.set(String(row.FORNECEDOR), {
+        codigo: String(row.FORNECEDOR),
+        nome: `Fornecedor ${row.FORNECEDOR}`
+      });
+    }
+    
+    if (row.CATEGORIA) {
+      categoriasSet.add(row.CATEGORIA);
+    }
+    
+    // Deduplicar produtos por codigo + fornecedor
+    if (row.PRODUTO && row.FORNECEDOR) {
+      const key = `${row.PRODUTO}_${row.FORNECEDOR}`;
+      if (!produtosMap.has(key)) {
+        produtosMap.set(key, {
+          codigo: String(row.PRODUTO),
+          fornecedor_codigo: String(row.FORNECEDOR),
+          ean: row.EAN ? String(row.EAN) : null,
+          descricao: row.DESCRIÇÃO,
+          categoria_nome: row.CATEGORIA,
+          qt_cx_compra: row.QT_CX_COMPRA || null,
+        });
+      }
+    }
   }
 
   console.log(`Inserting ${empresasMap.size} empresas`);
-  // Inserir empresas em lote
   if (empresasMap.size > 0) {
     const { error } = await supabase
       .from('empresas')
@@ -58,7 +85,6 @@ async function processImport(
   }
 
   console.log(`Inserting ${fornecedoresMap.size} fornecedores`);
-  // Inserir fornecedores em lote
   if (fornecedoresMap.size > 0) {
     const { error } = await supabase
       .from('fornecedores')
@@ -67,7 +93,6 @@ async function processImport(
   }
 
   console.log(`Inserting ${categoriasSet.size} categorias`);
-  // Inserir categorias em lote
   if (categoriasSet.size > 0) {
     const { error } = await supabase
       .from('categorias')
@@ -75,7 +100,7 @@ async function processImport(
     if (error) console.error('Erro ao inserir categorias:', error);
   }
 
-  // Buscar IDs de empresas, fornecedores e categorias
+  // Buscar IDs
   const { data: empresas } = await supabase.from('empresas').select('id, codigo');
   const { data: fornecedores } = await supabase.from('fornecedores').select('id, codigo');
   const { data: categorias } = await supabase.from('categorias').select('id, nome');
@@ -84,17 +109,20 @@ async function processImport(
   const fornecedoresIdMap = new Map(fornecedores?.map((f: any) => [f.codigo, f.id]) || []);
   const categoriasIdMap = new Map(categorias?.map((c: any) => [c.nome, c.id]) || []);
 
-  console.log('Inserting produtos em lotes');
-  // Processar produtos em lotes
-  for (let i = 0; i < data.length; i += BATCH_SIZE) {
-    const batch = data.slice(i, i + BATCH_SIZE);
-    const produtos = batch.map(row => ({
-      codigo: String(row.PRODUTO),
-      ean: row.EAN ? String(row.EAN) : null,
-      descricao: row.DESCRIÇÃO,
-      categoria_id: categoriasIdMap.get(row.CATEGORIA),
-      fornecedor_id: fornecedoresIdMap.get(String(row.FORNECEDOR)),
-      qt_cx_compra: row.QT_CX_COMPRA || null,
+  console.log(`Inserting ${produtosMap.size} produtos únicos`);
+  // Inserir produtos únicos em lotes
+  const produtosArray = Array.from(produtosMap.values());
+  const BATCH_SIZE = 50;
+  
+  for (let i = 0; i < produtosArray.length; i += BATCH_SIZE) {
+    const batch = produtosArray.slice(i, i + BATCH_SIZE);
+    const produtos = batch.map(p => ({
+      codigo: p.codigo,
+      ean: p.ean,
+      descricao: p.descricao,
+      categoria_id: categoriasIdMap.get(p.categoria_nome),
+      fornecedor_id: fornecedoresIdMap.get(p.fornecedor_codigo),
+      qt_cx_compra: p.qt_cx_compra,
     }));
 
     const { error } = await supabase
@@ -102,19 +130,18 @@ async function processImport(
       .upsert(produtos, { onConflict: 'codigo,fornecedor_id', ignoreDuplicates: false });
 
     if (error) {
-      console.error(`Erro no lote ${i / BATCH_SIZE}:`, error);
+      console.error(`Erro no lote de produtos ${i / BATCH_SIZE}:`, error);
       errors += batch.length;
     } else {
       processedRows += batch.length;
     }
 
     if (i % 200 === 0) {
-      console.log(`Progresso: ${i}/${data.length} produtos processados`);
+      console.log(`Progresso: ${i}/${produtosArray.length} produtos processados`);
     }
   }
 
   console.log('Buscando IDs dos produtos');
-  // Buscar todos os produtos para mapear IDs
   const { data: produtosData } = await supabase
     .from('produtos')
     .select('id, codigo, fornecedor_id');
@@ -123,9 +150,10 @@ async function processImport(
     produtosData?.map((p: any) => [`${p.codigo}_${p.fornecedor_id}`, p.id]) || []
   );
 
-  console.log('Inserting estoque em lotes');
-  // Processar estoque em lotes
+  console.log('Inserting estoque (uma linha por produto-empresa)');
   processedRows = 0;
+  
+  // Processar estoque - agora cada linha do Excel é única por produto+empresa
   for (let i = 0; i < data.length; i += BATCH_SIZE) {
     const batch = data.slice(i, i + BATCH_SIZE);
     const estoques = batch
@@ -134,7 +162,9 @@ async function processImport(
         const fornecedorId = fornecedoresIdMap.get(String(row.FORNECEDOR));
         const produtoId = produtosIdMap.get(`${row.PRODUTO}_${fornecedorId}`);
 
-        if (!produtoId || !empresaId) return null;
+        if (!produtoId || !empresaId) {
+          return null;
+        }
 
         return {
           produto_id: produtoId,
@@ -153,15 +183,17 @@ async function processImport(
       })
       .filter(e => e !== null);
 
-    const { error } = await supabase
-      .from('estoque')
-      .upsert(estoques, { onConflict: 'produto_id,empresa_id', ignoreDuplicates: false });
+    if (estoques.length > 0) {
+      const { error } = await supabase
+        .from('estoque')
+        .upsert(estoques, { onConflict: 'produto_id,empresa_id', ignoreDuplicates: false });
 
-    if (error) {
-      console.error(`Erro no lote de estoque ${i / BATCH_SIZE}:`, error);
-      errors += batch.length;
-    } else {
-      processedRows += batch.length;
+      if (error) {
+        console.error(`Erro no lote de estoque ${i / BATCH_SIZE}:`, error);
+        errors += estoques.length;
+      } else {
+        processedRows += estoques.length;
+      }
     }
 
     if (i % 200 === 0) {
@@ -174,7 +206,6 @@ async function processImport(
 }
 
 Deno.serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -186,7 +217,6 @@ Deno.serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Get the file from the request
     const formData = await req.formData();
     const file = formData.get('file') as File;
 
@@ -199,7 +229,6 @@ Deno.serve(async (req) => {
 
     console.log(`Processing file: ${file.name}`);
 
-    // Read the file
     const arrayBuffer = await file.arrayBuffer();
     const workbook = read(arrayBuffer);
     const sheetName = workbook.SheetNames[0];
@@ -208,14 +237,14 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${data.length} rows to process`);
 
-    // Processar a importação
     const { processedRows, errors } = await processImport(supabase, data);
 
-    // Retornar resposta com resultado
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Importação concluída com sucesso!`,
+        message: errors > 0 
+          ? `Importação concluída com ${errors} erros. ${processedRows - errors} itens importados com sucesso.`
+          : 'Importação concluída com sucesso!',
         stats: {
           total: data.length,
           processados: processedRows,
