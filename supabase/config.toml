@@ -1,1 +1,4 @@
 project_id = "gacvkqawxoeexujghqph"
+
+[functions.import-estoque]
+verify_jwt = false

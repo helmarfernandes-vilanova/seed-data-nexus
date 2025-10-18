@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EstoqueTable from "@/components/EstoqueTable";
 import ProdutosTable from "@/components/ProdutosTable";
 import StatsCard from "@/components/StatsCard";
+import ImportDialog from "@/components/ImportDialog";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("estoque");
@@ -38,14 +39,17 @@ const Index = () => {
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-              <Database className="h-6 w-6 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
+                <Database className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground">Sistema de Estoque</h1>
+                <p className="text-muted-foreground">Vila Nova - Gestão Completa</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Sistema de Estoque</h1>
-              <p className="text-muted-foreground">Vila Nova - Gestão Completa</p>
-            </div>
+            <ImportDialog />
           </div>
         </div>
       </header>
