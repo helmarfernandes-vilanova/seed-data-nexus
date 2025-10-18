@@ -22,6 +22,7 @@ const EstoqueTable = () => {
             codigo,
             descricao,
             ean,
+            qt_cx_compra,
             categoria:categorias(nome),
             fornecedor:fornecedores(nome)
           ),
@@ -55,7 +56,7 @@ const EstoqueTable = () => {
   }
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
@@ -63,10 +64,17 @@ const EstoqueTable = () => {
             <TableHead>Produto</TableHead>
             <TableHead>EAN</TableHead>
             <TableHead>Categoria</TableHead>
+            <TableHead className="text-right">Qt/Cx</TableHead>
             <TableHead className="text-right">Qtd Disponível</TableHead>
+            <TableHead className="text-right">Pendente</TableHead>
             <TableHead className="text-right">Dias Estoque</TableHead>
+            <TableHead className="text-right">M-3</TableHead>
+            <TableHead className="text-right">M-2</TableHead>
+            <TableHead className="text-right">M-1</TableHead>
+            <TableHead className="text-right">M-0</TableHead>
             <TableHead className="text-right">Custo Unit.</TableHead>
             <TableHead className="text-right">Custo Cx</TableHead>
+            <TableHead className="text-right">Livro</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -91,17 +99,38 @@ const EstoqueTable = () => {
                   {item.produto?.categoria?.nome || "Sem categoria"}
                 </span>
               </TableCell>
+              <TableCell className="text-right">
+                {item.produto?.qt_cx_compra ?? "-"}
+              </TableCell>
               <TableCell className="text-right font-medium">
                 {Number(item.qtd_disponivel || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </TableCell>
               <TableCell className="text-right">
-                {item.dias_estoque ? Number(item.dias_estoque).toFixed(0) : "-"}
+                {Number(item.pendente || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </TableCell>
+              <TableCell className="text-right">
+                {item.dias_estoque !== null && item.dias_estoque !== undefined ? Number(item.dias_estoque).toFixed(0) : "-"}
+              </TableCell>
+              <TableCell className="text-right">
+                {item.m_3 !== null && item.m_3 !== undefined ? Number(item.m_3).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
+              </TableCell>
+              <TableCell className="text-right">
+                {item.m_2 !== null && item.m_2 !== undefined ? Number(item.m_2).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
+              </TableCell>
+              <TableCell className="text-right">
+                {item.m_1 !== null && item.m_1 !== undefined ? Number(item.m_1).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
+              </TableCell>
+              <TableCell className="text-right">
+                {item.m_0 !== null && item.m_0 !== undefined ? Number(item.m_0).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right">
                 {item.custo_un ? `R$ ${Number(item.custo_un).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : "-"}
               </TableCell>
               <TableCell className="text-right font-medium">
                 {item.custo_cx ? `R$ ${Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : "-"}
+              </TableCell>
+              <TableCell className="text-right">
+                {item.livro !== null && item.livro !== undefined ? Number(item.livro).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
             </TableRow>
           ))}
