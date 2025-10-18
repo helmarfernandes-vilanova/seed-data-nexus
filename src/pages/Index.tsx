@@ -3,16 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Package, Database, TrendingUp, Building2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EstoqueTable from "@/components/EstoqueTable";
-import ProdutosTable from "@/components/ProdutosTable";
 import StatsCard from "@/components/StatsCard";
 import ImportDialog from "@/components/ImportDialog";
 import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState("estoque");
-
   // Buscar estatísticas gerais
   const { data: stats } = useQuery({
     queryKey: ["stats"],
@@ -87,27 +83,16 @@ const Index = () => {
           />
         </div>
 
-        {/* Tabelas com Tabs */}
+        {/* Tabela de Estoque */}
         <Card>
           <CardHeader>
-            <CardTitle>Gestão de Dados</CardTitle>
+            <CardTitle>Gestão de Estoque</CardTitle>
             <CardDescription>
-              Visualize e gerencie produtos, estoque, empresas e fornecedores
+              Visualize e gerencie todo o estoque de produtos por empresa
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="estoque">Estoque</TabsTrigger>
-                <TabsTrigger value="produtos">Produtos</TabsTrigger>
-              </TabsList>
-              <TabsContent value="estoque" className="mt-6">
-                <EstoqueTable />
-              </TabsContent>
-              <TabsContent value="produtos" className="mt-6">
-                <ProdutosTable />
-              </TabsContent>
-            </Tabs>
+            <EstoqueTable />
           </CardContent>
         </Card>
       </main>
