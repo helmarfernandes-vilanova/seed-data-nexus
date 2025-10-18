@@ -66,10 +66,10 @@ const Index = () => {
             description="Total de itens cadastrados"
           />
           <StatsCard
-            title="Unidades em Estoque"
-            value={Math.round(stats?.totalItensEstoque || 0)}
+            title="Produtos Únicos"
+            value={stats?.totalProdutosUnicos || 0}
             icon={TrendingUp}
-            description="Quantidade disponível"
+            description="Produtos cadastrados"
           />
           <StatsCard
             title="Empresas"
