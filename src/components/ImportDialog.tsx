@@ -14,14 +14,23 @@ import { Upload, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 
+interface ImportStats {
+  total: number;
+  processados: number;
+  erros: number;
+  currentBatch?: number;
+  totalBatches?: number;
+}
+
 const ImportDialog = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [importStats, setImportStats] = useState<ImportStats | null>(null);
   const [result, setResult] = useState<{
     success: boolean;
     message: string;
-    stats?: { total: number; processados: number; erros: number };
+    stats?: ImportStats;
   } | null>(null);
   const queryClient = useQueryClient();
 
@@ -36,34 +45,45 @@ const ImportDialog = () => {
     }
 
     setLoading(true);
-    setProgress(20);
+    setProgress(10);
     setResult(null);
+    setImportStats(null);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
 
-      setProgress(40);
+      setProgress(20);
 
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
 
-      setProgress(60);
+      setProgress(30);
       
       toast.info("Processando arquivo... Isso pode levar alguns minutos.");
+
+      // Simular progresso enquanto processa
+      const progressInterval = setInterval(() => {
+        setProgress(prev => {
+          if (prev < 85) return prev + 5;
+          return prev;
+        });
+      }, 2000);
 
       const response = await supabase.functions.invoke("import-estoque", {
         body: formData,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 
-      setProgress(90);
+      clearInterval(progressInterval);
+      setProgress(95);
 
       if (response.error) {
         throw response.error;
       }
 
       setResult(response.data);
+      setImportStats(response.data.stats);
       setProgress(100);
 
       // Atualizar os dados
@@ -71,7 +91,11 @@ const ImportDialog = () => {
       queryClient.invalidateQueries({ queryKey: ["produtos"] });
       queryClient.invalidateQueries({ queryKey: ["stats"] });
 
-      toast.success("Importação concluída com sucesso!");
+      if (response.data.stats.erros === 0) {
+        toast.success("Importação concluída com sucesso!");
+      } else {
+        toast.warning(`Importação concluída com ${response.data.stats.erros} erros`);
+      }
     } catch (error: any) {
       console.error("Erro ao importar:", error);
       setResult({
@@ -81,7 +105,6 @@ const ImportDialog = () => {
       toast.error("Erro ao importar arquivo");
     } finally {
       setLoading(false);
-      // Reset file input
       event.target.value = "";
     }
   };
@@ -90,6 +113,7 @@ const ImportDialog = () => {
     setOpen(false);
     setProgress(0);
     setResult(null);
+    setImportStats(null);
   };
 
   return (
@@ -140,6 +164,14 @@ const ImportDialog = () => {
                 <p className="text-sm font-medium">Processando arquivo...</p>
               </div>
               <Progress value={progress} className="w-full" />
+              {importStats && (
+                <div className="text-sm text-muted-foreground text-center space-y-1">
+                  <p>Total de linhas: {importStats.total}</p>
+                  <p className="font-medium text-foreground">
+                    Processando... {Math.round(progress)}%
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
@@ -179,6 +211,7 @@ const ImportDialog = () => {
                   onClick={() => {
                     setResult(null);
                     setProgress(0);
+                    setImportStats(null);
                   }}
                   className="flex-1"
                 >

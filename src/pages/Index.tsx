@@ -8,6 +8,7 @@ import EstoqueTable from "@/components/EstoqueTable";
 import ProdutosTable from "@/components/ProdutosTable";
 import StatsCard from "@/components/StatsCard";
 import ImportDialog from "@/components/ImportDialog";
+import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("estoque");
@@ -49,7 +50,10 @@ const Index = () => {
                 <p className="text-muted-foreground">Vila Nova - Gestão Completa</p>
               </div>
             </div>
-            <ImportDialog />
+            <div className="flex gap-2">
+              <ClearDatabaseButton />
+              <ImportDialog />
+            </div>
           </div>
         </div>
       </header>
