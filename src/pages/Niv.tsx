@@ -4,6 +4,7 @@ import { Building2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CondicoesTable from "@/components/CondicoesTable";
 import ImportDialogNiv from "@/components/ImportDialogNiv";
+import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Niv = () => {
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
@@ -31,7 +32,10 @@ const Niv = () => {
                 <p className="text-muted-foreground">Condições Comerciais do Fornecedor</p>
               </div>
             </div>
-            <ImportDialogNiv />
+            <div className="flex gap-2">
+              <ClearDatabaseButton />
+              <ImportDialogNiv />
+            </div>
           </div>
         </div>
       </header>
