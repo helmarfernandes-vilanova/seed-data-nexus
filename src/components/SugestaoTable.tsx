@@ -184,6 +184,27 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
       }));
     };
 
+    // Função para determinar cor de fundo baseada no valor
+    const getStockColorClass = (value: number) => {
+      if (value === 0) return "bg-red-100 dark:bg-red-950 text-red-900 dark:text-red-100";
+      if (value < 100) return "bg-orange-100 dark:bg-orange-950 text-orange-900 dark:text-orange-100";
+      if (value < 500) return "bg-yellow-100 dark:bg-yellow-950 text-yellow-900 dark:text-yellow-100";
+      return "bg-green-100 dark:bg-green-950 text-green-900 dark:text-green-100";
+    };
+
+    const getDDVColorClass = (ddv: number | null, diasEstoque: number) => {
+      if (ddv === null) return "";
+      if (diasEstoque < 30) return "bg-red-100 dark:bg-red-950 text-red-900 dark:text-red-100 font-medium";
+      if (diasEstoque < 60) return "bg-orange-100 dark:bg-orange-950 text-orange-900 dark:text-orange-100";
+      if (diasEstoque < 90) return "bg-yellow-100 dark:bg-yellow-950 text-yellow-900 dark:text-yellow-100";
+      return "bg-green-100 dark:bg-green-950 text-green-900 dark:text-green-100";
+    };
+
+    const getPedidoColorClass = (pedido: number) => {
+      if (pedido === 0) return "";
+      return "bg-blue-100 dark:bg-blue-950 text-blue-900 dark:text-blue-100 font-bold";
+    };
+
     if (isLoading) {
       return <div className="text-center py-8">Carregando...</div>;
     }
@@ -192,78 +213,88 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
     <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="min-w-[100px]">Cód Produto</TableHead>
-            <TableHead className="min-w-[120px]">EAN</TableHead>
-            <TableHead className="min-w-[200px]">Descrição</TableHead>
-            <TableHead>Categoria</TableHead>
-            <TableHead className="text-right">Emb Compra</TableHead>
-            <TableHead className="text-right">Estoque</TableHead>
-            <TableHead className="text-right">Pendente</TableHead>
-            <TableHead className="text-right">DDV Média Último Mês</TableHead>
-            <TableHead className="text-right">DDV Média 3 Meses</TableHead>
-            <TableHead className="text-right">Dias Estoque</TableHead>
-            <TableHead className="text-right">Mês -3</TableHead>
-            <TableHead className="text-right">Mês -2</TableHead>
-            <TableHead className="text-right">Mês -1</TableHead>
-            <TableHead className="text-right">Mês Atual</TableHead>
-            <TableHead className="text-right">Pedido</TableHead>
-            <TableHead className="text-center min-w-[100px]">Qtd Pallet</TableHead>
-            <TableHead className="text-center min-w-[100px]">Qtd Camada</TableHead>
-            <TableHead className="text-right">Qtd no Pallet</TableHead>
-            <TableHead className="text-right">Qtd na Camada</TableHead>
+          <TableRow className="bg-slate-900 hover:bg-slate-900">
+            <TableHead className="min-w-[100px] text-slate-50 font-semibold">Cód Produto</TableHead>
+            <TableHead className="min-w-[120px] text-slate-50 font-semibold">EAN</TableHead>
+            <TableHead className="min-w-[250px] text-slate-50 font-semibold">Descrição</TableHead>
+            <TableHead className="text-slate-50 font-semibold">Categoria</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Emb Compra</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Estoque</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Pendente</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">DDV Média Último Mês</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">DDV Média 3 Meses</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Dias Estoque</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Mês -3</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Mês -2</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Mês -1</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Mês Atual</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Pedido</TableHead>
+            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold">Qtd Pallet</TableHead>
+            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold">Qtd Camada</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Qtd no Pallet</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold">Qtd na Camada</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sugestoes?.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.codigoProduto}</TableCell>
-              <TableCell>{item.ean}</TableCell>
-              <TableCell>{item.descricao}</TableCell>
-              <TableCell>{item.categoria}</TableCell>
-              <TableCell className="text-right">{item.embCompra}</TableCell>
-              <TableCell className="text-right">{item.estoque.toFixed(0)}</TableCell>
-              <TableCell className="text-right">{item.pendente.toFixed(0)}</TableCell>
-              <TableCell className="text-right">
-                {item.ddvUltimoMes !== null ? item.ddvUltimoMes : "-"}
-              </TableCell>
-              <TableCell className="text-right">
-                {item.ddv3Meses !== null ? item.ddv3Meses : "-"}
-              </TableCell>
-              <TableCell className="text-right">
-                {item.diasEstoque !== null ? item.diasEstoque.toFixed(0) : "-"}
-              </TableCell>
-              <TableCell className="text-right">{item.mes3.toFixed(0)}</TableCell>
-              <TableCell className="text-right">{item.mes2.toFixed(0)}</TableCell>
-              <TableCell className="text-right">{item.mes1.toFixed(0)}</TableCell>
-              <TableCell className="text-right">{item.mesAtual.toFixed(0)}</TableCell>
-              <TableCell className="text-right font-medium">
-                {calcularPedido(item)}
-              </TableCell>
-              <TableCell className="text-center">
-                <Input
-                  type="number"
-                  min="0"
-                  className="w-20 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  value={editingRow[item.id]?.qtdPallet || ""}
-                  onChange={(e) => handleQtdChange(item.id, "qtdPallet", e.target.value)}
-                  placeholder="0"
-                />
-              </TableCell>
-              <TableCell className="text-center">
-                <Input
-                  type="number"
-                  min="0"
-                  className="w-20 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  value={editingRow[item.id]?.qtdCamada || ""}
-                  onChange={(e) => handleQtdChange(item.id, "qtdCamada", e.target.value)}
-                  placeholder="0"
-                />
-              </TableCell>
-              <TableCell className="text-right">{item.caixasPorPallet}</TableCell>
-              <TableCell className="text-right">{item.caixasPorCamada}</TableCell>
-            </TableRow>
-          ))}
+          {sugestoes?.map((item, index) => {
+            const pedido = calcularPedido(item);
+            return (
+              <TableRow 
+                key={item.id}
+                className={index % 2 === 0 ? "bg-background" : "bg-muted/30"}
+              >
+                <TableCell className="font-mono text-xs">{item.codigoProduto}</TableCell>
+                <TableCell className="font-mono text-xs">{item.ean}</TableCell>
+                <TableCell className="text-sm">{item.descricao}</TableCell>
+                <TableCell className="text-xs text-muted-foreground">{item.categoria}</TableCell>
+                <TableCell className="text-right font-medium">{item.embCompra}</TableCell>
+                <TableCell className={`text-right font-medium ${getStockColorClass(item.estoque)}`}>
+                  {item.estoque.toFixed(0)}
+                </TableCell>
+                <TableCell className={`text-right ${item.pendente > 0 ? 'font-medium' : ''}`}>
+                  {item.pendente.toFixed(0)}
+                </TableCell>
+                <TableCell className={`text-right ${getDDVColorClass(item.ddvUltimoMes, item.diasEstoque)}`}>
+                  {item.ddvUltimoMes !== null ? item.ddvUltimoMes : "-"}
+                </TableCell>
+                <TableCell className={`text-right ${getDDVColorClass(item.ddv3Meses, item.diasEstoque)}`}>
+                  {item.ddv3Meses !== null ? item.ddv3Meses : "-"}
+                </TableCell>
+                <TableCell className={`text-right font-medium ${getDDVColorClass(item.ddvUltimoMes, item.diasEstoque)}`}>
+                  {item.diasEstoque !== null ? item.diasEstoque.toFixed(0) : "-"}
+                </TableCell>
+                <TableCell className="text-right">{item.mes3.toFixed(0)}</TableCell>
+                <TableCell className="text-right">{item.mes2.toFixed(0)}</TableCell>
+                <TableCell className="text-right">{item.mes1.toFixed(0)}</TableCell>
+                <TableCell className="text-right">{item.mesAtual.toFixed(0)}</TableCell>
+                <TableCell className={`text-right ${getPedidoColorClass(pedido)}`}>
+                  {pedido}
+                </TableCell>
+                <TableCell className="text-center">
+                  <Input
+                    type="number"
+                    min="0"
+                    className="w-20 text-center font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    value={editingRow[item.id]?.qtdPallet || ""}
+                    onChange={(e) => handleQtdChange(item.id, "qtdPallet", e.target.value)}
+                    placeholder="0"
+                  />
+                </TableCell>
+                <TableCell className="text-center">
+                  <Input
+                    type="number"
+                    min="0"
+                    className="w-20 text-center font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    value={editingRow[item.id]?.qtdCamada || ""}
+                    onChange={(e) => handleQtdChange(item.id, "qtdCamada", e.target.value)}
+                    placeholder="0"
+                  />
+                </TableCell>
+                <TableCell className="text-right text-muted-foreground">{item.caixasPorPallet}</TableCell>
+                <TableCell className="text-right text-muted-foreground">{item.caixasPorCamada}</TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
