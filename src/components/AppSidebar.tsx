@@ -14,9 +14,9 @@ import {
 
 const nivItems = [
   { title: "Importação", url: "/importacao", icon: FileSpreadsheet },
-  { title: "Empresa 501", url: "/niv/501", empresa: "501", icon: Building2 },
-  { title: "Empresa 502", url: "/niv/502", empresa: "502", icon: Building2 },
-  { title: "Empresa 1", url: "/niv/1", empresa: "1", icon: Building2 },
+  { title: "501 - NIV", url: "/niv/501", empresa: "501", icon: Building2 },
+  { title: "502 - NIV", url: "/niv/502", empresa: "502", icon: Building2 },
+  { title: "1 - NIV", url: "/niv/1", empresa: "1", icon: Building2 },
 ];
 
 const sugestaoItems = [
