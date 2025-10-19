@@ -51,18 +51,53 @@ const PedidoDetalhes = () => {
 
       if (error) throw error;
 
+      // Buscar ID da empresa 501
+      const { data: empresaData } = await supabase
+        .from("empresas")
+        .select("id")
+        .eq("codigo", "501")
+        .single();
+
+      if (!empresaData) {
+        return data?.map((item) => ({
+          id: item.id,
+          codigoProduto: item.produto?.codigo || "",
+          ean: item.produto?.ean || "",
+          descricao: item.produto?.descricao || "",
+          categoria: item.produto?.categoria?.nome || "",
+          embCompra: item.produto?.qt_cx_compra || 0,
+          qtdPallet: item.qtd_pallet,
+          qtdCamada: item.qtd_camada,
+          qtdPedido: item.qtd_pedido,
+          precoNiv: item.preco_cx_niv,
+          precoNf: null,
+        })) || [];
+      }
+
       // Buscar preços unitários da empresa 501
       const eans = data?.map(item => item.produto?.ean).filter(Boolean) || [];
+      
+      if (eans.length === 0) {
+        return data?.map((item) => ({
+          id: item.id,
+          codigoProduto: item.produto?.codigo || "",
+          ean: item.produto?.ean || "",
+          descricao: item.produto?.descricao || "",
+          categoria: item.produto?.categoria?.nome || "",
+          embCompra: item.produto?.qt_cx_compra || 0,
+          qtdPallet: item.qtd_pallet,
+          qtdCamada: item.qtd_camada,
+          qtdPedido: item.qtd_pedido,
+          precoNiv: item.preco_cx_niv,
+          precoNf: null,
+        })) || [];
+      }
+
       const { data: condicoesData } = await supabase
         .from("condicoes_comerciais")
         .select("codigo_ean, preco_unitario")
         .in("codigo_ean", eans)
-        .eq("empresa_id", (await supabase
-          .from("empresas")
-          .select("id")
-          .eq("codigo", "501")
-          .single()
-        ).data?.id || "");
+        .eq("empresa_id", empresaData.id);
 
       const condicoesMap = new Map(
         condicoesData?.map(c => [c.codigo_ean, c.preco_unitario]) || []
