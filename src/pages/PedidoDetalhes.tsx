@@ -405,19 +405,19 @@ const PedidoDetalhes = () => {
                           <TableCell className="text-xs text-muted-foreground py-1">{item.categoria}</TableCell>
                           <TableCell className="text-right font-medium py-1">{item.embCompra}</TableCell>
                           <TableCell className="text-right py-1">
-                            {item.precoNiv ? `R$ ${Number(item.precoNiv).toFixed(2)}` : "-"}
+                            {item.precoNiv ? Number(item.precoNiv).toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
                             {precoUnidNiv && precoUnidNiv > 0
-                              ? `R$ ${precoUnidNiv.toFixed(2)}`
+                              ? precoUnidNiv.toFixed(2)
                               : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {item.precoNf ? `R$ ${Number(item.precoNf).toFixed(2)}` : "-"}
+                            {item.precoNf ? Number(item.precoNf).toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
                             {precoUnidNf && precoUnidNf > 0
-                              ? `R$ ${precoUnidNf.toFixed(2)}`
+                              ? precoUnidNf.toFixed(2)
                               : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
