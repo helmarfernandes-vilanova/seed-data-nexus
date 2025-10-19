@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Table,
@@ -9,8 +9,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useNavigate } from "react-router-dom";
-import { Pencil, Eye } from "lucide-react";
+import { Pencil, Eye, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 
 interface PedidoTableProps {
   empresaCodigo: string;
@@ -18,6 +30,8 @@ interface PedidoTableProps {
 
 const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [pedidoToDelete, setPedidoToDelete] = useState<string | null>(null);
 
   const { data: pedidos, isLoading } = useQuery({
     queryKey: ["pedidos", empresaCodigo],
@@ -54,12 +68,51 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async (pedidoId: string) => {
+      // Primeiro deletar os itens do pedido
+      const { error: itensError } = await supabase
+        .from("pedidos_itens")
+        .delete()
+        .eq("pedido_id", pedidoId);
+
+      if (itensError) throw itensError;
+
+      // Depois deletar o pedido
+      const { error: pedidoError } = await supabase
+        .from("pedidos")
+        .delete()
+        .eq("id", pedidoId);
+
+      if (pedidoError) throw pedidoError;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pedidos", empresaCodigo] });
+      toast.success("Pedido excluído com sucesso!");
+      setPedidoToDelete(null);
+    },
+    onError: (error) => {
+      console.error("Erro ao excluir pedido:", error);
+      toast.error("Erro ao excluir pedido");
+    },
+  });
+
   const handleEdit = (pedidoId: string) => {
     navigate(`/sugestao/501-hc?pedido=${pedidoId}`);
   };
 
   const handleView = (pedidoId: string) => {
     navigate(`/pedido/501-hc/detalhes/${pedidoId}`);
+  };
+
+  const handleDelete = (pedidoId: string) => {
+    setPedidoToDelete(pedidoId);
+  };
+
+  const confirmDelete = () => {
+    if (pedidoToDelete) {
+      deleteMutation.mutate(pedidoToDelete);
+    }
   };
 
   if (isLoading) {
@@ -115,12 +168,37 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDelete(pedido.id)}
+                    title="Excluir"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      <AlertDialog open={!!pedidoToDelete} onOpenChange={() => setPedidoToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
