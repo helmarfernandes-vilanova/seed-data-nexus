@@ -143,8 +143,8 @@ const PedidoDetalhes = () => {
                   </TableHeader>
                   <TableBody>
                     {itens.map((item) => {
-                      const precoUnidNiv = item.qtdPedido && item.precoNiv
-                        ? Number(item.precoNiv) / item.qtdPedido
+                      const precoUnidNiv = item.embCompra && item.precoNiv
+                        ? Number(item.precoNiv) / item.embCompra
                         : null;
 
                       return (
