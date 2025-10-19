@@ -98,7 +98,7 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
   });
 
   const handleEdit = (pedidoId: string) => {
-    navigate(`/sugestao/501-hc?pedido=${pedidoId}`);
+    navigate(`/sugestao?pedido=${pedidoId}`);
   };
 
   const handleView = (pedidoId: string) => {
