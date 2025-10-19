@@ -53,7 +53,7 @@ export function AppSidebar() {
 
         {/* Menu NIV */}
         <SidebarGroup>
-          <SidebarGroupLabel>NIV - Condições Comerciais</SidebarGroupLabel>
+          <SidebarGroupLabel>NIV</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {nivItems.map((item) => (
