@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 
 const Sugestao = () => {
-  const { tipo } = useParams<{ tipo: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const pedidoId = searchParams.get('pedido');
@@ -18,12 +17,6 @@ const Sugestao = () => {
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
   const tableRef = useRef<{ getEditingData: () => any[] }>(null);
-
-  const tipoConfig: Record<string, { nome: string }> = {
-    "501-hc": { nome: "501 - HC" },
-  };
-
-  const config = tipo ? tipoConfig[tipo] : null;
 
   // Buscar empresas disponíveis
   const { data: empresas } = useQuery({
@@ -59,7 +52,7 @@ const Sugestao = () => {
   };
 
   const handleSavePedido = async () => {
-    if (!config || !tableRef.current) return;
+    if (!tableRef.current) return;
     
     setIsSaving(true);
     try {
@@ -193,14 +186,6 @@ const Sugestao = () => {
       setIsSaving(false);
     }
   };
-  
-  if (!config) {
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <p className="text-muted-foreground">Tipo de sugestão não encontrado</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex-1">
@@ -225,7 +210,7 @@ const Sugestao = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Sugestão de Compra - {config.nome}</CardTitle>
+                  <CardTitle>Sugestão de Compra</CardTitle>
                   <CardDescription>
                     Análise de DDV e cálculo de pedidos baseado em histórico de vendas
                   </CardDescription>

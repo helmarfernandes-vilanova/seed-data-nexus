@@ -16,9 +16,7 @@ const nivItems = [
   { title: "NIV", url: "/niv", icon: Building2 },
 ];
 
-const sugestaoItems = [
-  { title: "501 - HC", url: "/sugestao/501-hc", icon: Lightbulb },
-];
+const sugestaoItem = { title: "Sugestão", url: "/sugestao", icon: Lightbulb };
 
 const pedidoItems = [
   { title: "501 - HC", url: "/pedido/501-hc", icon: ShoppingCart },
@@ -71,19 +69,17 @@ export function AppSidebar() {
 
         {/* Menu Sugestão */}
         <SidebarGroup>
-          <SidebarGroupLabel>Sugestão</SidebarGroupLabel>
+          <SidebarGroupLabel>Compras</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sugestaoItems.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink to={sugestaoItem.url} end className={getNavCls}>
+                    <sugestaoItem.icon className="h-4 w-4" />
+                    {open && <span>{sugestaoItem.title}</span>}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
