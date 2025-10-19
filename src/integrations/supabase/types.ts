@@ -256,33 +256,45 @@ export type Database = {
       pedidos_itens: {
         Row: {
           created_at: string
+          custo_atual: number | null
+          estoque_atual: number | null
           id: string
           pedido_id: string
+          preco_atual: number | null
           preco_cx_niv: number | null
           produto_id: string | null
           qtd_camada: number
           qtd_pallet: number
           qtd_pedido: number
+          verba_unid: number | null
         }
         Insert: {
           created_at?: string
+          custo_atual?: number | null
+          estoque_atual?: number | null
           id?: string
           pedido_id: string
+          preco_atual?: number | null
           preco_cx_niv?: number | null
           produto_id?: string | null
           qtd_camada?: number
           qtd_pallet?: number
           qtd_pedido?: number
+          verba_unid?: number | null
         }
         Update: {
           created_at?: string
+          custo_atual?: number | null
+          estoque_atual?: number | null
           id?: string
           pedido_id?: string
+          preco_atual?: number | null
           preco_cx_niv?: number | null
           produto_id?: string | null
           qtd_camada?: number
           qtd_pallet?: number
           qtd_pedido?: number
+          verba_unid?: number | null
         }
         Relationships: [
           {

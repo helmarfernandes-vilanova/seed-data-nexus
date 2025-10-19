@@ -71,6 +71,10 @@ const PedidoDetalhes = () => {
           qtdPedido: item.qtd_pedido,
           precoNiv: item.preco_cx_niv,
           precoNf: null,
+          verbaUnid: item.verba_unid || 0,
+          estoqueAtual: item.estoque_atual,
+          custoAtual: item.custo_atual,
+          precoAtual: item.preco_atual,
         })) || [];
       }
 
@@ -90,6 +94,10 @@ const PedidoDetalhes = () => {
           qtdPedido: item.qtd_pedido,
           precoNiv: item.preco_cx_niv,
           precoNf: null,
+          verbaUnid: item.verba_unid || 0,
+          estoqueAtual: item.estoque_atual,
+          custoAtual: item.custo_atual,
+          precoAtual: item.preco_atual,
         })) || [];
       }
 
@@ -115,6 +123,10 @@ const PedidoDetalhes = () => {
         qtdPedido: item.qtd_pedido,
         precoNiv: item.preco_cx_niv,
         precoNf: item.produto?.ean ? condicoesMap.get(item.produto.ean) : null,
+        verbaUnid: item.verba_unid || 0,
+        estoqueAtual: item.estoque_atual,
+        custoAtual: item.custo_atual,
+        precoAtual: item.preco_atual,
       })) || [];
     },
     enabled: !!pedidoId,
@@ -191,9 +203,23 @@ const PedidoDetalhes = () => {
                       <TableHead className="text-right">Preço unid NIV</TableHead>
                       <TableHead className="text-right">Preço cx NF</TableHead>
                       <TableHead className="text-right">Preço unid NF</TableHead>
+                      <TableHead className="text-right">Desc off NF</TableHead>
+                      <TableHead className="text-right">Verba unid</TableHead>
+                      <TableHead className="text-right">Verba cx</TableHead>
+                      <TableHead className="text-right">Preço final</TableHead>
+                      <TableHead className="text-right">Total Pedido</TableHead>
+                      <TableHead className="text-right">Estoque</TableHead>
+                      <TableHead className="text-right">Novo Estoque</TableHead>
+                      <TableHead className="text-right">Custo Atual</TableHead>
+                      <TableHead className="text-right">Novo Custo</TableHead>
+                      <TableHead className="text-right">Preço Atual</TableHead>
                       <TableHead className="text-center">Qtd Pallet</TableHead>
                       <TableHead className="text-center">Qtd Camada</TableHead>
-                      <TableHead className="text-right">Total Pedido</TableHead>
+                      <TableHead className="text-right">Total Pallet</TableHead>
+                      <TableHead className="text-right">Cargas</TableHead>
+                      <TableHead className="text-right">Total NF</TableHead>
+                      <TableHead className="text-right">Total NIV</TableHead>
+                      <TableHead className="text-right">Total VERBA</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -206,6 +232,53 @@ const PedidoDetalhes = () => {
                         ? Number(item.precoNf) / item.embCompra
                         : null;
 
+                      // Desc off NF: SE(I9=0; ""; SE(R9=0; ""; SE(S9/I9=0; ""; S9/I9)))
+                      const verbaCx = item.verbaUnid && item.embCompra
+                        ? Number(item.verbaUnid) * item.embCompra
+                        : null;
+                      
+                      const descOffNf = item.precoNiv && item.verbaUnid && verbaCx
+                        ? (verbaCx / Number(item.precoNiv)) || null
+                        : null;
+
+                      // Preço final: SE(L9=""; ""; M9-R9)
+                      const precoFinal = item.precoNf && precoUnidNf && item.verbaUnid
+                        ? precoUnidNf - Number(item.verbaUnid)
+                        : null;
+
+                      // Novo Estoque: SE(ÉERROS(SOMA(V9;U9)); ""; SOMA(V9;U9))
+                      const novoEstoque = item.estoqueAtual != null && item.qtdPedido
+                        ? Number(item.estoqueAtual) + item.qtdPedido
+                        : null;
+
+                      // Novo Custo: SE(ÉERROS(((V9*X9)+(T9*U9))/(W9)); ""; ((V9*X9)+(T9*U9))/(W9))
+                      const novoCusto = item.estoqueAtual != null && 
+                                       item.custoAtual != null && 
+                                       precoFinal != null && 
+                                       novoEstoque && 
+                                       novoEstoque > 0
+                        ? ((Number(item.estoqueAtual) * Number(item.custoAtual)) + 
+                           (precoFinal * item.qtdPedido)) / novoEstoque
+                        : null;
+
+                      // Cargas: SE(ÉERROS(AA9/28);"";AA9/28)
+                      const cargas = item.qtdPallet ? item.qtdPallet / 28 : null;
+
+                      // Total NF: SE(A9; SE(U9; U9*L9; ""); "")
+                      const totalNf = item.qtdPedido && item.precoNf
+                        ? item.qtdPedido * Number(item.precoNf)
+                        : null;
+
+                      // Total NIV: SE(ÉERROS(I9*U9); ""; SE(I9*U9=0; ""; I9*U9))
+                      const totalNiv = item.precoNiv && item.qtdPedido
+                        ? (Number(item.precoNiv) * item.qtdPedido) || null
+                        : null;
+
+                      // Total VERBA: SE(ÉERROS(S9*U9); ""; SE(S9*U9=0; ""; S9*U9))
+                      const totalVerba = verbaCx && item.qtdPedido
+                        ? (verbaCx * item.qtdPedido) || null
+                        : null;
+
                       return (
                         <TableRow key={item.id}>
                           <TableCell className="font-medium">{item.codigoProduto}</TableCell>
@@ -214,7 +287,7 @@ const PedidoDetalhes = () => {
                           <TableCell>{item.categoria}</TableCell>
                           <TableCell className="text-right">{item.embCompra}</TableCell>
                           <TableCell className="text-right">
-                            {item.precoNiv ? `R$ ${item.precoNiv.toFixed(2)}` : "-"}
+                            {item.precoNiv ? `R$ ${Number(item.precoNiv).toFixed(2)}` : "-"}
                           </TableCell>
                           <TableCell className="text-right">
                             {precoUnidNiv && precoUnidNiv > 0
@@ -229,10 +302,50 @@ const PedidoDetalhes = () => {
                               ? `R$ ${precoUnidNf.toFixed(2)}`
                               : "-"}
                           </TableCell>
-                          <TableCell className="text-center">{item.qtdPallet}</TableCell>
-                          <TableCell className="text-center">{item.qtdCamada}</TableCell>
+                          <TableCell className="text-right">
+                            {descOffNf ? `${(descOffNf * 100).toFixed(2)}%` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.verbaUnid ? `R$ ${Number(item.verbaUnid).toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {verbaCx ? `R$ ${verbaCx.toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {precoFinal ? `R$ ${precoFinal.toFixed(2)}` : "-"}
+                          </TableCell>
                           <TableCell className="text-right font-medium">
                             {item.qtdPedido}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.estoqueAtual != null ? item.estoqueAtual : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {novoEstoque != null ? novoEstoque : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.custoAtual != null ? `R$ ${Number(item.custoAtual).toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {novoCusto ? `R$ ${novoCusto.toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.precoAtual != null ? `R$ ${Number(item.precoAtual).toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-center">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-center">{item.qtdCamada}</TableCell>
+                          <TableCell className="text-right">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-right">
+                            {cargas ? cargas.toFixed(2) : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {totalNf ? `R$ ${totalNf.toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {totalNiv ? `R$ ${totalNiv.toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {totalVerba ? `R$ ${totalVerba.toFixed(2)}` : "-"}
                           </TableCell>
                         </TableRow>
                       );
