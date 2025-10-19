@@ -31,7 +31,7 @@ export default function LogoutButton({ showLabel = true }: { showLabel?: boolean
       variant="ghost"
       size="sm"
       onClick={handleLogout}
-      className="w-full justify-start"
+      className={`w-full ${showLabel ? 'justify-start' : 'justify-center'}`}
     >
       <LogOut className="h-4 w-4" />
       {showLabel && <span className="ml-2">Sair</span>}
