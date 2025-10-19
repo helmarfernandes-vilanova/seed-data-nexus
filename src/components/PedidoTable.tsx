@@ -131,50 +131,60 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
     <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Data Criação</TableHead>
-            <TableHead>Data Atualização</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Total Itens</TableHead>
-            <TableHead>Observações</TableHead>
-            <TableHead className="text-center">Ações</TableHead>
+          <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
+            <TableHead className="min-w-[140px] text-slate-50 font-semibold py-2 text-center">DATA<br/>CRIAÇÃO</TableHead>
+            <TableHead className="min-w-[140px] text-slate-50 font-semibold py-2 text-center">DATA<br/>ATUALIZAÇÃO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">STATUS</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>ITENS</TableHead>
+            <TableHead className="min-w-[200px] text-slate-50 font-semibold py-2 text-center">OBSERVAÇÕES</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">AÇÕES</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {pedidos.map((pedido) => (
-            <TableRow key={pedido.id}>
-              <TableCell>{pedido.dataCriacao}</TableCell>
-              <TableCell>{pedido.dataAtualizacao}</TableCell>
-              <TableCell>
-                <span className="capitalize">{pedido.status}</span>
+          {pedidos.map((pedido, index) => (
+            <TableRow 
+              key={pedido.id}
+              className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+            >
+              <TableCell className="text-xs py-1">{pedido.dataCriacao}</TableCell>
+              <TableCell className="text-xs py-1">{pedido.dataAtualizacao}</TableCell>
+              <TableCell className="py-1">
+                <span className="capitalize text-xs">{pedido.status}</span>
               </TableCell>
-              <TableCell className="text-right">{pedido.totalItens}</TableCell>
-              <TableCell>{pedido.observacoes || "-"}</TableCell>
-              <TableCell className="text-center">
-                <div className="flex gap-2 justify-center">
+              <TableCell className="text-right font-medium py-1">{pedido.totalItens}</TableCell>
+              <TableCell className="text-sm py-1">
+                <div className="max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
+                  {pedido.observacoes || "-"}
+                </div>
+              </TableCell>
+              <TableCell className="text-center py-1">
+                <div className="flex gap-1 justify-center">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => handleView(pedido.id)}
                     title="Visualizar"
+                    className="h-7 w-7 p-0"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-3 w-3" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => handleEdit(pedido.id)}
                     title="Editar"
+                    className="h-7 w-7 p-0"
                   >
-                    <Pencil className="h-4 w-4" />
+                    <Pencil className="h-3 w-3" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => handleDelete(pedido.id)}
                     title="Excluir"
+                    className="h-7 w-7 p-0"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3 w-3" />
                   </Button>
                 </div>
               </TableCell>

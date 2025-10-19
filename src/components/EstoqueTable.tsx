@@ -59,82 +59,85 @@ const EstoqueTable = () => {
     <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Empresa</TableHead>
-            <TableHead>Fornecedor</TableHead>
-            <TableHead>Produto</TableHead>
-            <TableHead>EAN</TableHead>
-            <TableHead>Descrição</TableHead>
-            <TableHead>Categoria</TableHead>
-            <TableHead className="text-right">Qt Cx Compra</TableHead>
-            <TableHead className="text-right">Qtd Disponível</TableHead>
-            <TableHead className="text-right">Pendente</TableHead>
-            <TableHead className="text-right">Dias Estoque</TableHead>
-            <TableHead className="text-right">M-3</TableHead>
-            <TableHead className="text-right">M-2</TableHead>
-            <TableHead className="text-right">M-1</TableHead>
-            <TableHead className="text-right">M-0</TableHead>
-            <TableHead className="text-right">Custo Un</TableHead>
-            <TableHead className="text-right">Custo Cx</TableHead>
-            <TableHead className="text-right">Livro</TableHead>
+          <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">EMPRESA</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">FORNECEDOR</TableHead>
+            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">PRODUTO</TableHead>
+            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
+            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">QT CX<br/>COMPRA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">QTD<br/>DISPONÍVEL</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">PENDENTE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">DIAS<br/>ESTOQUE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">M-3</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">M-2</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">M-1</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">M-0</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>UN</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>CX</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">LIVRO</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {estoque.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">
+          {estoque.map((item, index) => (
+            <TableRow 
+              key={item.id}
+              className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+            >
+              <TableCell className="font-medium text-xs py-1">
                 {item.empresa?.codigo || "-"}
               </TableCell>
-              <TableCell>
+              <TableCell className="text-xs py-1">
                 {item.produto?.fornecedor?.nome || "-"}
               </TableCell>
-              <TableCell className="font-medium">
+              <TableCell className="font-medium font-mono text-xs py-1">
                 {item.produto?.codigo || "-"}
               </TableCell>
-              <TableCell className="text-sm">
+              <TableCell className="font-mono text-xs py-1">
                 {item.produto?.ean || "-"}
               </TableCell>
-              <TableCell>
-                <div className="max-w-[300px] truncate">
+              <TableCell className="text-sm py-1">
+                <div className="max-w-[300px] whitespace-nowrap overflow-hidden text-ellipsis">
                   {item.produto?.descricao || "-"}
                 </div>
               </TableCell>
-              <TableCell>
-                <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary whitespace-nowrap">
+              <TableCell className="py-1">
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary whitespace-nowrap">
                   {item.produto?.categoria?.nome || "Sem categoria"}
                 </span>
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.produto?.qt_cx_compra ?? "-"}
               </TableCell>
-              <TableCell className="text-right font-medium">
+              <TableCell className="text-right font-medium py-1">
                 {Number(item.qtd_disponivel || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {Number(item.pendente || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.dias_estoque !== null && item.dias_estoque !== undefined ? Number(item.dias_estoque).toFixed(2) : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.m_3 !== null && item.m_3 !== undefined ? Number(item.m_3).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.m_2 !== null && item.m_2 !== undefined ? Number(item.m_2).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.m_1 !== null && item.m_1 !== undefined ? Number(item.m_1).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.m_0 !== null && item.m_0 !== undefined ? Number(item.m_0).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.custo_un ? `R$ ${Number(item.custo_un).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : "-"}
               </TableCell>
-              <TableCell className="text-right font-medium">
+              <TableCell className="text-right font-medium py-1">
                 {item.custo_cx ? `R$ ${Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.livro !== null && item.livro !== undefined ? Number(item.livro).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
             </TableRow>

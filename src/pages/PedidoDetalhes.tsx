@@ -330,37 +330,37 @@ const PedidoDetalhes = () => {
               <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead className="min-w-[100px]">Cód Produto</TableHead>
-                      <TableHead className="min-w-[120px]">EAN</TableHead>
-                      <TableHead className="min-w-[200px]">Descrição</TableHead>
-                      <TableHead>Categoria</TableHead>
-                      <TableHead className="text-right">Emb Compra</TableHead>
-                      <TableHead className="text-right">Preço cx NIV</TableHead>
-                      <TableHead className="text-right">Preço unid NIV</TableHead>
-                      <TableHead className="text-right">Preço cx NF</TableHead>
-                      <TableHead className="text-right">Preço unid NF</TableHead>
-                      <TableHead className="text-right">Desc off NF</TableHead>
-                      <TableHead className="text-right">Verba unid</TableHead>
-                      <TableHead className="text-right">Verba cx</TableHead>
-                      <TableHead className="text-right">Preço final</TableHead>
-                      <TableHead className="text-right">Total Pedido</TableHead>
-                      <TableHead className="text-right">Estoque</TableHead>
-                      <TableHead className="text-right">Novo Estoque</TableHead>
-                      <TableHead className="text-right">Custo Atual</TableHead>
-                      <TableHead className="text-right">Novo Custo</TableHead>
-                      <TableHead className="text-right">Preço Atual</TableHead>
-                      <TableHead className="text-center">Qtd Pallet</TableHead>
-                      <TableHead className="text-center">Qtd Camada</TableHead>
-                      <TableHead className="text-right">Total Pallet</TableHead>
-                      <TableHead className="text-right">Cargas</TableHead>
-                      <TableHead className="text-right">Total NF</TableHead>
-                      <TableHead className="text-right">Total NIV</TableHead>
-                      <TableHead className="text-right">Total VERBA</TableHead>
+                    <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
+                      <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">CÓD<br/>PRODUTO</TableHead>
+                      <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
+                      <TableHead className="min-w-[200px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
+                      <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">EMB<br/>COMPRA</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO CX<br/>NIV</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO UNID<br/>NIV</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO CX<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO UNID<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">DESC OFF<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">VERBA<br/>UNID</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">VERBA<br/>CX</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO<br/>FINAL</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>PEDIDO</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">ESTOQUE</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">NOVO<br/>ESTOQUE</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>ATUAL</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">NOVO<br/>CUSTO</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO<br/>ATUAL</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">QTD<br/>PALLET</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">QTD<br/>CAMADA</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>PALLET</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">CARGAS</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>NIV</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>VERBA</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {itens.map((item) => {
+                    {itens.map((item, index) => {
                       // Use edited value if available, otherwise use stored value
                       const currentVerbaUnid = editedVerbas[item.id] ?? item.verbaUnid ?? 0;
                       
@@ -423,79 +423,82 @@ const PedidoDetalhes = () => {
                         : null;
 
                       return (
-                        <TableRow key={item.id}>
-                          <TableCell className="font-medium">{item.codigoProduto}</TableCell>
-                          <TableCell>{item.ean}</TableCell>
-                          <TableCell>{item.descricao}</TableCell>
-                          <TableCell>{item.categoria}</TableCell>
-                          <TableCell className="text-right">{item.embCompra}</TableCell>
-                          <TableCell className="text-right">
+                        <TableRow 
+                          key={item.id}
+                          className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+                        >
+                          <TableCell className="font-mono text-xs py-1">{item.codigoProduto}</TableCell>
+                          <TableCell className="font-mono text-xs py-1">{item.ean}</TableCell>
+                          <TableCell className="text-sm py-1 whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">{item.descricao}</TableCell>
+                          <TableCell className="text-xs text-muted-foreground py-1">{item.categoria}</TableCell>
+                          <TableCell className="text-right font-medium py-1">{item.embCompra}</TableCell>
+                          <TableCell className="text-right py-1">
                             {item.precoNiv ? `R$ ${Number(item.precoNiv).toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {precoUnidNiv && precoUnidNiv > 0
                               ? `R$ ${precoUnidNiv.toFixed(2)}`
                               : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {item.precoNf ? `R$ ${Number(item.precoNf).toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {precoUnidNf && precoUnidNf > 0
                               ? `R$ ${precoUnidNf.toFixed(2)}`
                               : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {descOffNf ? `${(descOffNf * 100).toFixed(2)}%` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             <Input
                               type="number"
                               step="0.01"
                               min="0"
                               value={currentVerbaUnid || ""}
                               onChange={(e) => handleVerbaChange(item.id, e.target.value)}
-                              className="w-24 text-right"
+                              className="w-20 h-7 text-right text-xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               placeholder="0.00"
                             />
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {verbaCx ? `R$ ${verbaCx.toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {precoFinal ? `R$ ${precoFinal.toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right font-medium">
+                          <TableCell className="text-right font-medium py-1">
                             {item.qtdPedido}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {item.estoqueAtual != null ? item.estoqueAtual : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {novoEstoque != null ? novoEstoque : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {item.custoAtual != null ? `R$ ${Number(item.custoAtual).toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {novoCusto ? `R$ ${novoCusto.toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {item.precoAtual != null ? `R$ ${Number(item.precoAtual).toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-center">{item.qtdPallet}</TableCell>
-                          <TableCell className="text-center">{item.qtdCamada}</TableCell>
-                          <TableCell className="text-right">{item.qtdPallet}</TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-center py-1">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-center py-1">{item.qtdCamada}</TableCell>
+                          <TableCell className="text-right py-1">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-right py-1">
                             {cargas ? cargas.toFixed(2) : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {totalNf ? `R$ ${totalNf.toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {totalNiv ? `R$ ${totalNiv.toFixed(2)}` : "-"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right py-1">
                             {totalVerba ? `R$ ${totalVerba.toFixed(2)}` : "-"}
                           </TableCell>
                         </TableRow>
