@@ -64,7 +64,7 @@ const CondicoesTable = ({ empresaCodigo }: CondicoesTableProps) => {
             <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">CÓDIGO<br/>EAN</TableHead>
             <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">CÓDIGO<br/>SKU</TableHead>
             <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
-            <TableHead className="text-slate-50 font-semibold py-2 text-center min-w-[150px]">CATEGORIA</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center min-w-[200px]">CATEGORIA</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2">ITENS<br/>POR CX</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[120px]">PREÇO APÓS<br/>DESCONTOS</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[120px]">PREÇO C/<br/>IMPOSTOS</TableHead>
@@ -84,7 +84,7 @@ const CondicoesTable = ({ empresaCodigo }: CondicoesTableProps) => {
               <TableCell className="font-mono text-xs py-1">{item.codigo_ean || "-"}</TableCell>
               <TableCell className="font-mono text-xs py-1">{item.codigo_sku}</TableCell>
               <TableCell className="text-sm py-1 whitespace-nowrap overflow-hidden text-ellipsis max-w-[300px]">{item.descricao}</TableCell>
-              <TableCell className="text-xs text-muted-foreground py-1">{item.categoria || "-"}</TableCell>
+              <TableCell className="text-xs text-muted-foreground py-1 whitespace-nowrap">{item.categoria || "-"}</TableCell>
               <TableCell className="text-right font-medium py-1">{item.itens_por_caixa || "-"}</TableCell>
               <TableCell className="text-right py-1">
                 {item.preco_apos_descontos ? Number(item.preco_apos_descontos).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
