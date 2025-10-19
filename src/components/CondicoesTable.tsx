@@ -87,13 +87,13 @@ const CondicoesTable = ({ empresaCodigo }: CondicoesTableProps) => {
               <TableCell className="text-xs text-muted-foreground py-1">{item.categoria || "-"}</TableCell>
               <TableCell className="text-right font-medium py-1">{item.itens_por_caixa || "-"}</TableCell>
               <TableCell className="text-right py-1">
-                {item.preco_apos_descontos ? `R$ ${Number(item.preco_apos_descontos).toFixed(2)}` : "-"}
+                {item.preco_apos_descontos ? Number(item.preco_apos_descontos).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right py-1">
-                {item.preco_com_impostos ? `R$ ${Number(item.preco_com_impostos).toFixed(2)}` : "-"}
+                {item.preco_com_impostos ? Number(item.preco_com_impostos).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right py-1">
-                {item.preco_unitario ? `R$ ${Number(item.preco_unitario).toFixed(2)}` : "-"}
+                {item.preco_unitario ? Number(item.preco_unitario).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right py-1">
                 {item.ton_por_ean ? Number(item.ton_por_ean).toFixed(2) : "-"}
