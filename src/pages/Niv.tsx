@@ -1,18 +1,19 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CondicoesTable from "@/components/CondicoesTable";
 
 const Niv = () => {
-  const { empresa } = useParams<{ empresa: string }>();
+  const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
 
-  const empresaNomes: Record<string, string> = {
-    "501": "Empresa 501",
-    "502": "Empresa 502",
-    "1": "Empresa 1",
-  };
+  const empresas = [
+    { codigo: "501", nome: "501 - NIV" },
+    { codigo: "502", nome: "502 - NIV" },
+    { codigo: "1", nome: "1 - NIV" },
+  ];
 
-  const empresaNome = empresa ? empresaNomes[empresa] || `Empresa ${empresa}` : "";
+  const empresaAtual = empresas.find(e => e.codigo === empresaSelecionada);
 
   return (
     <div className="flex-1">
@@ -24,7 +25,7 @@ const Niv = () => {
               <Building2 className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-foreground">NIV - {empresaNome}</h1>
+              <h1 className="text-3xl font-bold text-foreground">NIV - Condições Comerciais</h1>
               <p className="text-muted-foreground">Condições Comerciais do Fornecedor</p>
             </div>
           </div>
@@ -34,13 +35,29 @@ const Niv = () => {
       <main className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Condições Comerciais - {empresaNome}</CardTitle>
-            <CardDescription>
-              Visualize preços, quantidades e informações comerciais dos produtos
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Condições Comerciais - {empresaAtual?.nome}</CardTitle>
+                <CardDescription>
+                  Visualize preços, quantidades e informações comerciais dos produtos
+                </CardDescription>
+              </div>
+              <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Selecione empresa" />
+                </SelectTrigger>
+                <SelectContent>
+                  {empresas.map((empresa) => (
+                    <SelectItem key={empresa.codigo} value={empresa.codigo}>
+                      {empresa.nome}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </CardHeader>
           <CardContent>
-            {empresa && <CondicoesTable empresaCodigo={empresa} />}
+            <CondicoesTable empresaCodigo={empresaSelecionada} />
           </CardContent>
         </Card>
       </main>
