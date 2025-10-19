@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CondicoesTable from "@/components/CondicoesTable";
-import ImportDialogNiv from "@/components/ImportDialogNiv";
-import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Niv = () => {
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
@@ -19,22 +16,6 @@ const Niv = () => {
 
   return (
     <div className="flex-1">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-xl md:text-3xl font-bold text-foreground">NIV - Condições Comerciais</h1>
-              <p className="text-sm text-muted-foreground">Condições Comerciais do Fornecedor</p>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              <ClearDatabaseButton />
-              <ImportDialogNiv />
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>

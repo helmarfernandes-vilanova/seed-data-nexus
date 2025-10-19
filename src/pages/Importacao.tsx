@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, Loader2, CheckCircle, AlertCircle, FileSpreadsheet } from "lucide-react";
+import { Upload, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 interface ImportStats {
   total: number;
@@ -112,19 +111,6 @@ const Importacao = () => {
 
   return (
     <div className="flex-1">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-xl md:text-3xl font-bold text-foreground">Importação NIV</h1>
-              <p className="text-sm text-muted-foreground">Importe condições comerciais de todas as empresas</p>
-            </div>
-            <ClearDatabaseButton />
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>

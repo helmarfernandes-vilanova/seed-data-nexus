@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -206,16 +205,6 @@ const Sugestao = () => {
 
   return (
     <div className="flex-1">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div>
-            <h1 className="text-xl md:text-3xl font-bold text-foreground">Sugestão</h1>
-            <p className="text-sm text-muted-foreground">Sugestões de compra baseadas em análise de vendas</p>
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>

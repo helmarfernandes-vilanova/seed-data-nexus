@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ShoppingCart, ArrowLeft, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -195,23 +195,6 @@ const PedidoDetalhes = () => {
 
   return (
     <div className="flex-1">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl md:text-3xl font-bold text-foreground">Detalhes do Pedido</h1>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/pedido/501-hc")}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Voltar
-            </Button>
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-4 md:py-8 space-y-4 md:space-y-6">
         {/* Card de Resumo */}
         <Card className="bg-gradient-to-br from-card to-muted/20">

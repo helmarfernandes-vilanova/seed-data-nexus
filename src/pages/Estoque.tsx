@@ -4,8 +4,6 @@ import { Package, Database, TrendingUp, Building2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import EstoqueTable from "@/components/EstoqueTable";
 import StatsCard from "@/components/StatsCard";
-import ImportDialog from "@/components/ImportDialog";
-import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Estoque = () => {
   const { data: stats } = useQuery({
@@ -33,22 +31,6 @@ const Estoque = () => {
 
   return (
     <div className="flex-1">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Gestão de Estoque</h1>
-              <p className="text-sm text-muted-foreground">Vila Nova - Controle Completo</p>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              <ClearDatabaseButton />
-              <ImportDialog />
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-4 md:py-8">
         {/* Cards de Estatísticas */}
         <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4 mb-4 md:mb-8">

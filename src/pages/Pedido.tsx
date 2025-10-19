@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShoppingCart } from "lucide-react";
 import PedidoTable from "@/components/PedidoTable";
 
 const Pedido = () => {
@@ -22,16 +21,6 @@ const Pedido = () => {
 
   return (
     <div className="flex-1">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground">Pedido</h1>
-            <p className="text-sm text-muted-foreground">Pedidos salvos a partir das sugestões de compra</p>
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>
