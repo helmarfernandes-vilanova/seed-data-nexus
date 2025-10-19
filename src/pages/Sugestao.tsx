@@ -15,14 +15,29 @@ const Sugestao = () => {
   const navigate = useNavigate();
   const pedidoId = searchParams.get('pedido');
   const [isSaving, setIsSaving] = useState(false);
+  const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
   const tableRef = useRef<{ getEditingData: () => any[] }>(null);
 
-  const tipoConfig: Record<string, { nome: string; empresaCodigo: string }> = {
-    "501-hc": { nome: "501 - HC", empresaCodigo: "501" },
+  const tipoConfig: Record<string, { nome: string }> = {
+    "501-hc": { nome: "501 - HC" },
   };
 
   const config = tipo ? tipoConfig[tipo] : null;
+
+  // Buscar empresas disponíveis
+  const { data: empresas } = useQuery({
+    queryKey: ["empresas"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("empresas")
+        .select("codigo, nome")
+        .order("codigo");
+      
+      if (error) throw error;
+      return data;
+    },
+  });
 
   // Buscar fornecedores disponíveis
   const { data: fornecedores } = useQuery({
@@ -52,7 +67,7 @@ const Sugestao = () => {
       const { data: empresaData } = await supabase
         .from("empresas")
         .select("id")
-        .eq("codigo", config.empresaCodigo)
+        .eq("codigo", empresaSelecionada)
         .single();
 
       const { data: fornecedorData } = await supabase
@@ -207,39 +222,64 @@ const Sugestao = () => {
       <main className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Sugestão de Compra - {config.nome}</CardTitle>
-                <CardDescription>
-                  Análise de DDV e cálculo de pedidos baseado em histórico de vendas
-                </CardDescription>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Sugestão de Compra - {config.nome}</CardTitle>
+                  <CardDescription>
+                    Análise de DDV e cálculo de pedidos baseado em histórico de vendas
+                  </CardDescription>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido}>
+                    Criar Pedido
+                  </Button>
+                  <Button disabled={isSaving} onClick={handleSavePedido}>
+                    {isSaving ? "Salvando..." : "Salvar Pedido"}
+                  </Button>
+                </div>
               </div>
-              <div className="flex gap-2 items-center">
-                <Select value={fornecedorSelecionado} onValueChange={setFornecedorSelecionado}>
-                  <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="Selecione fornecedor" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {fornecedores?.map((fornecedor) => (
-                      <SelectItem key={fornecedor.codigo} value={fornecedor.codigo}>
-                        {fornecedor.codigo} - {fornecedor.nome}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido}>
-                  Criar Pedido
-                </Button>
-                <Button disabled={isSaving} onClick={handleSavePedido}>
-                  {isSaving ? "Salvando..." : "Salvar Pedido"}
-                </Button>
+              
+              {/* Filtros */}
+              <div className="flex gap-4 items-end">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">Empresa</label>
+                  <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Selecione empresa" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      {empresas?.map((empresa) => (
+                        <SelectItem key={empresa.codigo} value={empresa.codigo}>
+                          {empresa.codigo}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">Fornecedor</label>
+                  <Select value={fornecedorSelecionado} onValueChange={setFornecedorSelecionado}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Selecione fornecedor" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      {fornecedores?.map((fornecedor) => (
+                        <SelectItem key={fornecedor.codigo} value={fornecedor.codigo}>
+                          {fornecedor.codigo}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <SugestaoTable 
               ref={tableRef}
-              empresaCodigo={config.empresaCodigo}
+              empresaCodigo={empresaSelecionada}
               fornecedorCodigo={fornecedorSelecionado}
               pedidoId={pedidoId || undefined}
             />
