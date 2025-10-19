@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import SugestaoTable from "@/components/SugestaoTable";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -16,6 +17,8 @@ const Sugestao = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
+  const [codigoOuEan, setCodigoOuEan] = useState("");
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
   const tableRef = useRef<{ getEditingData: () => any[] }>(null);
 
   // Buscar empresas disponíveis
@@ -40,6 +43,20 @@ const Sugestao = () => {
         .from("fornecedores")
         .select("codigo, nome")
         .order("codigo");
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Buscar categorias disponíveis
+  const { data: categorias } = useQuery({
+    queryKey: ["categorias"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("categorias")
+        .select("nome")
+        .order("nome");
       
       if (error) throw error;
       return data;
@@ -226,7 +243,7 @@ const Sugestao = () => {
               </div>
               
               {/* Filtros */}
-              <div className="flex gap-4 items-end">
+              <div className="flex gap-4 items-end flex-wrap">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Empresa</label>
                   <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
@@ -258,6 +275,33 @@ const Sugestao = () => {
                     </SelectContent>
                   </Select>
                 </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">Código ou EAN</label>
+                  <Input 
+                    placeholder="Buscar por código ou EAN" 
+                    value={codigoOuEan}
+                    onChange={(e) => setCodigoOuEan(e.target.value)}
+                    className="w-[220px]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">Categoria</label>
+                  <Select value={categoriaSelecionada} onValueChange={setCategoriaSelecionada}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Todas as categorias" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      <SelectItem value="">Todas as categorias</SelectItem>
+                      {categorias?.map((categoria) => (
+                        <SelectItem key={categoria.nome} value={categoria.nome}>
+                          {categoria.nome}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           </CardHeader>
@@ -267,6 +311,8 @@ const Sugestao = () => {
               empresaCodigo={empresaSelecionada}
               fornecedorCodigo={fornecedorSelecionado}
               pedidoId={pedidoId || undefined}
+              codigoOuEan={codigoOuEan}
+              categoria={categoriaSelecionada}
             />
           </CardContent>
         </Card>

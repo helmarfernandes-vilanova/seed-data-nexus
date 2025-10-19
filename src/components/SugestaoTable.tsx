@@ -15,6 +15,8 @@ interface SugestaoTableProps {
   empresaCodigo: string;
   fornecedorCodigo: string;
   pedidoId?: string;
+  codigoOuEan?: string;
+  categoria?: string;
 }
 
 export interface SugestaoTableRef {
@@ -22,7 +24,7 @@ export interface SugestaoTableRef {
 }
 
 const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
-  ({ empresaCodigo, fornecedorCodigo, pedidoId }, ref) => {
+  ({ empresaCodigo, fornecedorCodigo, pedidoId, codigoOuEan = "", categoria = "" }, ref) => {
     const [editingRow, setEditingRow] = useState<{ [key: string]: { qtdPallet: number; qtdCamada: number } }>({});
 
     const { data: sugestoes, isLoading } = useQuery({
@@ -195,6 +197,24 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
       return <div className="text-center py-8">Carregando...</div>;
     }
 
+    // Aplicar filtros
+    const sugestoesFiltradas = sugestoes?.filter((item) => {
+      // Filtro de código ou EAN
+      if (codigoOuEan) {
+        const searchLower = codigoOuEan.toLowerCase();
+        const matchCodigo = item.codigoProduto.toLowerCase().includes(searchLower);
+        const matchEan = item.ean.toLowerCase().includes(searchLower);
+        if (!matchCodigo && !matchEan) return false;
+      }
+      
+      // Filtro de categoria
+      if (categoria && item.categoria !== categoria) {
+        return false;
+      }
+      
+      return true;
+    });
+
     return (
     <div className="rounded-md border overflow-x-auto">
       <Table>
@@ -222,7 +242,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sugestoes?.map((item, index) => {
+          {sugestoesFiltradas?.map((item, index) => {
             const pedido = calcularPedido(item);
             return (
               <TableRow 
