@@ -138,26 +138,38 @@ const PedidoDetalhes = () => {
                       <TableHead className="text-center">Qtd Camada</TableHead>
                       <TableHead className="text-right">Total Pedido</TableHead>
                       <TableHead className="text-right">Preço cx NIV</TableHead>
+                      <TableHead className="text-right">Preço unid NIV</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {itens.map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell className="font-medium">{item.codigoProduto}</TableCell>
-                        <TableCell>{item.ean}</TableCell>
-                        <TableCell>{item.descricao}</TableCell>
-                        <TableCell>{item.categoria}</TableCell>
-                        <TableCell className="text-right">{item.embCompra}</TableCell>
-                        <TableCell className="text-center">{item.qtdPallet}</TableCell>
-                        <TableCell className="text-center">{item.qtdCamada}</TableCell>
-                        <TableCell className="text-right font-medium">
-                          {item.qtdPedido}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {item.precoNiv ? `R$ ${item.precoNiv.toFixed(2)}` : "-"}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {itens.map((item) => {
+                      const precoUnidNiv = item.qtdPedido && item.precoNiv
+                        ? Number(item.precoNiv) / item.qtdPedido
+                        : null;
+
+                      return (
+                        <TableRow key={item.id}>
+                          <TableCell className="font-medium">{item.codigoProduto}</TableCell>
+                          <TableCell>{item.ean}</TableCell>
+                          <TableCell>{item.descricao}</TableCell>
+                          <TableCell>{item.categoria}</TableCell>
+                          <TableCell className="text-right">{item.embCompra}</TableCell>
+                          <TableCell className="text-center">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-center">{item.qtdCamada}</TableCell>
+                          <TableCell className="text-right font-medium">
+                            {item.qtdPedido}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.precoNiv ? `R$ ${item.precoNiv.toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {precoUnidNiv && precoUnidNiv > 0
+                              ? `R$ ${precoUnidNiv.toFixed(2)}`
+                              : "-"}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </div>
