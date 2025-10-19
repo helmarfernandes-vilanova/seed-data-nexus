@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { LogOut } from "lucide-react";
 
-export default function LogoutButton() {
+export default function LogoutButton({ showLabel = true }: { showLabel?: boolean }) {
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -33,8 +33,8 @@ export default function LogoutButton() {
       onClick={handleLogout}
       className="w-full justify-start"
     >
-      <LogOut className="mr-2 h-4 w-4" />
-      Sair
+      <LogOut className="h-4 w-4" />
+      {showLabel && <span className="ml-2">Sair</span>}
     </Button>
   );
 }
