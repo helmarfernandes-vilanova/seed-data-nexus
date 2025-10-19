@@ -24,7 +24,7 @@ const EstoqueTable = () => {
             ean,
             qt_cx_compra,
             categoria:categorias(nome),
-            fornecedor:fornecedores(nome)
+            fornecedor:fornecedores(codigo, nome)
           ),
           empresa:empresas(codigo, nome)
         `)
@@ -94,7 +94,7 @@ const EstoqueTable = () => {
                 {item.empresa?.codigo || "-"}
               </TableCell>
               <TableCell className="text-xs py-1">
-                {item.produto?.fornecedor?.nome || "-"}
+                {item.produto?.fornecedor?.codigo || "-"}
               </TableCell>
               <TableCell className="font-medium font-mono text-xs py-1">
                 {item.produto?.codigo || "-"}
