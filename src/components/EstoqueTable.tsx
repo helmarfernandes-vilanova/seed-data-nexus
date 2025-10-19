@@ -24,7 +24,7 @@ const EstoqueTable = () => {
             ean,
             qt_cx_compra,
             categoria:categorias(nome),
-            fornecedor:fornecedores(codigo, nome)
+            fornecedor:fornecedores(codigo)
           ),
           empresa:empresas(codigo, nome)
         `)
