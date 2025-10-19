@@ -184,20 +184,11 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
       }));
     };
 
-    // Função para determinar cor de fundo baseada no valor
-    const getStockColorClass = (value: number) => {
-      if (value === 0) return "bg-red-100 dark:bg-red-950 text-red-900 dark:text-red-100";
-      if (value < 100) return "bg-orange-100 dark:bg-orange-950 text-orange-900 dark:text-orange-100";
-      if (value < 500) return "bg-yellow-100 dark:bg-yellow-950 text-yellow-900 dark:text-yellow-100";
-      return "bg-green-100 dark:bg-green-950 text-green-900 dark:text-green-100";
-    };
-
-    const getDDVColorClass = (ddv: number | null, diasEstoque: number) => {
-      if (ddv === null) return "";
-      if (diasEstoque < 30) return "bg-red-100 dark:bg-red-950 text-red-900 dark:text-red-100 font-medium";
-      if (diasEstoque < 60) return "bg-orange-100 dark:bg-orange-950 text-orange-900 dark:text-orange-100";
-      if (diasEstoque < 90) return "bg-yellow-100 dark:bg-yellow-950 text-yellow-900 dark:text-yellow-100";
-      return "bg-green-100 dark:bg-green-950 text-green-900 dark:text-green-100";
+    // Função para determinar cor de fundo baseada em Dias de Estoque
+    const getDiasEstoqueColorClass = (diasEstoque: number) => {
+      if (diasEstoque < 10) return "bg-red-100 dark:bg-red-950 text-red-900 dark:text-red-100 font-medium";
+      if (diasEstoque <= 30) return "bg-yellow-100 dark:bg-yellow-950 text-yellow-900 dark:text-yellow-100 font-medium";
+      return "bg-green-100 dark:bg-green-950 text-green-900 dark:text-green-100 font-medium";
     };
 
     const getPedidoColorClass = (pedido: number) => {
@@ -248,19 +239,19 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                 <TableCell className="text-sm">{item.descricao}</TableCell>
                 <TableCell className="text-xs text-muted-foreground">{item.categoria}</TableCell>
                 <TableCell className="text-right font-medium">{item.embCompra}</TableCell>
-                <TableCell className={`text-right font-medium ${getStockColorClass(item.estoque)}`}>
+                <TableCell className={`text-right font-medium ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.estoque.toFixed(0)}
                 </TableCell>
                 <TableCell className={`text-right ${item.pendente > 0 ? 'font-medium' : ''}`}>
                   {item.pendente.toFixed(0)}
                 </TableCell>
-                <TableCell className={`text-right ${getDDVColorClass(item.ddvUltimoMes, item.diasEstoque)}`}>
+                <TableCell className={`text-right ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.ddvUltimoMes !== null ? item.ddvUltimoMes : "-"}
                 </TableCell>
-                <TableCell className={`text-right ${getDDVColorClass(item.ddv3Meses, item.diasEstoque)}`}>
+                <TableCell className={`text-right ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.ddv3Meses !== null ? item.ddv3Meses : "-"}
                 </TableCell>
-                <TableCell className={`text-right font-medium ${getDDVColorClass(item.ddvUltimoMes, item.diasEstoque)}`}>
+                <TableCell className={`text-right font-bold ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.diasEstoque !== null ? item.diasEstoque.toFixed(0) : "-"}
                 </TableCell>
                 <TableCell className="text-right">{item.mes3.toFixed(0)}</TableCell>
