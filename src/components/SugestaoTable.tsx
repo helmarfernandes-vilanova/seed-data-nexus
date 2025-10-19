@@ -200,25 +200,25 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
-            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2">Cód<br/>Produto</TableHead>
-            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2">EAN</TableHead>
-            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2">Descrição</TableHead>
-            <TableHead className="text-slate-50 font-semibold py-2">Categoria</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Emb<br/>Compra</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Estoque</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Pendente</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">DDV Média<br/>Último Mês</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">DDV Média<br/>3 Meses</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Dias<br/>Estoque</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Mês<br/>-3</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Mês<br/>-2</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Mês<br/>-1</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Mês<br/>Atual</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Pedido</TableHead>
-            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">Qtd<br/>Pallet</TableHead>
-            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">Qtd<br/>Camada</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Qtd no<br/>Pallet</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold py-2">Qtd na<br/>Camada</TableHead>
+            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">COD<br/>PRODUTO</TableHead>
+            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
+            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">EMB<br/>COMPRA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">ESTOQUE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">PENDENTE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">DDV Média<br/>último Mês</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">DDV Média<br/>3 Meses</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">DIAS DE<br/>ESTOQUE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">MÊS<br/>-3</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">MÊS<br/>-2</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">MÊS<br/>-1</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">Mês<br/>Atual</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">PEDIDO</TableHead>
+            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">QTD<br/>PALLET</TableHead>
+            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">QTD<br/>CAMADA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">QTD no<br/>Pallet</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">QTD na<br/>Camada</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
