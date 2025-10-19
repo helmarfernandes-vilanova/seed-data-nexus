@@ -217,8 +217,8 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             <TableHead className="text-center text-slate-50 font-semibold py-2">PEDIDO</TableHead>
             <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">QTD<br/>PALLET</TableHead>
             <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">QTD<br/>CAMADA</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">QTD no<br/>Pallet</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">QTD na<br/>Camada</TableHead>
+            <TableHead className="min-w-[100px] text-center text-slate-50 font-semibold py-2">QTD no<br/>Pallet</TableHead>
+            <TableHead className="min-w-[100px] text-center text-slate-50 font-semibold py-2">QTD na<br/>Camada</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
