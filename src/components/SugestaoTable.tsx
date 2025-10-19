@@ -188,18 +188,20 @@ const SugestaoTable = ({ empresaCodigo }: SugestaoTableProps) => {
                 <Input
                   type="number"
                   min="0"
-                  className="w-20 text-center"
-                  value={editingRow[item.id]?.qtdPallet || 0}
+                  className="w-20 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  value={editingRow[item.id]?.qtdPallet || ""}
                   onChange={(e) => handleQtdChange(item.id, "qtdPallet", e.target.value)}
+                  placeholder="0"
                 />
               </TableCell>
               <TableCell className="text-center">
                 <Input
                   type="number"
                   min="0"
-                  className="w-20 text-center"
-                  value={editingRow[item.id]?.qtdCamada || 0}
+                  className="w-20 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  value={editingRow[item.id]?.qtdCamada || ""}
                   onChange={(e) => handleQtdChange(item.id, "qtdCamada", e.target.value)}
+                  placeholder="0"
                 />
               </TableCell>
               <TableCell className="text-right">{item.caixasPorPallet}</TableCell>
