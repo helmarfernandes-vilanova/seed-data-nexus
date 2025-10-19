@@ -64,7 +64,7 @@ const CondicoesTable = ({ empresaCodigo }: CondicoesTableProps) => {
             <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">CÓDIGO<br/>EAN</TableHead>
             <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">CÓDIGO<br/>SKU</TableHead>
             <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
-            <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center min-w-[150px]">CATEGORIA</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2">ITENS<br/>POR CX</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[120px]">PREÇO APÓS<br/>DESCONTOS</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[120px]">PREÇO C/<br/>IMPOSTOS</TableHead>
