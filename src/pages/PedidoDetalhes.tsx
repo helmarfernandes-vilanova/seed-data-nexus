@@ -405,19 +405,19 @@ const PedidoDetalhes = () => {
                           <TableCell className="text-xs text-muted-foreground py-1">{item.categoria}</TableCell>
                           <TableCell className="text-right font-medium py-1">{item.embCompra}</TableCell>
                           <TableCell className="text-right py-1">
-                            {item.precoNiv ? Number(item.precoNiv).toFixed(2) : "-"}
+                            {item.precoNiv ? Number(item.precoNiv).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
                             {precoUnidNiv && precoUnidNiv > 0
-                              ? precoUnidNiv.toFixed(2)
+                              ? precoUnidNiv.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                               : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {item.precoNf ? Number(item.precoNf).toFixed(2) : "-"}
+                            {item.precoNf ? Number(item.precoNf).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
                             {precoUnidNf && precoUnidNf > 0
-                              ? precoUnidNf.toFixed(2)
+                              ? precoUnidNf.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                               : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
@@ -435,10 +435,10 @@ const PedidoDetalhes = () => {
                             />
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {verbaCx ? verbaCx.toFixed(2) : "-"}
+                            {verbaCx ? verbaCx.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {precoFinal ? precoFinal.toFixed(2) : "-"}
+                            {precoFinal ? precoFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right font-medium py-1">
                             {item.qtdPedido}
@@ -450,13 +450,13 @@ const PedidoDetalhes = () => {
                             {novoEstoque != null ? novoEstoque : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {item.custoAtual != null ? Number(item.custoAtual).toFixed(2) : "-"}
+                            {item.custoAtual != null ? Number(item.custoAtual).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {novoCusto ? novoCusto.toFixed(2) : "-"}
+                            {novoCusto ? novoCusto.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {item.precoAtual != null ? Number(item.precoAtual).toFixed(2) : "-"}
+                            {item.precoAtual != null ? Number(item.precoAtual).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-center py-1">{item.qtdPallet}</TableCell>
                           <TableCell className="text-center py-1">{item.qtdCamada}</TableCell>
@@ -465,13 +465,13 @@ const PedidoDetalhes = () => {
                             {cargas ? cargas.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {totalNf ? totalNf.toFixed(2) : "-"}
+                            {totalNf ? totalNf.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {totalNiv ? totalNiv.toFixed(2) : "-"}
+                            {totalNiv ? totalNiv.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {totalVerba ? totalVerba.toFixed(2) : "-"}
+                            {totalVerba ? totalVerba.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                         </TableRow>
                       );
