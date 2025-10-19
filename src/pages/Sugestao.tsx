@@ -18,7 +18,7 @@ const Sugestao = () => {
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
   const [codigoOuEan, setCodigoOuEan] = useState("");
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("todas");
   const tableRef = useRef<{ getEditingData: () => any[] }>(null);
 
   // Buscar empresas disponíveis
@@ -293,7 +293,7 @@ const Sugestao = () => {
                       <SelectValue placeholder="Todas as categorias" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">
-                      <SelectItem value="">Todas as categorias</SelectItem>
+                      <SelectItem value="todas">Todas as categorias</SelectItem>
                       {categorias?.map((categoria) => (
                         <SelectItem key={categoria.nome} value={categoria.nome}>
                           {categoria.nome}

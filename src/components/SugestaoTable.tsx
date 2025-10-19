@@ -208,7 +208,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
       }
       
       // Filtro de categoria
-      if (categoria && item.categoria !== categoria) {
+      if (categoria && categoria !== "todas" && item.categoria !== categoria) {
         return false;
       }
       
