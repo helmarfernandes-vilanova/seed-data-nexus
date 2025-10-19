@@ -57,49 +57,52 @@ const CondicoesTable = ({ empresaCodigo }: CondicoesTableProps) => {
   }
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Código EAN</TableHead>
-            <TableHead>Código SKU</TableHead>
-            <TableHead>Descrição</TableHead>
-            <TableHead>Categoria</TableHead>
-            <TableHead className="text-right">Itens/Cx</TableHead>
-            <TableHead className="text-right">Preço após Desc.</TableHead>
-            <TableHead className="text-right">Preço c/ Impostos</TableHead>
-            <TableHead className="text-right">Preço Unitário</TableHead>
-            <TableHead className="text-right">TON/EAN</TableHead>
-            <TableHead className="text-right">NIV/EAN</TableHead>
-            <TableHead className="text-right">Cx/Camada</TableHead>
-            <TableHead className="text-right">Cx/Pallet</TableHead>
+          <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
+            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">CÓDIGO<br/>EAN</TableHead>
+            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">CÓDIGO<br/>SKU</TableHead>
+            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">ITENS<br/>POR CX</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[120px]">PREÇO APÓS<br/>DESCONTOS</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[120px]">PREÇO C/<br/>IMPOSTOS</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 min-w-[110px]">PREÇO<br/>UNITÁRIO</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">TON/<br/>EAN</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">NIV/<br/>EAN</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">CX/<br/>CAMADA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">CX/<br/>PALLET</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {condicoes.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-mono text-sm">{item.codigo_ean || "-"}</TableCell>
-              <TableCell className="font-mono text-sm">{item.codigo_sku}</TableCell>
-              <TableCell className="max-w-xs truncate">{item.descricao}</TableCell>
-              <TableCell>{item.categoria || "-"}</TableCell>
-              <TableCell className="text-right">{item.itens_por_caixa || "-"}</TableCell>
-              <TableCell className="text-right">
+          {condicoes.map((item, index) => (
+            <TableRow 
+              key={item.id}
+              className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+            >
+              <TableCell className="font-mono text-xs py-1">{item.codigo_ean || "-"}</TableCell>
+              <TableCell className="font-mono text-xs py-1">{item.codigo_sku}</TableCell>
+              <TableCell className="text-sm py-1 whitespace-nowrap overflow-hidden text-ellipsis max-w-[300px]">{item.descricao}</TableCell>
+              <TableCell className="text-xs text-muted-foreground py-1">{item.categoria || "-"}</TableCell>
+              <TableCell className="text-right font-medium py-1">{item.itens_por_caixa || "-"}</TableCell>
+              <TableCell className="text-right py-1">
                 {item.preco_apos_descontos ? `R$ ${Number(item.preco_apos_descontos).toFixed(2)}` : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.preco_com_impostos ? `R$ ${Number(item.preco_com_impostos).toFixed(2)}` : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.preco_unitario ? `R$ ${Number(item.preco_unitario).toFixed(2)}` : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.ton_por_ean ? Number(item.ton_por_ean).toFixed(2) : "-"}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right py-1">
                 {item.niv_por_ean ? Number(item.niv_por_ean).toFixed(2) : "-"}
               </TableCell>
-              <TableCell className="text-right">{item.caixas_por_camada || "-"}</TableCell>
-              <TableCell className="text-right">{item.caixas_por_pallet || "-"}</TableCell>
+              <TableCell className="text-right py-1">{item.caixas_por_camada || "-"}</TableCell>
+              <TableCell className="text-right py-1">{item.caixas_por_pallet || "-"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
