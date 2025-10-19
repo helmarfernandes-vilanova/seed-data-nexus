@@ -290,13 +290,16 @@ const PedidoDetalhes = () => {
                         ? Number(item.precoNf) / item.embCompra
                         : null;
 
-                      // Desc off NF: SE(I9=0; ""; SE(R9=0; ""; SE(S9/I9=0; ""; S9/I9)))
-                      const verbaCx = currentVerbaUnid && item.embCompra
+                      // Verba cx: SE(R9*H9=0; ""; R9*H9)
+                      const verbaCx = currentVerbaUnid && item.embCompra && (currentVerbaUnid * item.embCompra) !== 0
                         ? currentVerbaUnid * item.embCompra
                         : null;
                       
-                      const descOffNf = item.precoNiv && item.verbaUnid && verbaCx
-                        ? (verbaCx / Number(item.precoNiv)) || null
+                      // Desc off NF: SE(I9=0; ""; SE(R9=0; ""; SE(S9/I9=0; ""; S9/I9)))
+                      const descOffNf = item.precoNiv && Number(item.precoNiv) !== 0 && 
+                                       currentVerbaUnid && currentVerbaUnid !== 0 && 
+                                       verbaCx && verbaCx !== 0
+                        ? verbaCx / Number(item.precoNiv)
                         : null;
 
                       // Preço final: SE(L9=""; ""; M9-R9)
