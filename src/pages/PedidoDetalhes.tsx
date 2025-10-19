@@ -190,6 +190,7 @@ const PedidoDetalhes = () => {
                       <TableHead className="text-right">Preço cx NIV</TableHead>
                       <TableHead className="text-right">Preço unid NIV</TableHead>
                       <TableHead className="text-right">Preço cx NF</TableHead>
+                      <TableHead className="text-right">Preço unid NF</TableHead>
                       <TableHead className="text-center">Qtd Pallet</TableHead>
                       <TableHead className="text-center">Qtd Camada</TableHead>
                       <TableHead className="text-right">Total Pedido</TableHead>
@@ -199,6 +200,10 @@ const PedidoDetalhes = () => {
                     {itens.map((item) => {
                       const precoUnidNiv = item.embCompra && item.precoNiv
                         ? Number(item.precoNiv) / item.embCompra
+                        : null;
+                      
+                      const precoUnidNf = item.embCompra && item.precoNf
+                        ? Number(item.precoNf) / item.embCompra
                         : null;
 
                       return (
@@ -218,6 +223,11 @@ const PedidoDetalhes = () => {
                           </TableCell>
                           <TableCell className="text-right">
                             {item.precoNf ? `R$ ${Number(item.precoNf).toFixed(2)}` : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {precoUnidNf && precoUnidNf > 0
+                              ? `R$ ${precoUnidNf.toFixed(2)}`
+                              : "-"}
                           </TableCell>
                           <TableCell className="text-center">{item.qtdPallet}</TableCell>
                           <TableCell className="text-center">{item.qtdCamada}</TableCell>
