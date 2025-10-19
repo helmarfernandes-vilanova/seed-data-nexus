@@ -71,6 +71,13 @@ const Sugestao = () => {
         .select("codigo_ean, preco_apos_descontos")
         .eq("empresa_id", empresaData.id);
 
+      // Buscar dados de estoque para a empresa 501
+      const { data: estoqueData } = await supabase
+        .from("estoque")
+        .select("produto_id, qtd_disponivel, custo_un, livro")
+        .eq("empresa_id", empresaData.id)
+        .in("produto_id", produtosIds);
+
       // Criar mapa de preços por EAN
       const precosPorEan = new Map(
         condicoes?.map(c => [c.codigo_ean, c.preco_apos_descontos]) || []
@@ -79,6 +86,15 @@ const Sugestao = () => {
       // Criar mapa de EAN por produto ID
       const eanPorProduto = new Map(
         produtos?.map(p => [p.id, p.ean]) || []
+      );
+
+      // Criar mapa de estoque por produto ID
+      const estoquePorProduto = new Map(
+        estoqueData?.map(e => [e.produto_id, {
+          qtd_disponivel: e.qtd_disponivel,
+          custo_un: e.custo_un,
+          livro: e.livro
+        }]) || []
       );
 
       let currentPedidoId = pedidoId;
@@ -115,6 +131,7 @@ const Sugestao = () => {
       const itensParaInserir = itensComQuantidade.map((item) => {
         const ean = eanPorProduto.get(item.produtoId);
         const precoNiv = ean ? precosPorEan.get(ean) : null;
+        const estoque = estoquePorProduto.get(item.produtoId);
 
         return {
           pedido_id: currentPedidoId,
@@ -123,6 +140,9 @@ const Sugestao = () => {
           qtd_camada: item.qtdCamada,
           qtd_pedido: item.pedido,
           preco_cx_niv: precoNiv,
+          estoque_atual: estoque?.qtd_disponivel || null,
+          custo_atual: estoque?.custo_un || null,
+          preco_atual: estoque?.livro || null,
         };
       });
 
