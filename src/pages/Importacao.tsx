@@ -6,6 +6,7 @@ import { Upload, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 interface ImportStats {
   total: number;
@@ -114,10 +115,15 @@ const Importacao = () => {
       <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg md:text-xl">Importar Arquivo Excel Completo</CardTitle>
-            <CardDescription className="text-sm">
-              Envie um arquivo Excel com múltiplas abas. Cada aba representa uma empresa (501, 502, 1) e será processada automaticamente.
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg md:text-xl">Importar Arquivo Excel Completo</CardTitle>
+                <CardDescription className="text-sm">
+                  Envie um arquivo Excel com múltiplas abas. Cada aba representa uma empresa (501, 502, 1) e será processada automaticamente.
+                </CardDescription>
+              </div>
+              <ClearDatabaseButton />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-4 md:space-y-6">

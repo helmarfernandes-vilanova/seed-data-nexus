@@ -25,55 +25,24 @@ const PageHeader = () => {
   
   const getPageInfo = () => {
     if (location.pathname === "/estoque") {
-      return {
-        title: "Gestão de Estoque",
-        subtitle: "Vila Nova - Controle Completo",
-        actions: (
-          <>
-            <ClearDatabaseButton />
-            <ImportDialog />
-          </>
-        )
-      };
+      return { title: "Gestão de Estoque" };
     }
     if (location.pathname === "/niv") {
-      return {
-        title: "NIV - Condições Comerciais",
-        subtitle: "Condições Comerciais do Fornecedor",
-        actions: (
-          <>
-            <ClearDatabaseButton />
-            <ImportDialogNiv />
-          </>
-        )
-      };
+      return { title: "NIV - Condições Comerciais" };
     }
     if (location.pathname === "/importacao") {
-      return {
-        title: "Importação NIV",
-        subtitle: "Importe condições comerciais de todas as empresas",
-        actions: <ClearDatabaseButton />
-      };
+      return { title: "Importação NIV" };
     }
     if (location.pathname.startsWith("/sugestao")) {
-      return {
-        title: "Sugestão",
-        subtitle: "Sugestões de compra baseadas em análise de vendas"
-      };
+      return { title: "Sugestão" };
     }
     if (location.pathname.startsWith("/pedido") && location.pathname.includes("/detalhes/")) {
-      return {
-        title: "Detalhes do Pedido",
-        subtitle: ""
-      };
+      return { title: "Detalhes do Pedido" };
     }
     if (location.pathname.startsWith("/pedido")) {
-      return {
-        title: "Pedido",
-        subtitle: "Pedidos salvos a partir das sugestões de compra"
-      };
+      return { title: "Pedido" };
     }
-    return { title: "", subtitle: "" };
+    return { title: "" };
   };
 
   const pageInfo = getPageInfo();
@@ -81,18 +50,8 @@ const PageHeader = () => {
   if (!pageInfo.title) return null;
 
   return (
-    <div className="flex-1 flex items-center justify-between px-4">
-      <div>
-        <h1 className="text-lg md:text-2xl font-bold text-foreground">{pageInfo.title}</h1>
-        {pageInfo.subtitle && (
-          <p className="text-xs md:text-sm text-muted-foreground">{pageInfo.subtitle}</p>
-        )}
-      </div>
-      {pageInfo.actions && (
-        <div className="flex gap-2">
-          {pageInfo.actions}
-        </div>
-      )}
+    <div className="flex-1 px-4">
+      <h1 className="text-lg md:text-2xl font-bold text-foreground">{pageInfo.title}</h1>
     </div>
   );
 };

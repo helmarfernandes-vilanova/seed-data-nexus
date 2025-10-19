@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CondicoesTable from "@/components/CondicoesTable";
+import ImportDialogNiv from "@/components/ImportDialogNiv";
+import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Niv = () => {
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
@@ -26,18 +28,22 @@ const Niv = () => {
                   Visualize preços, quantidades e informações comerciais dos produtos
                 </CardDescription>
               </div>
-              <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
-                <SelectTrigger className="w-full md:w-[180px]">
-                  <SelectValue placeholder="Selecione empresa" />
-                </SelectTrigger>
-                <SelectContent>
-                  {empresas.map((empresa) => (
-                    <SelectItem key={empresa.codigo} value={empresa.codigo}>
-                      {empresa.nome}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex gap-2 items-center">
+                <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
+                  <SelectTrigger className="w-full md:w-[180px]">
+                    <SelectValue placeholder="Selecione empresa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {empresas.map((empresa) => (
+                      <SelectItem key={empresa.codigo} value={empresa.codigo}>
+                        {empresa.nome}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <ClearDatabaseButton />
+                <ImportDialogNiv />
+              </div>
             </div>
           </CardHeader>
           <CardContent>

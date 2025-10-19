@@ -4,6 +4,8 @@ import { Package, Database, TrendingUp, Building2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import EstoqueTable from "@/components/EstoqueTable";
 import StatsCard from "@/components/StatsCard";
+import ImportDialog from "@/components/ImportDialog";
+import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Estoque = () => {
   const { data: stats } = useQuery({
@@ -63,10 +65,18 @@ const Estoque = () => {
         {/* Tabela de Estoque */}
         <Card>
           <CardHeader>
-            <CardTitle>Itens em Estoque</CardTitle>
-            <CardDescription>
-              Visualize e gerencie todo o estoque de produtos por empresa
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg md:text-xl">Itens em Estoque</CardTitle>
+                <CardDescription className="text-sm">
+                  Visualize e gerencie todo o estoque de produtos por empresa
+                </CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <ClearDatabaseButton />
+                <ImportDialog />
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <EstoqueTable />
