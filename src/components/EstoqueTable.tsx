@@ -28,11 +28,16 @@ const EstoqueTable = () => {
           ),
           empresa:empresas(codigo, nome)
         `)
-        .order("produto(descricao)", { ascending: true })
-        .limit(50);
+        .limit(1000);
 
       if (error) throw error;
-      return data;
+      
+      // Ordenar por descrição do produto no lado do cliente
+      return data?.sort((a, b) => {
+        const descA = a.produto?.descricao || "";
+        const descB = b.produto?.descricao || "";
+        return descA.localeCompare(descB, 'pt-BR');
+      }) || [];
     },
   });
 
