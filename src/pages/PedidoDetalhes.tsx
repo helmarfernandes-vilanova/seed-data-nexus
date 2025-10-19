@@ -61,6 +61,7 @@ const PedidoDetalhes = () => {
         qtdPallet: item.qtd_pallet,
         qtdCamada: item.qtd_camada,
         qtdPedido: item.qtd_pedido,
+        precoNiv: item.preco_cx_niv,
       })) || [];
     },
     enabled: !!pedidoId,
@@ -136,6 +137,7 @@ const PedidoDetalhes = () => {
                       <TableHead className="text-center">Qtd Pallet</TableHead>
                       <TableHead className="text-center">Qtd Camada</TableHead>
                       <TableHead className="text-right">Total Pedido</TableHead>
+                      <TableHead className="text-right">Preço cx NIV</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -150,6 +152,9 @@ const PedidoDetalhes = () => {
                         <TableCell className="text-center">{item.qtdCamada}</TableCell>
                         <TableCell className="text-right font-medium">
                           {item.qtdPedido}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {item.precoNiv ? `R$ ${item.precoNiv.toFixed(2)}` : "-"}
                         </TableCell>
                       </TableRow>
                     ))}

@@ -258,6 +258,7 @@ export type Database = {
           created_at: string
           id: string
           pedido_id: string
+          preco_cx_niv: number | null
           produto_id: string | null
           qtd_camada: number
           qtd_pallet: number
@@ -267,6 +268,7 @@ export type Database = {
           created_at?: string
           id?: string
           pedido_id: string
+          preco_cx_niv?: number | null
           produto_id?: string | null
           qtd_camada?: number
           qtd_pallet?: number
@@ -276,6 +278,7 @@ export type Database = {
           created_at?: string
           id?: string
           pedido_id?: string
+          preco_cx_niv?: number | null
           produto_id?: string | null
           qtd_camada?: number
           qtd_pallet?: number

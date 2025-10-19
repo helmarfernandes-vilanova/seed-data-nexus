@@ -59,6 +59,28 @@ const Sugestao = () => {
         return;
       }
 
+      // Buscar condições comerciais para obter preços
+      const produtosIds = itensComQuantidade.map(item => item.produtoId);
+      const { data: produtos } = await supabase
+        .from("produtos")
+        .select("id, ean")
+        .in("id", produtosIds);
+
+      const { data: condicoes } = await supabase
+        .from("condicoes_comerciais")
+        .select("codigo_ean, preco_apos_descontos")
+        .eq("empresa_id", empresaData.id);
+
+      // Criar mapa de preços por EAN
+      const precosPorEan = new Map(
+        condicoes?.map(c => [c.codigo_ean, c.preco_apos_descontos]) || []
+      );
+
+      // Criar mapa de EAN por produto ID
+      const eanPorProduto = new Map(
+        produtos?.map(p => [p.id, p.ean]) || []
+      );
+
       let currentPedidoId = pedidoId;
 
       // Se não estiver editando, criar novo pedido
@@ -90,13 +112,19 @@ const Sugestao = () => {
       }
 
       // Inserir itens do pedido
-      const itensParaInserir = itensComQuantidade.map((item) => ({
-        pedido_id: currentPedidoId,
-        produto_id: item.produtoId,
-        qtd_pallet: item.qtdPallet,
-        qtd_camada: item.qtdCamada,
-        qtd_pedido: item.pedido,
-      }));
+      const itensParaInserir = itensComQuantidade.map((item) => {
+        const ean = eanPorProduto.get(item.produtoId);
+        const precoNiv = ean ? precosPorEan.get(ean) : null;
+
+        return {
+          pedido_id: currentPedidoId,
+          produto_id: item.produtoId,
+          qtd_pallet: item.qtdPallet,
+          qtd_camada: item.qtdCamada,
+          qtd_pedido: item.pedido,
+          preco_cx_niv: precoNiv,
+        };
+      });
 
       const { error: itensError } = await supabase
         .from("pedidos_itens")
