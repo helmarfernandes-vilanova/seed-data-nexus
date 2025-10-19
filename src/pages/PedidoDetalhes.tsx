@@ -51,6 +51,23 @@ const PedidoDetalhes = () => {
 
       if (error) throw error;
 
+      // Buscar preços unitários da empresa 501
+      const eans = data?.map(item => item.produto?.ean).filter(Boolean) || [];
+      const { data: condicoesData } = await supabase
+        .from("condicoes_comerciais")
+        .select("codigo_ean, preco_unitario")
+        .in("codigo_ean", eans)
+        .eq("empresa_id", (await supabase
+          .from("empresas")
+          .select("id")
+          .eq("codigo", "501")
+          .single()
+        ).data?.id || "");
+
+      const condicoesMap = new Map(
+        condicoesData?.map(c => [c.codigo_ean, c.preco_unitario]) || []
+      );
+
       return data?.map((item) => ({
         id: item.id,
         codigoProduto: item.produto?.codigo || "",
@@ -62,6 +79,7 @@ const PedidoDetalhes = () => {
         qtdCamada: item.qtd_camada,
         qtdPedido: item.qtd_pedido,
         precoNiv: item.preco_cx_niv,
+        precoNf: item.produto?.ean ? condicoesMap.get(item.produto.ean) : null,
       })) || [];
     },
     enabled: !!pedidoId,
@@ -136,6 +154,7 @@ const PedidoDetalhes = () => {
                       <TableHead className="text-right">Emb Compra</TableHead>
                       <TableHead className="text-right">Preço cx NIV</TableHead>
                       <TableHead className="text-right">Preço unid NIV</TableHead>
+                      <TableHead className="text-right">Preço cx NF</TableHead>
                       <TableHead className="text-center">Qtd Pallet</TableHead>
                       <TableHead className="text-center">Qtd Camada</TableHead>
                       <TableHead className="text-right">Total Pedido</TableHead>
@@ -161,6 +180,9 @@ const PedidoDetalhes = () => {
                             {precoUnidNiv && precoUnidNiv > 0
                               ? `R$ ${precoUnidNiv.toFixed(2)}`
                               : "-"}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.precoNf ? `R$ ${Number(item.precoNf).toFixed(2)}` : "-"}
                           </TableCell>
                           <TableCell className="text-center">{item.qtdPallet}</TableCell>
                           <TableCell className="text-center">{item.qtdCamada}</TableCell>
