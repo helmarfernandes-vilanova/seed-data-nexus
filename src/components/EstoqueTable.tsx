@@ -28,7 +28,7 @@ const EstoqueTable = () => {
           ),
           empresa:empresas(codigo, nome)
         `)
-        .order("created_at", { ascending: false })
+        .order("produto(descricao)", { ascending: true })
         .limit(50);
 
       if (error) throw error;
