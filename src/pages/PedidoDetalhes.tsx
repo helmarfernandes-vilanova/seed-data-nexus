@@ -435,10 +435,10 @@ const PedidoDetalhes = () => {
                             />
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {verbaCx ? `R$ ${verbaCx.toFixed(2)}` : "-"}
+                            {verbaCx ? verbaCx.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {precoFinal ? `R$ ${precoFinal.toFixed(2)}` : "-"}
+                            {precoFinal ? precoFinal.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right font-medium py-1">
                             {item.qtdPedido}
@@ -450,13 +450,13 @@ const PedidoDetalhes = () => {
                             {novoEstoque != null ? novoEstoque : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {item.custoAtual != null ? `R$ ${Number(item.custoAtual).toFixed(2)}` : "-"}
+                            {item.custoAtual != null ? Number(item.custoAtual).toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {novoCusto ? `R$ ${novoCusto.toFixed(2)}` : "-"}
+                            {novoCusto ? novoCusto.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {item.precoAtual != null ? `R$ ${Number(item.precoAtual).toFixed(2)}` : "-"}
+                            {item.precoAtual != null ? Number(item.precoAtual).toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-center py-1">{item.qtdPallet}</TableCell>
                           <TableCell className="text-center py-1">{item.qtdCamada}</TableCell>
@@ -465,13 +465,13 @@ const PedidoDetalhes = () => {
                             {cargas ? cargas.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {totalNf ? `R$ ${totalNf.toFixed(2)}` : "-"}
+                            {totalNf ? totalNf.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {totalNiv ? `R$ ${totalNiv.toFixed(2)}` : "-"}
+                            {totalNiv ? totalNiv.toFixed(2) : "-"}
                           </TableCell>
                           <TableCell className="text-right py-1">
-                            {totalVerba ? `R$ ${totalVerba.toFixed(2)}` : "-"}
+                            {totalVerba ? totalVerba.toFixed(2) : "-"}
                           </TableCell>
                         </TableRow>
                       );
