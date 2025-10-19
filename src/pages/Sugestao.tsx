@@ -3,9 +3,11 @@ import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SugestaoTable from "@/components/SugestaoTable";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 
 const Sugestao = () => {
   const { tipo } = useParams<{ tipo: string }>();
@@ -13,6 +15,7 @@ const Sugestao = () => {
   const navigate = useNavigate();
   const pedidoId = searchParams.get('pedido');
   const [isSaving, setIsSaving] = useState(false);
+  const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
   const tableRef = useRef<{ getEditingData: () => any[] }>(null);
 
   const tipoConfig: Record<string, { nome: string; empresaCodigo: string }> = {
@@ -20,6 +23,20 @@ const Sugestao = () => {
   };
 
   const config = tipo ? tipoConfig[tipo] : null;
+
+  // Buscar fornecedores disponíveis
+  const { data: fornecedores } = useQuery({
+    queryKey: ["fornecedores"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("fornecedores")
+        .select("codigo, nome")
+        .order("codigo");
+      
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const handleCreatePedido = () => {
     setSearchParams({});
@@ -41,7 +58,7 @@ const Sugestao = () => {
       const { data: fornecedorData } = await supabase
         .from("fornecedores")
         .select("id")
-        .eq("codigo", "1941")
+        .eq("codigo", fornecedorSelecionado)
         .single();
 
       if (!empresaData || !fornecedorData) {
@@ -197,7 +214,19 @@ const Sugestao = () => {
                   Análise de DDV e cálculo de pedidos baseado em histórico de vendas
                 </CardDescription>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
+                <Select value={fornecedorSelecionado} onValueChange={setFornecedorSelecionado}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Selecione fornecedor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {fornecedores?.map((fornecedor) => (
+                      <SelectItem key={fornecedor.codigo} value={fornecedor.codigo}>
+                        {fornecedor.codigo} - {fornecedor.nome}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido}>
                   Criar Pedido
                 </Button>
@@ -210,7 +239,8 @@ const Sugestao = () => {
           <CardContent>
             <SugestaoTable 
               ref={tableRef}
-              empresaCodigo={config.empresaCodigo} 
+              empresaCodigo={config.empresaCodigo}
+              fornecedorCodigo={fornecedorSelecionado}
               pedidoId={pedidoId || undefined}
             />
           </CardContent>

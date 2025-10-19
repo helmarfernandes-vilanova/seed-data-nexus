@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 
 interface SugestaoTableProps {
   empresaCodigo: string;
+  fornecedorCodigo: string;
   pedidoId?: string;
 }
 
@@ -21,11 +22,11 @@ export interface SugestaoTableRef {
 }
 
 const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
-  ({ empresaCodigo, pedidoId }, ref) => {
+  ({ empresaCodigo, fornecedorCodigo, pedidoId }, ref) => {
     const [editingRow, setEditingRow] = useState<{ [key: string]: { qtdPallet: number; qtdCamada: number } }>({});
 
     const { data: sugestoes, isLoading } = useQuery({
-      queryKey: ["sugestao", empresaCodigo],
+      queryKey: ["sugestao", empresaCodigo, fornecedorCodigo],
       queryFn: async () => {
         // Buscar empresa ID
         const { data: empresaData } = await supabase
@@ -36,16 +37,16 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
 
         if (!empresaData) throw new Error("Empresa não encontrada");
 
-        // Buscar fornecedor 1941
+        // Buscar fornecedor selecionado
         const { data: fornecedorData } = await supabase
           .from("fornecedores")
           .select("id")
-          .eq("codigo", "1941")
+          .eq("codigo", fornecedorCodigo)
           .single();
 
-        if (!fornecedorData) throw new Error("Fornecedor 1941 não encontrado");
+        if (!fornecedorData) throw new Error("Fornecedor não encontrado");
 
-        // Buscar estoque com produtos filtrado por fornecedor 1941 e empresa 501
+        // Buscar estoque com produtos filtrado por fornecedor selecionado e empresa
         const { data: estoqueData, error: estoqueError } = await supabase
           .from("estoque")
           .select(`
