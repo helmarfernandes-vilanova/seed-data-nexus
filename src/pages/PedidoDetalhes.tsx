@@ -20,7 +20,7 @@ const PedidoDetalhes = () => {
   const { pedidoId } = useParams<{ pedidoId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [editedVerbas, setEditedVerbas] = useState<Record<string, number>>({});
+  const [editedVerbas, setEditedVerbas] = useState<Record<string, number | string>>({});
 
   const { data: pedido, isLoading: pedidoLoading } = useQuery({
     queryKey: ["pedido", pedidoId],
@@ -161,7 +161,7 @@ const PedidoDetalhes = () => {
   const handleSaveVerbas = () => {
     const updates = Object.entries(editedVerbas).map(([id, verba_unid]) => ({
       id,
-      verba_unid,
+      verba_unid: typeof verba_unid === 'string' ? parseFloat(verba_unid) || 0 : verba_unid,
     }));
 
     if (updates.length > 0) {
@@ -170,11 +170,25 @@ const PedidoDetalhes = () => {
   };
 
   const handleVerbaChange = (itemId: string, value: string) => {
-    const numValue = parseFloat(value) || 0;
+    // Permitir apenas números e ponto decimal
+    const cleanValue = value.replace(/[^\d.]/g, '');
     setEditedVerbas((prev) => ({
       ...prev,
-      [itemId]: numValue,
+      [itemId]: cleanValue,
     }));
+  };
+
+  const handleVerbaBlur = (itemId: string) => {
+    const currentValue = editedVerbas[itemId];
+    if (currentValue !== undefined && currentValue !== '') {
+      const numValue = parseFloat(currentValue.toString());
+      if (!isNaN(numValue)) {
+        setEditedVerbas((prev) => ({
+          ...prev,
+          [itemId]: numValue,
+        }));
+      }
+    }
   };
 
   if (pedidoLoading || itensLoading) {
@@ -210,10 +224,14 @@ const PedidoDetalhes = () => {
                 let totalVerbaSum = 0;
                 let totalCargasSum = 0;
 
-                itens?.forEach((item) => {
-                  const currentVerbaUnid = editedVerbas[item.id] ?? item.verbaUnid ?? 0;
-                  const verbaCx = currentVerbaUnid && item.embCompra && (currentVerbaUnid * item.embCompra) !== 0
-                    ? currentVerbaUnid * item.embCompra
+                 itens?.forEach((item) => {
+                  const currentVerbaUnid = typeof editedVerbas[item.id] === 'number' 
+                    ? editedVerbas[item.id] as number
+                    : editedVerbas[item.id] 
+                      ? parseFloat(editedVerbas[item.id].toString()) || 0
+                      : item.verbaUnid ?? 0;
+                  const verbaCx = currentVerbaUnid && item.embCompra && (Number(currentVerbaUnid) * item.embCompra) !== 0
+                    ? Number(currentVerbaUnid) * item.embCompra
                     : null;
 
                   const totalNf = item.qtdPedido && item.precoNf
@@ -334,7 +352,11 @@ const PedidoDetalhes = () => {
                   <TableBody>
                     {itens.map((item, index) => {
                       // Use edited value if available, otherwise use stored value
-                      const currentVerbaUnid = editedVerbas[item.id] ?? item.verbaUnid ?? 0;
+                      const currentVerbaUnid: number = typeof editedVerbas[item.id] === 'number' 
+                        ? editedVerbas[item.id] as number
+                        : editedVerbas[item.id] 
+                          ? parseFloat(editedVerbas[item.id].toString()) || 0
+                          : item.verbaUnid ?? 0;
                       
                       const precoUnidNiv = item.embCompra && item.precoNiv
                         ? Number(item.precoNiv) / item.embCompra
@@ -425,13 +447,22 @@ const PedidoDetalhes = () => {
                           </TableCell>
                           <TableCell className="text-right py-1">
                             <Input
-                              type="number"
+                              type="text"
                               step="0.01"
                               min="0"
-                              value={currentVerbaUnid || ""}
+                              value={
+                                editedVerbas[item.id] !== undefined 
+                                  ? typeof editedVerbas[item.id] === 'number'
+                                    ? (editedVerbas[item.id] as number).toFixed(2)
+                                    : editedVerbas[item.id]
+                                  : currentVerbaUnid > 0 
+                                    ? currentVerbaUnid.toFixed(2) 
+                                    : ""
+                              }
                               onChange={(e) => handleVerbaChange(item.id, e.target.value)}
+                              onBlur={() => handleVerbaBlur(item.id)}
                               className="w-20 h-7 text-right text-xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                              placeholder="0.00"
+                              placeholder="0,00"
                             />
                           </TableCell>
                           <TableCell className="text-right py-1">
