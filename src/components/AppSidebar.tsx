@@ -1,4 +1,4 @@
-import { Building2, Package, FileSpreadsheet, Lightbulb } from "lucide-react";
+import { Building2, Package, FileSpreadsheet, Lightbulb, ShoppingCart } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -21,6 +21,10 @@ const nivItems = [
 
 const sugestaoItems = [
   { title: "501 - HC", url: "/sugestao/501-hc", icon: Lightbulb },
+];
+
+const pedidoItems = [
+  { title: "501 - HC", url: "/pedido/501-hc", icon: ShoppingCart },
 ];
 
 export function AppSidebar() {
@@ -74,6 +78,25 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {sugestaoItems.map((item) => (
+                <SidebarMenuItem key={item.url}>
+                  <SidebarMenuButton asChild>
+                    <NavLink to={item.url} end className={getNavCls}>
+                      <item.icon className="h-4 w-4" />
+                      {open && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Menu Pedido */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Pedido</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {pedidoItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
