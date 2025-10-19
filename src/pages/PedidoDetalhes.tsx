@@ -336,11 +336,11 @@ const PedidoDetalhes = () => {
                       <TableHead className="min-w-[200px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
                       <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
                       <TableHead className="text-center text-slate-50 font-semibold py-2">EMB<br/>COMPRA</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO CX<br/>NIV</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO UNID<br/>NIV</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO CX<br/>NF</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO UNID<br/>NF</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">DESC OFF<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇ CX<br/>NIV</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇ UN<br/>NIV</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇ CX<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇ UN<br/>NF</TableHead>
+                      <TableHead className="text-center text-slate-50 font-semibold py-2">DESC<br/>NF</TableHead>
                       <TableHead className="text-center text-slate-50 font-semibold py-2">VERBA<br/>UNID</TableHead>
                       <TableHead className="text-center text-slate-50 font-semibold py-2">VERBA<br/>CX</TableHead>
                       <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO<br/>FINAL</TableHead>
