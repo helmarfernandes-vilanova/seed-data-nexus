@@ -197,37 +197,40 @@ const PedidoDetalhes = () => {
     <div className="flex-1">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
+        <div className="container mx-auto px-4 py-4 md:py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/pedido/501-hc")}
+              className="self-start"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Voltar
             </Button>
-            <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-              <ShoppingCart className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Detalhes do Pedido</h1>
-              <p className="text-muted-foreground">
-                Criado em {new Date(pedido.data_criacao).toLocaleString("pt-BR")}
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
+                <ShoppingCart className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl md:text-3xl font-bold text-foreground">Detalhes do Pedido</h1>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  Criado em {new Date(pedido.data_criacao).toLocaleString("pt-BR")}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-4 py-4 md:py-8 space-y-4 md:space-y-6">
         {/* Card de Resumo */}
         <Card className="bg-gradient-to-br from-card to-muted/20">
           <CardHeader>
-            <CardTitle className="text-2xl">Resumo do Pedido</CardTitle>
+            <CardTitle className="text-lg md:text-2xl">Resumo do Pedido</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
               {(() => {
                 // Calcular totais
                 let totalNfSum = 0;
@@ -262,33 +265,33 @@ const PedidoDetalhes = () => {
 
                 return (
                   <>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-muted-foreground">NF</div>
-                      <div className="text-2xl font-bold">
+                    <div className="space-y-1 md:space-y-2">
+                      <div className="text-xs md:text-sm font-medium text-muted-foreground">NF</div>
+                      <div className="text-lg md:text-2xl font-bold">
                         R$ {totalNfSum.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-muted-foreground">NIV</div>
-                      <div className="text-2xl font-bold">
+                    <div className="space-y-1 md:space-y-2">
+                      <div className="text-xs md:text-sm font-medium text-muted-foreground">NIV</div>
+                      <div className="text-lg md:text-2xl font-bold">
                         R$ {totalNivSum.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-muted-foreground">INVESTIMENTO</div>
-                      <div className="text-2xl font-bold">
+                    <div className="space-y-1 md:space-y-2">
+                      <div className="text-xs md:text-sm font-medium text-muted-foreground">INVESTIMENTO</div>
+                      <div className="text-lg md:text-2xl font-bold">
                         R$ {totalVerbaSum.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-muted-foreground">% INVESTIMENTO</div>
-                      <div className="text-2xl font-bold">
+                    <div className="space-y-1 md:space-y-2">
+                      <div className="text-xs md:text-sm font-medium text-muted-foreground">% INVESTIMENTO</div>
+                      <div className="text-lg md:text-2xl font-bold">
                         {percentInvestimento.toFixed(2)}%
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-muted-foreground">TOTAL CARGAS</div>
-                      <div className="text-2xl font-bold">
+                    <div className="space-y-1 md:space-y-2 col-span-2 md:col-span-1">
+                      <div className="text-xs md:text-sm font-medium text-muted-foreground">TOTAL CARGAS</div>
+                      <div className="text-lg md:text-2xl font-bold">
                         {totalCargasSum.toFixed(2)}
                       </div>
                     </div>
@@ -302,16 +305,16 @@ const PedidoDetalhes = () => {
         {/* Card de Itens */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <CardTitle>Itens do Pedido</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg md:text-xl">Itens do Pedido</CardTitle>
+                <CardDescription className="text-sm">
                   Status: <span className="capitalize font-medium">{pedido.status}</span>
                   {pedido.observacoes && ` • ${pedido.observacoes}`}
                 </CardDescription>
               </div>
               {Object.keys(editedVerbas).length > 0 && (
-                <Button onClick={handleSaveVerbas} disabled={updateVerbasMutation.isPending}>
+                <Button onClick={handleSaveVerbas} disabled={updateVerbasMutation.isPending} className="text-sm">
                   <Save className="h-4 w-4 mr-2" />
                   Salvar Alterações
                 </Button>

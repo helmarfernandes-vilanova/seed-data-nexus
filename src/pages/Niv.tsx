@@ -21,18 +21,18 @@ const Niv = () => {
     <div className="flex-1">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 md:py-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-                <Building2 className="h-6 w-6 text-primary-foreground" />
+              <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
+                <Building2 className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground">NIV - Condições Comerciais</h1>
-                <p className="text-muted-foreground">Condições Comerciais do Fornecedor</p>
+                <h1 className="text-xl md:text-3xl font-bold text-foreground">NIV - Condições Comerciais</h1>
+                <p className="text-sm text-muted-foreground">Condições Comerciais do Fornecedor</p>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <ClearDatabaseButton />
               <ImportDialogNiv />
             </div>
@@ -40,18 +40,18 @@ const Niv = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <CardTitle>Condições Comerciais - {empresaAtual?.nome}</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg md:text-xl">Condições Comerciais - {empresaAtual?.nome}</CardTitle>
+                <CardDescription className="text-sm">
                   Visualize preços, quantidades e informações comerciais dos produtos
                 </CardDescription>
               </div>
               <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Selecione empresa" />
                 </SelectTrigger>
                 <SelectContent>

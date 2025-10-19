@@ -114,15 +114,15 @@ const Importacao = () => {
     <div className="flex-1">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 md:py-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-                <FileSpreadsheet className="h-6 w-6 text-primary-foreground" />
+              <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
+                <FileSpreadsheet className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground">Importação NIV</h1>
-                <p className="text-muted-foreground">Importe condições comerciais de todas as empresas</p>
+                <h1 className="text-xl md:text-3xl font-bold text-foreground">Importação NIV</h1>
+                <p className="text-sm text-muted-foreground">Importe condições comerciais de todas as empresas</p>
               </div>
             </div>
             <ClearDatabaseButton />
@@ -130,31 +130,31 @@ const Importacao = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Importar Arquivo Excel Completo</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-lg md:text-xl">Importar Arquivo Excel Completo</CardTitle>
+            <CardDescription className="text-sm">
               Envie um arquivo Excel com múltiplas abas. Cada aba representa uma empresa (501, 502, 1) e será processada automaticamente.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {/* Upload Area */}
               {!loading && !result && (
-                <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-12 space-y-4">
-                  <Upload className="h-16 w-16 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8 md:p-12 space-y-4">
+                  <Upload className="h-12 w-12 md:h-16 md:w-16 text-muted-foreground" />
                   <div className="text-center space-y-2">
                     <label
                       htmlFor="file-upload-completo"
-                      className="cursor-pointer text-primary hover:underline font-medium text-lg"
+                      className="cursor-pointer text-primary hover:underline font-medium text-base md:text-lg"
                     >
                       Clique para selecionar um arquivo
                     </label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs md:text-sm text-muted-foreground">
                       ou arraste e solte aqui
                     </p>
-                    <p className="text-xs text-muted-foreground mt-4">
+                    <p className="text-[10px] md:text-xs text-muted-foreground mt-4">
                       Formatos aceitos: .xlsx ou .xls
                     </p>
                   </div>
@@ -170,17 +170,17 @@ const Importacao = () => {
 
               {/* Loading State */}
               {loading && (
-                <div className="space-y-6 py-8">
+                <div className="space-y-4 md:space-y-6 py-6 md:py-8">
                   <div className="flex items-center justify-center gap-3">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <p className="text-lg font-medium">Processando arquivo...</p>
+                    <Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin text-primary" />
+                    <p className="text-base md:text-lg font-medium">Processando arquivo...</p>
                   </div>
-                  <Progress value={progress} className="w-full h-3" />
+                  <Progress value={progress} className="w-full h-2 md:h-3" />
                   <div className="text-center text-muted-foreground">
-                    <p className="font-medium text-foreground">
+                    <p className="font-medium text-foreground text-sm md:text-base">
                       Processando... {Math.round(progress)}%
                     </p>
-                    <p className="text-sm mt-2">
+                    <p className="text-xs md:text-sm mt-2">
                       Importando dados de todas as empresas
                     </p>
                   </div>
@@ -189,23 +189,23 @@ const Importacao = () => {
 
               {/* Result State */}
               {result && (
-                <div className="space-y-6">
+                <div className="space-y-4 md:space-y-6">
                   <div
-                    className={`flex items-start gap-4 p-6 rounded-lg ${
+                    className={`flex items-start gap-3 md:gap-4 p-4 md:p-6 rounded-lg ${
                       result.success
                         ? "bg-success/10 text-success"
                         : "bg-destructive/10 text-destructive"
                     }`}
                   >
                     {result.success ? (
-                      <CheckCircle className="h-6 w-6 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="h-5 w-5 md:h-6 md:w-6 mt-0.5 flex-shrink-0" />
                     ) : (
-                      <AlertCircle className="h-6 w-6 mt-0.5 flex-shrink-0" />
+                      <AlertCircle className="h-5 w-5 md:h-6 md:w-6 mt-0.5 flex-shrink-0" />
                     )}
-                    <div className="flex-1 space-y-3">
-                      <p className="font-medium text-lg">{result.message}</p>
+                    <div className="flex-1 space-y-2 md:space-y-3">
+                      <p className="font-medium text-base md:text-lg">{result.message}</p>
                       {result.stats && (
-                        <div className="text-sm space-y-1">
+                        <div className="text-xs md:text-sm space-y-1">
                           <p>Empresas processadas: {result.stats.empresas}</p>
                           <p>Total de linhas: {result.stats.total}</p>
                           <p>Processadas com sucesso: {result.stats.processados}</p>
@@ -219,27 +219,27 @@ const Importacao = () => {
 
                   {/* Detalhes por Empresa */}
                   {result.details && result.details.length > 0 && (
-                    <div className="border rounded-lg p-4 space-y-3">
-                      <h3 className="font-semibold text-lg">Detalhes por Empresa</h3>
+                    <div className="border rounded-lg p-3 md:p-4 space-y-2 md:space-y-3">
+                      <h3 className="font-semibold text-base md:text-lg">Detalhes por Empresa</h3>
                       <div className="space-y-2">
                         {result.details.map((detail, index) => (
                           <div
                             key={index}
-                            className={`flex items-center justify-between p-3 rounded-md ${
+                            className={`flex items-center justify-between p-2 md:p-3 rounded-md ${
                               detail.errors > 0
                                 ? "bg-destructive/10"
                                 : "bg-success/10"
                             }`}
                           >
-                            <div>
-                              <p className="font-medium">Empresa {detail.empresaCodigo}</p>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-sm md:text-base">Empresa {detail.empresaCodigo}</p>
                               {detail.error && (
-                                <p className="text-sm text-destructive">{detail.error}</p>
+                                <p className="text-xs md:text-sm text-destructive truncate">{detail.error}</p>
                               )}
                             </div>
-                            <div className="text-right text-sm">
+                            <div className="text-right text-xs md:text-sm ml-2">
                               <p>
-                                {detail.processedRows} / {detail.total} processados
+                                {detail.processedRows} / {detail.total}
                               </p>
                               {detail.errors > 0 && (
                                 <p className="text-destructive">{detail.errors} erros</p>

@@ -208,46 +208,46 @@ const Sugestao = () => {
     <div className="flex-1">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-4 md:py-6">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-              <Lightbulb className="h-6 w-6 text-primary-foreground" />
+            <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
+              <Lightbulb className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Sugestão</h1>
-              <p className="text-muted-foreground">Sugestões de compra baseadas em análise de vendas</p>
+              <h1 className="text-xl md:text-3xl font-bold text-foreground">Sugestão</h1>
+              <p className="text-sm text-muted-foreground">Sugestões de compra baseadas em análise de vendas</p>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <CardTitle>Sugestão de Compra</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg md:text-xl">Sugestão de Compra</CardTitle>
+                  <CardDescription className="text-sm">
                     Análise de DDV e cálculo de pedidos baseado em histórico de vendas
                   </CardDescription>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido}>
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido} className="flex-1 md:flex-none text-sm">
                     Criar Pedido
                   </Button>
-                  <Button disabled={isSaving} onClick={handleSavePedido}>
+                  <Button disabled={isSaving} onClick={handleSavePedido} className="flex-1 md:flex-none text-sm">
                     {isSaving ? "Salvando..." : "Salvar Pedido"}
                   </Button>
                 </div>
               </div>
               
               {/* Filtros */}
-              <div className="flex gap-4 items-end flex-wrap">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Empresa</label>
                   <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Selecione empresa" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">
@@ -263,7 +263,7 @@ const Sugestao = () => {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Fornecedor</label>
                   <Select value={fornecedorSelecionado} onValueChange={setFornecedorSelecionado}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Selecione fornecedor" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">
@@ -282,14 +282,14 @@ const Sugestao = () => {
                     placeholder="Buscar por código ou EAN" 
                     value={codigoOuEan}
                     onChange={(e) => setCodigoOuEan(e.target.value)}
-                    className="w-[220px]"
+                    className="w-full"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Categoria</label>
                   <Select value={categoriaSelecionada} onValueChange={setCategoriaSelecionada}>
-                    <SelectTrigger className="w-[200px]">
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Todas as categorias" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">

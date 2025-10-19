@@ -29,11 +29,11 @@ const App = () => (
             path="/*"
             element={
               <ProtectedRoute>
-                <SidebarProvider defaultOpen={true} style={{ "--sidebar-width": "12rem" } as React.CSSProperties}>
+                <SidebarProvider defaultOpen={false} style={{ "--sidebar-width": "12rem" } as React.CSSProperties}>
                   <div className="flex min-h-screen w-full">
                     <AppSidebar />
                     <div className="flex-1 flex flex-col">
-                      <header className="h-14 border-b bg-card flex items-center px-4">
+                      <header className="sticky top-0 z-40 h-12 md:h-14 border-b bg-card flex items-center px-2 md:px-4">
                         <SidebarTrigger />
                       </header>
                       <Routes>
