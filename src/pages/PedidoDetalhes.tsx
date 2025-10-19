@@ -198,27 +198,16 @@ const PedidoDetalhes = () => {
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl md:text-3xl font-bold text-foreground">Detalhes do Pedido</h1>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/pedido/501-hc")}
-              className="self-start"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Voltar
             </Button>
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
-                <ShoppingCart className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-3xl font-bold text-foreground">Detalhes do Pedido</h1>
-                <p className="text-xs md:text-sm text-muted-foreground">
-                  Criado em {new Date(pedido.data_criacao).toLocaleString("pt-BR")}
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </header>
