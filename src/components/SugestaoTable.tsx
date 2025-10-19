@@ -191,11 +191,6 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
       return "bg-green-100 dark:bg-green-950 text-green-900 dark:text-green-100 font-medium";
     };
 
-    const getPedidoColorClass = (pedido: number) => {
-      if (pedido === 0) return "";
-      return "bg-blue-100 dark:bg-blue-950 text-blue-900 dark:text-blue-100 font-bold";
-    };
-
     if (isLoading) {
       return <div className="text-center py-8">Carregando...</div>;
     }
@@ -210,8 +205,8 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             <TableHead className="min-w-[250px] text-slate-50 font-semibold">Descrição</TableHead>
             <TableHead className="text-slate-50 font-semibold">Categoria</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Emb Compra</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold bg-orange-700">Estoque</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold bg-orange-700">Pendente</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold bg-orange-900">Estoque</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold bg-orange-900">Pendente</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">DDV Média Último Mês</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">DDV Média 3 Meses</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Dias Estoque</TableHead>
@@ -219,7 +214,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             <TableHead className="text-right text-slate-50 font-semibold">Mês -2</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Mês -1</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Mês Atual</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold bg-orange-700">Pedido</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold bg-orange-900">Pedido</TableHead>
             <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold">Qtd Pallet</TableHead>
             <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold">Qtd Camada</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Qtd no Pallet</TableHead>
@@ -239,10 +234,10 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                 <TableCell className="text-sm">{item.descricao}</TableCell>
                 <TableCell className="text-xs text-muted-foreground">{item.categoria}</TableCell>
                 <TableCell className="text-right font-medium">{item.embCompra}</TableCell>
-                <TableCell className={`text-right font-medium bg-orange-50 dark:bg-orange-950/30 ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
+                <TableCell className="text-right font-medium bg-orange-50 dark:bg-orange-950/30">
                   {item.estoque.toFixed(0)}
                 </TableCell>
-                <TableCell className={`text-right bg-orange-50 dark:bg-orange-950/30 ${item.pendente > 0 ? 'font-medium' : ''}`}>
+                <TableCell className="text-right font-medium bg-orange-50 dark:bg-orange-950/30">
                   {item.pendente.toFixed(0)}
                 </TableCell>
                 <TableCell className={`text-right ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
@@ -258,7 +253,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                 <TableCell className="text-right">{item.mes2.toFixed(0)}</TableCell>
                 <TableCell className="text-right">{item.mes1.toFixed(0)}</TableCell>
                 <TableCell className="text-right">{item.mesAtual.toFixed(0)}</TableCell>
-                <TableCell className={`text-right bg-orange-50 dark:bg-orange-950/30 ${getPedidoColorClass(pedido)}`}>
+                <TableCell className="text-right font-bold bg-orange-50 dark:bg-orange-950/30">
                   {pedido}
                 </TableCell>
                 <TableCell className="text-center">
