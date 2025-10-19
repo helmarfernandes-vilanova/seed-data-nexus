@@ -19,7 +19,7 @@ const nivItems = [
 const sugestaoItem = { title: "Sugestão", url: "/sugestao", icon: Lightbulb };
 
 const pedidoItems = [
-  { title: "501 - HC", url: "/pedido/501-hc", icon: ShoppingCart },
+  { title: "Pedido", url: "/pedido/501-hc", icon: ShoppingCart },
 ];
 
 export function AppSidebar() {
