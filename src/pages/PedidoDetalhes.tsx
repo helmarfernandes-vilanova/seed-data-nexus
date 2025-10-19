@@ -220,7 +220,86 @@ const PedidoDetalhes = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        {/* Card de Resumo */}
+        <Card className="bg-gradient-to-br from-card to-muted/20">
+          <CardHeader>
+            <CardTitle className="text-2xl">Resumo do Pedido</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+              {(() => {
+                // Calcular totais
+                let totalNfSum = 0;
+                let totalNivSum = 0;
+                let totalVerbaSum = 0;
+                let totalCargasSum = 0;
+
+                itens?.forEach((item) => {
+                  const currentVerbaUnid = editedVerbas[item.id] ?? item.verbaUnid ?? 0;
+                  const verbaCx = currentVerbaUnid && item.embCompra && (currentVerbaUnid * item.embCompra) !== 0
+                    ? currentVerbaUnid * item.embCompra
+                    : null;
+
+                  const totalNf = item.qtdPedido && item.precoNf
+                    ? item.qtdPedido * Number(item.precoNf)
+                    : 0;
+                  const totalNiv = item.precoNiv && item.qtdPedido
+                    ? (Number(item.precoNiv) * item.qtdPedido) || 0
+                    : 0;
+                  const totalVerba = verbaCx && item.qtdPedido
+                    ? (verbaCx * item.qtdPedido) || 0
+                    : 0;
+                  const cargas = item.qtdPallet ? item.qtdPallet / 28 : 0;
+
+                  totalNfSum += totalNf;
+                  totalNivSum += totalNiv;
+                  totalVerbaSum += totalVerba;
+                  totalCargasSum += cargas;
+                });
+
+                const percentInvestimento = totalNivSum > 0 ? (totalVerbaSum / totalNivSum) * 100 : 0;
+
+                return (
+                  <>
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-muted-foreground">NF</div>
+                      <div className="text-2xl font-bold">
+                        R$ {totalNfSum.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-muted-foreground">NIV</div>
+                      <div className="text-2xl font-bold">
+                        R$ {totalNivSum.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-muted-foreground">INVESTIMENTO</div>
+                      <div className="text-2xl font-bold">
+                        R$ {totalVerbaSum.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-muted-foreground">% INVESTIMENTO</div>
+                      <div className="text-2xl font-bold">
+                        {percentInvestimento.toFixed(2)}%
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-muted-foreground">TOTAL CARGAS</div>
+                      <div className="text-2xl font-bold">
+                        {totalCargasSum.toFixed(2)}
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Card de Itens */}
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
