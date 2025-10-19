@@ -212,7 +212,7 @@ const Sugestao = () => {
               <Lightbulb className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Sugestão - {config.nome}</h1>
+              <h1 className="text-3xl font-bold text-foreground">Sugestão</h1>
               <p className="text-muted-foreground">Sugestões de compra baseadas em análise de vendas</p>
             </div>
           </div>
