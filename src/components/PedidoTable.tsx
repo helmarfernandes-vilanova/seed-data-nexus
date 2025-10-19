@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Pencil } from "lucide-react";
+import { Pencil, Eye } from "lucide-react";
 
 interface PedidoTableProps {
   empresaCodigo: string;
@@ -58,6 +58,10 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
     navigate(`/sugestao/501-hc?pedido=${pedidoId}`);
   };
 
+  const handleView = (pedidoId: string) => {
+    navigate(`/pedido/501-hc/detalhes/${pedidoId}`);
+  };
+
   if (isLoading) {
     return <div className="text-center py-8">Carregando...</div>;
   }
@@ -94,13 +98,24 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
               <TableCell className="text-right">{pedido.totalItens}</TableCell>
               <TableCell>{pedido.observacoes || "-"}</TableCell>
               <TableCell className="text-center">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleEdit(pedido.id)}
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
+                <div className="flex gap-2 justify-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleView(pedido.id)}
+                    title="Visualizar"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleEdit(pedido.id)}
+                    title="Editar"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
