@@ -32,7 +32,6 @@ export function AppSidebar() {
       <SidebarContent>
         {/* Menu Estoque */}
         <SidebarGroup>
-          <SidebarGroupLabel>Sistema</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -49,7 +48,6 @@ export function AppSidebar() {
 
         {/* Menu NIV */}
         <SidebarGroup>
-          <SidebarGroupLabel>NIV</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {nivItems.map((item) => (
@@ -68,7 +66,6 @@ export function AppSidebar() {
 
         {/* Menu Compras */}
         <SidebarGroup>
-          <SidebarGroupLabel>Compras</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {comprasItems.map((item) => (
