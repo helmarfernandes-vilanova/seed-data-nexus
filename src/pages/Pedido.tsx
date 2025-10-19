@@ -30,7 +30,7 @@ const Pedido = () => {
               <ShoppingCart className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Pedido - {config.nome}</h1>
+              <h1 className="text-3xl font-bold text-foreground">Pedido</h1>
               <p className="text-muted-foreground">Pedidos salvos a partir das sugestões de compra</p>
             </div>
           </div>
@@ -40,7 +40,7 @@ const Pedido = () => {
       <main className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Pedidos - {config.nome}</CardTitle>
+            <CardTitle>Pedidos</CardTitle>
             <CardDescription>
               Lista de pedidos salvos a partir das sugestões de compra
             </CardDescription>
