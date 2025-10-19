@@ -12,6 +12,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import LogoutButton from "@/components/LogoutButton";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const nivItems = [
   { title: "NIV", url: "/niv", icon: Building2 },
@@ -24,6 +25,8 @@ const comprasItems = [
 
 export function AppSidebar() {
   const { open } = useSidebar();
+  const isMobile = useIsMobile();
+  const showLabels = open || isMobile;
 
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-muted text-primary font-medium" : "hover:bg-muted/50";
@@ -38,7 +41,7 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <NavLink to="/estoque" end className={getNavCls}>
                     <Package className="h-4 w-4" />
-                    {open && <span>Estoque</span>}
+                    {showLabels && <span>Estoque</span>}
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -48,7 +51,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {showLabels && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -59,7 +62,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {showLabels && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -70,9 +73,9 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className="px-3 py-2">
-          <LogoutButton showLabel={open} />
+          <LogoutButton showLabel={showLabels} />
         </div>
-        {open && (
+        {showLabels && (
           <div className="px-3 py-2 text-xs text-muted-foreground">
             Sistema de Gestão v1.0
           </div>
