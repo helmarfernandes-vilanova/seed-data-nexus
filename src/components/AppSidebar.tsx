@@ -1,4 +1,4 @@
-import { Building2, Package, FileSpreadsheet, Lightbulb, ShoppingCart } from "lucide-react";
+import { Building2, Package, Lightbulb, ShoppingCart } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/sidebar";
 
 const nivItems = [
-  { title: "Importação", url: "/importacao", icon: FileSpreadsheet },
   { title: "NIV", url: "/niv", icon: Building2 },
 ];
 

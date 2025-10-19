@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Building2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CondicoesTable from "@/components/CondicoesTable";
+import ImportDialogNiv from "@/components/ImportDialogNiv";
 
 const Niv = () => {
   const [empresaSelecionada, setEmpresaSelecionada] = useState("501");
@@ -20,14 +21,17 @@ const Niv = () => {
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-              <Building2 className="h-6 w-6 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
+                <Building2 className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground">NIV - Condições Comerciais</h1>
+                <p className="text-muted-foreground">Condições Comerciais do Fornecedor</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">NIV - Condições Comerciais</h1>
-              <p className="text-muted-foreground">Condições Comerciais do Fornecedor</p>
-            </div>
+            <ImportDialogNiv />
           </div>
         </div>
       </header>
