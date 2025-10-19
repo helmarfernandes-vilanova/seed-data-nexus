@@ -1,16 +1,118 @@
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import SugestaoTable from "@/components/SugestaoTable";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const Sugestao = () => {
   const { tipo } = useParams<{ tipo: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const pedidoId = searchParams.get('pedido');
+  const [isSaving, setIsSaving] = useState(false);
+  const tableRef = useRef<{ getEditingData: () => any[] }>(null);
 
   const tipoConfig: Record<string, { nome: string; empresaCodigo: string }> = {
     "501-hc": { nome: "501 - HC", empresaCodigo: "501" },
   };
 
   const config = tipo ? tipoConfig[tipo] : null;
+
+  const handleCreatePedido = () => {
+    setSearchParams({});
+    toast.success("Novo pedido iniciado");
+  };
+
+  const handleSavePedido = async () => {
+    if (!config || !tableRef.current) return;
+    
+    setIsSaving(true);
+    try {
+      // Buscar empresa e fornecedor IDs
+      const { data: empresaData } = await supabase
+        .from("empresas")
+        .select("id")
+        .eq("codigo", config.empresaCodigo)
+        .single();
+
+      const { data: fornecedorData } = await supabase
+        .from("fornecedores")
+        .select("id")
+        .eq("codigo", "1941")
+        .single();
+
+      if (!empresaData || !fornecedorData) {
+        throw new Error("Empresa ou fornecedor não encontrado");
+      }
+
+      // Obter dados editados da tabela
+      const editingData = tableRef.current.getEditingData();
+      const itensComQuantidade = editingData.filter(
+        (item) => item.qtdPallet > 0 || item.qtdCamada > 0
+      );
+
+      if (itensComQuantidade.length === 0) {
+        toast.error("Adicione pelo menos um item ao pedido");
+        return;
+      }
+
+      let currentPedidoId = pedidoId;
+
+      // Se não estiver editando, criar novo pedido
+      if (!currentPedidoId) {
+        const { data: novoPedido, error: pedidoError } = await supabase
+          .from("pedidos")
+          .insert({
+            empresa_id: empresaData.id,
+            fornecedor_id: fornecedorData.id,
+            status: "rascunho",
+          })
+          .select()
+          .single();
+
+        if (pedidoError) throw pedidoError;
+        currentPedidoId = novoPedido.id;
+      } else {
+        // Se estiver editando, remover itens antigos
+        await supabase
+          .from("pedidos_itens")
+          .delete()
+          .eq("pedido_id", currentPedidoId);
+
+        // Atualizar data de atualização do pedido
+        await supabase
+          .from("pedidos")
+          .update({ data_atualizacao: new Date().toISOString() })
+          .eq("id", currentPedidoId);
+      }
+
+      // Inserir itens do pedido
+      const itensParaInserir = itensComQuantidade.map((item) => ({
+        pedido_id: currentPedidoId,
+        produto_id: item.produtoId,
+        qtd_pallet: item.qtdPallet,
+        qtd_camada: item.qtdCamada,
+        qtd_pedido: item.pedido,
+      }));
+
+      const { error: itensError } = await supabase
+        .from("pedidos_itens")
+        .insert(itensParaInserir);
+
+      if (itensError) throw itensError;
+
+      toast.success("Pedido salvo com sucesso!");
+      navigate(`/pedido/501-hc`);
+    } catch (error) {
+      console.error("Erro ao salvar pedido:", error);
+      toast.error("Erro ao salvar pedido");
+    } finally {
+      setIsSaving(false);
+    }
+  };
   
   if (!config) {
     return (
@@ -40,13 +142,29 @@ const Sugestao = () => {
       <main className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Sugestão de Compra - {config.nome}</CardTitle>
-            <CardDescription>
-              Análise de DDV e cálculo de pedidos baseado em histórico de vendas
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Sugestão de Compra - {config.nome}</CardTitle>
+                <CardDescription>
+                  Análise de DDV e cálculo de pedidos baseado em histórico de vendas
+                </CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido}>
+                  Criar Pedido
+                </Button>
+                <Button disabled={isSaving} onClick={handleSavePedido}>
+                  {isSaving ? "Salvando..." : "Salvar Pedido"}
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
-            <SugestaoTable empresaCodigo={config.empresaCodigo} />
+            <SugestaoTable 
+              ref={tableRef}
+              empresaCodigo={config.empresaCodigo} 
+              pedidoId={pedidoId || undefined}
+            />
           </CardContent>
         </Card>
       </main>

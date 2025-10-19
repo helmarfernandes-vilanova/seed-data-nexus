@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Table,
@@ -10,132 +10,184 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 interface SugestaoTableProps {
   empresaCodigo: string;
+  pedidoId?: string;
 }
 
-const SugestaoTable = ({ empresaCodigo }: SugestaoTableProps) => {
-  const queryClient = useQueryClient();
-  const [editingRow, setEditingRow] = useState<{ [key: string]: { qtdPallet: number; qtdCamada: number } }>({});
+export interface SugestaoTableRef {
+  getEditingData: () => any[];
+}
 
-  const { data: sugestoes, isLoading } = useQuery({
-    queryKey: ["sugestao", empresaCodigo],
-    queryFn: async () => {
-      // Buscar empresa ID
-      const { data: empresaData } = await supabase
-        .from("empresas")
-        .select("id")
-        .eq("codigo", empresaCodigo)
-        .single();
+const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
+  ({ empresaCodigo, pedidoId }, ref) => {
+    const [editingRow, setEditingRow] = useState<{ [key: string]: { qtdPallet: number; qtdCamada: number } }>({});
 
-      if (!empresaData) throw new Error("Empresa não encontrada");
+    const { data: sugestoes, isLoading } = useQuery({
+      queryKey: ["sugestao", empresaCodigo],
+      queryFn: async () => {
+        // Buscar empresa ID
+        const { data: empresaData } = await supabase
+          .from("empresas")
+          .select("id")
+          .eq("codigo", empresaCodigo)
+          .single();
 
-      // Buscar fornecedor 1941
-      const { data: fornecedorData } = await supabase
-        .from("fornecedores")
-        .select("id")
-        .eq("codigo", "1941")
-        .single();
+        if (!empresaData) throw new Error("Empresa não encontrada");
 
-      if (!fornecedorData) throw new Error("Fornecedor 1941 não encontrado");
+        // Buscar fornecedor 1941
+        const { data: fornecedorData } = await supabase
+          .from("fornecedores")
+          .select("id")
+          .eq("codigo", "1941")
+          .single();
 
-      // Buscar estoque com produtos filtrado por fornecedor 1941 e empresa 501
-      const { data: estoqueData, error: estoqueError } = await supabase
-        .from("estoque")
-        .select(`
-          *,
-          produto:produtos!inner(
-            codigo,
-            ean,
-            descricao,
-            qt_cx_compra,
-            fornecedor_id,
-            categoria:categorias(nome)
-          )
-        `)
-        .eq("empresa_id", empresaData.id)
-        .eq("produto.fornecedor_id", fornecedorData.id);
+        if (!fornecedorData) throw new Error("Fornecedor 1941 não encontrado");
 
-      if (estoqueError) throw estoqueError;
+        // Buscar estoque com produtos filtrado por fornecedor 1941 e empresa 501
+        const { data: estoqueData, error: estoqueError } = await supabase
+          .from("estoque")
+          .select(`
+            *,
+            produto:produtos!inner(
+              codigo,
+              ean,
+              descricao,
+              qt_cx_compra,
+              fornecedor_id,
+              categoria:categorias(nome)
+            )
+          `)
+          .eq("empresa_id", empresaData.id)
+          .eq("produto.fornecedor_id", fornecedorData.id);
 
-      // Buscar condições comerciais para empresa 501
-      const { data: condicoesData } = await supabase
-        .from("condicoes_comerciais")
-        .select("*")
-        .eq("empresa_id", empresaData.id);
+        if (estoqueError) throw estoqueError;
 
-      // Combinar dados e calcular métricas
-      return estoqueData?.map((item) => {
-        // Buscar condição comercial pelo código do produto
-        const condicao = condicoesData?.find(
-          (c) => c.codigo_sku === item.produto?.codigo || c.codigo_ean === item.produto?.ean
-        );
-        
-        console.log('Produto:', item.produto?.codigo, 'Condição encontrada:', condicao);
+        // Buscar condições comerciais para empresa 501
+        const { data: condicoesData } = await supabase
+          .from("condicoes_comerciais")
+          .select("*")
+          .eq("empresa_id", empresaData.id);
 
-        // DDV Média último Mês: SOMA(estoque + pendente + ?) / (mes_1 / 30)
-        const somaEstoquePendente = (item.qtd_disponivel || 0) + (item.pendente || 0);
-        const ddvUltimoMes = item.m_1 && item.m_1 > 0
-          ? somaEstoquePendente / (item.m_1 / 30)
-          : null;
+        // Combinar dados e calcular métricas
+        return estoqueData?.map((item) => {
+          // Buscar condição comercial pelo código do produto
+          const condicao = condicoesData?.find(
+            (c) => c.codigo_sku === item.produto?.codigo || c.codigo_ean === item.produto?.ean
+          );
+          
+          console.log('Produto:', item.produto?.codigo, 'Condição encontrada:', condicao);
 
-        // DDV Média 3 Meses: SOMA(estoque + pendente) / ((SOMA(m_1 + m_2 + m_3) / 3) / 30)
-        const somaM123 = (item.m_1 || 0) + (item.m_2 || 0) + (item.m_3 || 0);
-        const mediaM123 = somaM123 / 3;
-        const ddv3Meses = mediaM123 > 0
-          ? somaEstoquePendente / (mediaM123 / 30)
-          : null;
+          // DDV Média último Mês: SOMA(estoque + pendente + ?) / (mes_1 / 30)
+          const somaEstoquePendente = (item.qtd_disponivel || 0) + (item.pendente || 0);
+          const ddvUltimoMes = item.m_1 && item.m_1 > 0
+            ? somaEstoquePendente / (item.m_1 / 30)
+            : null;
 
-        return {
-          id: item.id,
-          codigoProduto: item.produto?.codigo || "",
-          ean: item.produto?.ean || "",
-          descricao: item.produto?.descricao || "",
-          categoria: item.produto?.categoria?.nome || "",
-          embCompra: item.produto?.qt_cx_compra || 0,
-          estoque: item.qtd_disponivel || 0,
-          pendente: item.pendente || 0,
-          ddvUltimoMes: ddvUltimoMes ? Number(ddvUltimoMes.toFixed(2)) : null,
-          ddv3Meses: ddv3Meses ? Number(ddv3Meses.toFixed(2)) : null,
-          diasEstoque: item.dias_estoque || 0,
-          mes3: item.m_3 || 0,
-          mes2: item.m_2 || 0,
-          mes1: item.m_1 || 0,
-          mesAtual: item.m_0 || 0,
-          caixasPorPallet: condicao?.caixas_por_pallet || 0,
-          caixasPorCamada: condicao?.caixas_por_camada || 0,
-          qtdPallet: 0,
-          qtdCamada: 0,
+          // DDV Média 3 Meses: SOMA(estoque + pendente) / ((SOMA(m_1 + m_2 + m_3) / 3) / 30)
+          const somaM123 = (item.m_1 || 0) + (item.m_2 || 0) + (item.m_3 || 0);
+          const mediaM123 = somaM123 / 3;
+          const ddv3Meses = mediaM123 > 0
+            ? somaEstoquePendente / (mediaM123 / 30)
+            : null;
+
+          return {
+            id: item.id,
+            produtoId: item.produto_id,
+            codigoProduto: item.produto?.codigo || "",
+            ean: item.produto?.ean || "",
+            descricao: item.produto?.descricao || "",
+            categoria: item.produto?.categoria?.nome || "",
+            embCompra: item.produto?.qt_cx_compra || 0,
+            estoque: item.qtd_disponivel || 0,
+            pendente: item.pendente || 0,
+            ddvUltimoMes: ddvUltimoMes ? Number(ddvUltimoMes.toFixed(2)) : null,
+            ddv3Meses: ddv3Meses ? Number(ddv3Meses.toFixed(2)) : null,
+            diasEstoque: item.dias_estoque || 0,
+            mes3: item.m_3 || 0,
+            mes2: item.m_2 || 0,
+            mes1: item.m_1 || 0,
+            mesAtual: item.m_0 || 0,
+            caixasPorPallet: condicao?.caixas_por_pallet || 0,
+            caixasPorCamada: condicao?.caixas_por_camada || 0,
+            qtdPallet: 0,
+            qtdCamada: 0,
+          };
+        }) || [];
+      },
+    });
+
+    // Carregar dados do pedido se estiver editando
+    useEffect(() => {
+      if (pedidoId && sugestoes) {
+        const loadPedidoData = async () => {
+          const { data: itens } = await supabase
+            .from("pedidos_itens")
+            .select("produto_id, qtd_pallet, qtd_camada")
+            .eq("pedido_id", pedidoId);
+
+          if (itens) {
+            const editData: { [key: string]: { qtdPallet: number; qtdCamada: number } } = {};
+            // Mapear produto_id para estoque.id
+            itens.forEach((item) => {
+              if (item.produto_id) {
+                // Encontrar o item de sugestão correspondente
+                const sugestaoItem = sugestoes.find(
+                  (sug) => sug.produtoId === item.produto_id
+                );
+                if (sugestaoItem) {
+                  editData[sugestaoItem.id] = {
+                    qtdPallet: item.qtd_pallet,
+                    qtdCamada: item.qtd_camada,
+                  };
+                }
+              }
+            });
+            setEditingRow(editData);
+          }
         };
-      }) || [];
-    },
-  });
+        loadPedidoData();
+      }
+    }, [pedidoId, sugestoes]);
 
-  const handleQtdChange = (id: string, field: "qtdPallet" | "qtdCamada", value: string) => {
-    const numValue = parseInt(value) || 0;
-    setEditingRow((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [field]: numValue,
+    const calcularPedido = (item: any) => {
+      const editing = editingRow[item.id] || { qtdPallet: 0, qtdCamada: 0 };
+      const pedidoPallet = editing.qtdPallet > 0 ? editing.qtdPallet * item.caixasPorPallet : 0;
+      const pedidoCamada = editing.qtdCamada > 0 ? editing.qtdCamada * item.caixasPorCamada : 0;
+      return pedidoPallet + pedidoCamada;
+    };
+
+    // Expor função para obter dados editados
+    useImperativeHandle(ref, () => ({
+      getEditingData: () => {
+        if (!sugestoes) return [];
+        return sugestoes.map((item) => ({
+          id: item.id,
+          produtoId: item.produtoId,
+          qtdPallet: editingRow[item.id]?.qtdPallet || 0,
+          qtdCamada: editingRow[item.id]?.qtdCamada || 0,
+          pedido: calcularPedido(item),
+        }));
       },
     }));
-  };
 
-  const calcularPedido = (item: any) => {
-    const editing = editingRow[item.id] || { qtdPallet: 0, qtdCamada: 0 };
-    const pedidoPallet = editing.qtdPallet > 0 ? editing.qtdPallet * item.caixasPorPallet : 0;
-    const pedidoCamada = editing.qtdCamada > 0 ? editing.qtdCamada * item.caixasPorCamada : 0;
-    return pedidoPallet + pedidoCamada;
-  };
+    const handleQtdChange = (id: string, field: "qtdPallet" | "qtdCamada", value: string) => {
+      const numValue = parseInt(value) || 0;
+      setEditingRow((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          [field]: numValue,
+        },
+      }));
+    };
 
-  if (isLoading) {
-    return <div className="text-center py-8">Carregando...</div>;
-  }
+    if (isLoading) {
+      return <div className="text-center py-8">Carregando...</div>;
+    }
 
-  return (
+    return (
     <div className="rounded-md border overflow-x-auto">
       <Table>
         <TableHeader>
@@ -215,6 +267,8 @@ const SugestaoTable = ({ empresaCodigo }: SugestaoTableProps) => {
       </Table>
     </div>
   );
-};
+});
+
+SugestaoTable.displayName = "SugestaoTable";
 
 export default SugestaoTable;

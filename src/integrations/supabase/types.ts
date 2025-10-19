@@ -208,6 +208,96 @@ export type Database = {
         }
         Relationships: []
       }
+      pedidos: {
+        Row: {
+          data_atualizacao: string
+          data_criacao: string
+          empresa_id: string | null
+          fornecedor_id: string | null
+          id: string
+          observacoes: string | null
+          status: string
+        }
+        Insert: {
+          data_atualizacao?: string
+          data_criacao?: string
+          empresa_id?: string | null
+          fornecedor_id?: string | null
+          id?: string
+          observacoes?: string | null
+          status?: string
+        }
+        Update: {
+          data_atualizacao?: string
+          data_criacao?: string
+          empresa_id?: string | null
+          fornecedor_id?: string | null
+          id?: string
+          observacoes?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_fornecedor_id_fkey"
+            columns: ["fornecedor_id"]
+            isOneToOne: false
+            referencedRelation: "fornecedores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pedidos_itens: {
+        Row: {
+          created_at: string
+          id: string
+          pedido_id: string
+          produto_id: string | null
+          qtd_camada: number
+          qtd_pallet: number
+          qtd_pedido: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pedido_id: string
+          produto_id?: string | null
+          qtd_camada?: number
+          qtd_pallet?: number
+          qtd_pedido?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pedido_id?: string
+          produto_id?: string | null
+          qtd_camada?: number
+          qtd_pallet?: number
+          qtd_pedido?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_itens_pedido_id_fkey"
+            columns: ["pedido_id"]
+            isOneToOne: false
+            referencedRelation: "pedidos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_itens_produto_id_fkey"
+            columns: ["produto_id"]
+            isOneToOne: false
+            referencedRelation: "produtos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       produtos: {
         Row: {
           categoria_id: string | null

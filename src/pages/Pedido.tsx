@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart } from "lucide-react";
+import PedidoTable from "@/components/PedidoTable";
 
 const Pedido = () => {
   const { tipo } = useParams<{ tipo: string }>();
@@ -41,13 +42,11 @@ const Pedido = () => {
           <CardHeader>
             <CardTitle>Pedidos - {config.nome}</CardTitle>
             <CardDescription>
-              Lista de pedidos salvos. Vamos definir as colunas juntos.
+              Lista de pedidos salvos a partir das sugestões de compra
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-muted-foreground">
-              Estrutura em preparação. Quais colunas você gostaria de incluir?
-            </div>
+            <PedidoTable empresaCodigo={config.empresaCodigo} />
           </CardContent>
         </Card>
       </main>
