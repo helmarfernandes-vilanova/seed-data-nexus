@@ -116,14 +116,9 @@ const Importacao = () => {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 md:py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
-                <FileSpreadsheet className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-3xl font-bold text-foreground">Importação NIV</h1>
-                <p className="text-sm text-muted-foreground">Importe condições comerciais de todas as empresas</p>
-              </div>
+            <div>
+              <h1 className="text-xl md:text-3xl font-bold text-foreground">Importação NIV</h1>
+              <p className="text-sm text-muted-foreground">Importe condições comerciais de todas as empresas</p>
             </div>
             <ClearDatabaseButton />
           </div>

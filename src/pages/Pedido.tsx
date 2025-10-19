@@ -25,14 +25,9 @@ const Pedido = () => {
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-primary flex items-center justify-center">
-              <ShoppingCart className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Pedido</h1>
-              <p className="text-sm text-muted-foreground">Pedidos salvos a partir das sugestões de compra</p>
-            </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">Pedido</h1>
+            <p className="text-sm text-muted-foreground">Pedidos salvos a partir das sugestões de compra</p>
           </div>
         </div>
       </header>
