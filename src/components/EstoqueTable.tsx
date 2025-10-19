@@ -132,10 +132,10 @@ const EstoqueTable = () => {
                 {item.m_0 !== null && item.m_0 !== undefined ? Number(item.m_0).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right py-1">
-                {item.custo_un ? `R$ ${Number(item.custo_un).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : "-"}
+                {item.custo_un ? Number(item.custo_un).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right font-medium py-1">
-                {item.custo_cx ? `R$ ${Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : "-"}
+                {item.custo_cx ? Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
               <TableCell className="text-right py-1">
                 {item.livro !== null && item.livro !== undefined ? Number(item.livro).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
