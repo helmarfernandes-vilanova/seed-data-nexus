@@ -134,11 +134,11 @@ const PedidoDetalhes = () => {
                       <TableHead className="min-w-[200px]">Descrição</TableHead>
                       <TableHead>Categoria</TableHead>
                       <TableHead className="text-right">Emb Compra</TableHead>
+                      <TableHead className="text-right">Preço cx NIV</TableHead>
+                      <TableHead className="text-right">Preço unid NIV</TableHead>
                       <TableHead className="text-center">Qtd Pallet</TableHead>
                       <TableHead className="text-center">Qtd Camada</TableHead>
                       <TableHead className="text-right">Total Pedido</TableHead>
-                      <TableHead className="text-right">Preço cx NIV</TableHead>
-                      <TableHead className="text-right">Preço unid NIV</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -154,11 +154,6 @@ const PedidoDetalhes = () => {
                           <TableCell>{item.descricao}</TableCell>
                           <TableCell>{item.categoria}</TableCell>
                           <TableCell className="text-right">{item.embCompra}</TableCell>
-                          <TableCell className="text-center">{item.qtdPallet}</TableCell>
-                          <TableCell className="text-center">{item.qtdCamada}</TableCell>
-                          <TableCell className="text-right font-medium">
-                            {item.qtdPedido}
-                          </TableCell>
                           <TableCell className="text-right">
                             {item.precoNiv ? `R$ ${item.precoNiv.toFixed(2)}` : "-"}
                           </TableCell>
@@ -166,6 +161,11 @@ const PedidoDetalhes = () => {
                             {precoUnidNiv && precoUnidNiv > 0
                               ? `R$ ${precoUnidNiv.toFixed(2)}`
                               : "-"}
+                          </TableCell>
+                          <TableCell className="text-center">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-center">{item.qtdCamada}</TableCell>
+                          <TableCell className="text-right font-medium">
+                            {item.qtdPedido}
                           </TableCell>
                         </TableRow>
                       );
