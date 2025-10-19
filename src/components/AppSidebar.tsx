@@ -3,14 +3,15 @@ import { NavLink } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import LogoutButton from "@/components/LogoutButton";
 
 const nivItems = [
   { title: "NIV", url: "/niv", icon: Building2 },
@@ -67,6 +68,14 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <div className="px-3 py-2">
+          <LogoutButton />
+        </div>
+        <div className="px-3 py-2 text-xs text-muted-foreground">
+          Sistema de Gestão v1.0
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }

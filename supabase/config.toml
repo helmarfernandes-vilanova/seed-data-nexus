@@ -1,7 +1,1 @@
 project_id = "gacvkqawxoeexujghqph"
-
-[functions.import-estoque]
-verify_jwt = false
-
-[functions.clear-database]
-verify_jwt = false
