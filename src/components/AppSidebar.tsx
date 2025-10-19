@@ -30,7 +30,6 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
-        {/* Menu Estoque */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -42,14 +41,7 @@ export function AppSidebar() {
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        {/* Menu NIV */}
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
+              
               {nivItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild>
@@ -60,14 +52,7 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        {/* Menu Compras */}
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
+              
               {comprasItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild>
