@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -11,11 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ShoppingCart, ArrowLeft } from "lucide-react";
+import { ShoppingCart, ArrowLeft, Save } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const PedidoDetalhes = () => {
   const { pedidoId } = useParams<{ pedidoId: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [editedVerbas, setEditedVerbas] = useState<Record<string, number>>({});
 
   const { data: pedido, isLoading: pedidoLoading } = useQuery({
     queryKey: ["pedido", pedidoId],
@@ -132,6 +137,46 @@ const PedidoDetalhes = () => {
     enabled: !!pedidoId,
   });
 
+  const updateVerbasMutation = useMutation({
+    mutationFn: async (updates: Array<{ id: string; verba_unid: number }>) => {
+      for (const update of updates) {
+        const { error } = await supabase
+          .from("pedidos_itens")
+          .update({ verba_unid: update.verba_unid })
+          .eq("id", update.id);
+
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pedido-itens", pedidoId] });
+      setEditedVerbas({});
+      toast.success("Verbas atualizadas com sucesso!");
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar verbas");
+    },
+  });
+
+  const handleSaveVerbas = () => {
+    const updates = Object.entries(editedVerbas).map(([id, verba_unid]) => ({
+      id,
+      verba_unid,
+    }));
+
+    if (updates.length > 0) {
+      updateVerbasMutation.mutate(updates);
+    }
+  };
+
+  const handleVerbaChange = (itemId: string, value: string) => {
+    const numValue = parseFloat(value) || 0;
+    setEditedVerbas((prev) => ({
+      ...prev,
+      [itemId]: numValue,
+    }));
+  };
+
   if (pedidoLoading || itensLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -178,11 +223,21 @@ const PedidoDetalhes = () => {
       <main className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Itens do Pedido</CardTitle>
-            <CardDescription>
-              Status: <span className="capitalize font-medium">{pedido.status}</span>
-              {pedido.observacoes && ` • ${pedido.observacoes}`}
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Itens do Pedido</CardTitle>
+                <CardDescription>
+                  Status: <span className="capitalize font-medium">{pedido.status}</span>
+                  {pedido.observacoes && ` • ${pedido.observacoes}`}
+                </CardDescription>
+              </div>
+              {Object.keys(editedVerbas).length > 0 && (
+                <Button onClick={handleSaveVerbas} disabled={updateVerbasMutation.isPending}>
+                  <Save className="h-4 w-4 mr-2" />
+                  Salvar Alterações
+                </Button>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
             {!itens || itens.length === 0 ? (
@@ -224,6 +279,9 @@ const PedidoDetalhes = () => {
                   </TableHeader>
                   <TableBody>
                     {itens.map((item) => {
+                      // Use edited value if available, otherwise use stored value
+                      const currentVerbaUnid = editedVerbas[item.id] ?? item.verbaUnid ?? 0;
+                      
                       const precoUnidNiv = item.embCompra && item.precoNiv
                         ? Number(item.precoNiv) / item.embCompra
                         : null;
@@ -233,8 +291,8 @@ const PedidoDetalhes = () => {
                         : null;
 
                       // Desc off NF: SE(I9=0; ""; SE(R9=0; ""; SE(S9/I9=0; ""; S9/I9)))
-                      const verbaCx = item.verbaUnid && item.embCompra
-                        ? Number(item.verbaUnid) * item.embCompra
+                      const verbaCx = currentVerbaUnid && item.embCompra
+                        ? currentVerbaUnid * item.embCompra
                         : null;
                       
                       const descOffNf = item.precoNiv && item.verbaUnid && verbaCx
@@ -242,8 +300,8 @@ const PedidoDetalhes = () => {
                         : null;
 
                       // Preço final: SE(L9=""; ""; M9-R9)
-                      const precoFinal = item.precoNf && precoUnidNf && item.verbaUnid
-                        ? precoUnidNf - Number(item.verbaUnid)
+                      const precoFinal = item.precoNf && precoUnidNf && currentVerbaUnid
+                        ? precoUnidNf - currentVerbaUnid
                         : null;
 
                       // Novo Estoque: SE(ÉERROS(SOMA(V9;U9)); ""; SOMA(V9;U9))
@@ -306,7 +364,15 @@ const PedidoDetalhes = () => {
                             {descOffNf ? `${(descOffNf * 100).toFixed(2)}%` : "-"}
                           </TableCell>
                           <TableCell className="text-right">
-                            {item.verbaUnid ? `R$ ${Number(item.verbaUnid).toFixed(2)}` : "-"}
+                            <Input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={currentVerbaUnid || ""}
+                              onChange={(e) => handleVerbaChange(item.id, e.target.value)}
+                              className="w-24 text-right"
+                              placeholder="0.00"
+                            />
                           </TableCell>
                           <TableCell className="text-right">
                             {verbaCx ? `R$ ${verbaCx.toFixed(2)}` : "-"}
