@@ -210,8 +210,8 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             <TableHead className="min-w-[250px] text-slate-50 font-semibold">Descrição</TableHead>
             <TableHead className="text-slate-50 font-semibold">Categoria</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Emb Compra</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold">Estoque</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold">Pendente</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold bg-orange-700">Estoque</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold bg-orange-700">Pendente</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">DDV Média Último Mês</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">DDV Média 3 Meses</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Dias Estoque</TableHead>
@@ -219,7 +219,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             <TableHead className="text-right text-slate-50 font-semibold">Mês -2</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Mês -1</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Mês Atual</TableHead>
-            <TableHead className="text-right text-slate-50 font-semibold">Pedido</TableHead>
+            <TableHead className="text-right text-slate-50 font-semibold bg-orange-700">Pedido</TableHead>
             <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold">Qtd Pallet</TableHead>
             <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold">Qtd Camada</TableHead>
             <TableHead className="text-right text-slate-50 font-semibold">Qtd no Pallet</TableHead>
@@ -239,10 +239,10 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                 <TableCell className="text-sm">{item.descricao}</TableCell>
                 <TableCell className="text-xs text-muted-foreground">{item.categoria}</TableCell>
                 <TableCell className="text-right font-medium">{item.embCompra}</TableCell>
-                <TableCell className={`text-right font-medium ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
+                <TableCell className={`text-right font-medium bg-orange-50 dark:bg-orange-950/30 ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.estoque.toFixed(0)}
                 </TableCell>
-                <TableCell className={`text-right ${item.pendente > 0 ? 'font-medium' : ''}`}>
+                <TableCell className={`text-right bg-orange-50 dark:bg-orange-950/30 ${item.pendente > 0 ? 'font-medium' : ''}`}>
                   {item.pendente.toFixed(0)}
                 </TableCell>
                 <TableCell className={`text-right ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
@@ -258,7 +258,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                 <TableCell className="text-right">{item.mes2.toFixed(0)}</TableCell>
                 <TableCell className="text-right">{item.mes1.toFixed(0)}</TableCell>
                 <TableCell className="text-right">{item.mesAtual.toFixed(0)}</TableCell>
-                <TableCell className={`text-right ${getPedidoColorClass(pedido)}`}>
+                <TableCell className={`text-right bg-orange-50 dark:bg-orange-950/30 ${getPedidoColorClass(pedido)}`}>
                   {pedido}
                 </TableCell>
                 <TableCell className="text-center">
