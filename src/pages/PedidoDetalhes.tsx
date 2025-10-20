@@ -461,7 +461,7 @@ const PedidoDetalhes = () => {
                               }
                               onChange={(e) => handleVerbaChange(item.id, e.target.value)}
                               onBlur={() => handleVerbaBlur(item.id)}
-                              className="w-20 h-7 text-right text-xs [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                              className="w-20 h-7 text-right font-bold text-base bg-blue-50 dark:bg-blue-950/50 border-2 border-blue-300 dark:border-blue-700 focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               placeholder="0,00"
                             />
                           </TableCell>
