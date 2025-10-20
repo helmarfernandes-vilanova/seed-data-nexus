@@ -118,12 +118,6 @@ export function AppSidebar() {
         <div className="px-3 py-3">
           <LogoutButton showLabel={showLabels} />
         </div>
-        {showLabels && (
-          <div className="px-4 py-3 text-xs text-sidebar-foreground/50 bg-sidebar-accent/30">
-            <p className="font-medium">v1.0</p>
-            <p className="mt-0.5">Sistema de Compras</p>
-          </div>
-        )}
       </SidebarFooter>
     </Sidebar>
   );
