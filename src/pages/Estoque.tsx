@@ -139,7 +139,7 @@ const Estoque = () => {
                       <SelectItem value="all">Todas as empresas</SelectItem>
                       {empresas?.map((empresa) => (
                         <SelectItem key={empresa.codigo} value={empresa.codigo}>
-                          {empresa.codigo} - {empresa.nome}
+                          {empresa.codigo}
                         </SelectItem>
                       ))}
                     </SelectContent>
