@@ -178,8 +178,23 @@ Deno.serve(async (req) => {
 
     // Processar cada aba
     for (const sheetName of workbook.SheetNames) {
-      // Verificar se o nome da aba é um código de empresa válido (501, 502, 1, etc)
-      const empresaCodigo = sheetName.trim();
+      // Mapear nomes das abas para códigos de empresa
+      let empresaCodigo = sheetName.trim();
+      
+      // Aplicar mapeamento de nomes
+      if (empresaCodigo === 'MM_501') {
+        empresaCodigo = '501';
+      } else if (empresaCodigo === 'MM_502') {
+        empresaCodigo = '502';
+      } else if (empresaCodigo === 'NIV_1') {
+        empresaCodigo = '1';
+      } else if (empresaCodigo === 'NIV_12') {
+        empresaCodigo = '12';
+      } else if (empresaCodigo === 'NIV_14') {
+        empresaCodigo = '14';
+      } else if (empresaCodigo === 'NIV_510') {
+        empresaCodigo = '510';
+      }
       
       console.log(`Processing sheet: ${sheetName} as empresa ${empresaCodigo}`);
       
