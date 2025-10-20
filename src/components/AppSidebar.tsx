@@ -85,7 +85,7 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
               
-              <Collapsible defaultOpen className="group/collapsible">
+              <Collapsible className="group/collapsible">
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton className="rounded-lg hover:bg-sidebar-accent/50 transition-all duration-200">
