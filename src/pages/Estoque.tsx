@@ -15,11 +15,16 @@ const Estoque = () => {
         supabase.from("produtos").select("id", { count: "exact", head: true }),
         supabase.from("empresas").select("id", { count: "exact", head: true }),
         supabase.from("fornecedores").select("id", { count: "exact", head: true }),
-        supabase.from("estoque").select("qtd_disponivel"),
+        supabase.from("estoque").select("qtd_disponivel, custo_cx"),
         supabase.from("estoque").select("id", { count: "exact", head: true }),
       ]);
 
       const totalItens = estoque.data?.reduce((sum, item) => sum + (Number(item.qtd_disponivel) || 0), 0) || 0;
+      const valorTotalEstoque = estoque.data?.reduce((sum, item) => {
+        const custo = Number(item.custo_cx) || 0;
+        const qtd = Number(item.qtd_disponivel) || 0;
+        return sum + (custo * qtd);
+      }, 0) || 0;
 
       return {
         totalProdutosUnicos: produtos.count || 0,
@@ -27,6 +32,7 @@ const Estoque = () => {
         totalEmpresas: empresas.count || 0,
         totalFornecedores: fornecedores.count || 0,
         totalItensEstoque: totalItens,
+        valorTotalEstoque: valorTotalEstoque,
       };
     },
   });
@@ -37,10 +43,11 @@ const Estoque = () => {
         {/* Cards de Estatísticas */}
         <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4 mb-4 md:mb-8">
           <StatsCard
-            title="Linhas de Estoque"
-            value={stats?.totalLinhasEstoque || 0}
+            title="Valor Total de Estoque"
+            value={stats?.valorTotalEstoque || 0}
             icon={Package}
-            description="Total de itens cadastrados"
+            description="Valor total em estoque"
+            formatAsCurrency={true}
           />
           <StatsCard
             title="Produtos Únicos"
