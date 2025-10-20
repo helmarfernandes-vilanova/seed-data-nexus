@@ -115,7 +115,7 @@ export function AppSidebar() {
       </SidebarContent>
       
       <SidebarFooter className="border-t border-sidebar-border mt-auto">
-        <div className="px-3 py-3">
+        <div className="px-2 py-2">
           <LogoutButton showLabel={showLabels} />
         </div>
       </SidebarFooter>
