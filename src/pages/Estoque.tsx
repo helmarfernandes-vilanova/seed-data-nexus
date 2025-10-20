@@ -11,28 +11,20 @@ const Estoque = () => {
   const { data: stats } = useQuery({
     queryKey: ["stats"],
     queryFn: async () => {
-      const [produtos, empresas, fornecedores, estoque, estoqueTotal] = await Promise.all([
+      const [produtos, empresas, fornecedores, estoqueTotal, valorTotal] = await Promise.all([
         supabase.from("produtos").select("id", { count: "exact", head: true }),
         supabase.from("empresas").select("id", { count: "exact", head: true }),
         supabase.from("fornecedores").select("id", { count: "exact", head: true }),
-        supabase.from("estoque").select("qtd_disponivel, custo_cx"),
         supabase.from("estoque").select("id", { count: "exact", head: true }),
+        supabase.rpc("total_valor_estoque"),
       ]);
-
-      const totalItens = estoque.data?.reduce((sum, item) => sum + (Number(item.qtd_disponivel) || 0), 0) || 0;
-      const valorTotalEstoque = estoque.data?.reduce((sum, item) => {
-        const custo = Number(item.custo_cx) || 0;
-        const qtd = Number(item.qtd_disponivel) || 0;
-        return sum + (custo * qtd);
-      }, 0) || 0;
 
       return {
         totalProdutosUnicos: produtos.count || 0,
         totalLinhasEstoque: estoqueTotal.count || 0,
         totalEmpresas: empresas.count || 0,
         totalFornecedores: fornecedores.count || 0,
-        totalItensEstoque: totalItens,
-        valorTotalEstoque: valorTotalEstoque,
+        valorTotalEstoque: Number(valorTotal.data) || 0,
       };
     },
   });

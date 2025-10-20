@@ -398,6 +398,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      total_valor_estoque: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
     }
     Enums: {
       app_role: "admin" | "user"
