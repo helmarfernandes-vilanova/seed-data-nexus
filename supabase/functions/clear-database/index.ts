@@ -42,10 +42,17 @@ Deno.serve(async (req) => {
       .select('role')
       .eq('user_id', user.id)
       .eq('role', 'admin')
-      .single();
+      .maybeSingle();
 
-    if (roleError || !roleData) {
+    if (roleError) {
       console.error('Admin check error:', roleError);
+      return new Response(
+        JSON.stringify({ error: 'Erro ao verificar permissões.' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!roleData) {
       return new Response(
         JSON.stringify({ error: 'Acesso negado. Apenas administradores podem limpar o banco de dados.' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -54,9 +61,17 @@ Deno.serve(async (req) => {
 
     console.log('Starting database clear by admin:', user.email);
 
+    // Usar o service role para ignorar RLS
+    const supabaseService = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    });
+
     // Deletar na ordem correta para respeitar foreign keys
     console.log('Deleting condicoes_comerciais...');
-    const { error: condicoesError } = await supabase
+    const { error: condicoesError } = await supabaseService
       .from('condicoes_comerciais')
       .delete()
       .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
@@ -67,7 +82,7 @@ Deno.serve(async (req) => {
     }
 
     console.log('Deleting estoque...');
-    const { error: estoqueError } = await supabase
+    const { error: estoqueError } = await supabaseService
       .from('estoque')
       .delete()
       .neq('id', '00000000-0000-0000-0000-000000000000');
@@ -78,7 +93,7 @@ Deno.serve(async (req) => {
     }
 
     console.log('Deleting produtos...');
-    const { error: produtosError } = await supabase
+    const { error: produtosError } = await supabaseService
       .from('produtos')
       .delete()
       .neq('id', '00000000-0000-0000-0000-000000000000');
@@ -89,7 +104,7 @@ Deno.serve(async (req) => {
     }
 
     console.log('Deleting categorias...');
-    const { error: categoriasError } = await supabase
+    const { error: categoriasError } = await supabaseService
       .from('categorias')
       .delete()
       .neq('id', '00000000-0000-0000-0000-000000000000');
@@ -100,7 +115,7 @@ Deno.serve(async (req) => {
     }
 
     console.log('Deleting fornecedores...');
-    const { error: fornecedoresError } = await supabase
+    const { error: fornecedoresError } = await supabaseService
       .from('fornecedores')
       .delete()
       .neq('id', '00000000-0000-0000-0000-000000000000');
@@ -111,7 +126,7 @@ Deno.serve(async (req) => {
     }
 
     console.log('Deleting empresas...');
-    const { error: empresasError } = await supabase
+    const { error: empresasError } = await supabaseService
       .from('empresas')
       .delete()
       .neq('id', '00000000-0000-0000-0000-000000000000');
