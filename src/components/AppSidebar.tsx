@@ -46,7 +46,7 @@ export function AppSidebar() {
       <SidebarContent className="pt-6">
         {showLabels && (
           <div className="px-4 pb-4 mb-2">
-            <h2 className="text-lg font-bold text-sidebar-foreground">Sistema de Gestão</h2>
+            <h2 className="text-lg font-bold text-sidebar-foreground">Sistema de Compras</h2>
             <p className="text-xs text-sidebar-foreground/60 mt-1">Painel de Controle</p>
           </div>
         )}
@@ -121,7 +121,7 @@ export function AppSidebar() {
         {showLabels && (
           <div className="px-4 py-3 text-xs text-sidebar-foreground/50 bg-sidebar-accent/30">
             <p className="font-medium">v1.0</p>
-            <p className="mt-0.5">Sistema de Gestão</p>
+            <p className="mt-0.5">Sistema de Compras</p>
           </div>
         )}
       </SidebarFooter>
