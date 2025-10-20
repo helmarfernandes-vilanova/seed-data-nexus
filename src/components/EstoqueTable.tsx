@@ -97,26 +97,26 @@ const EstoqueTable = ({
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table>
-        <TableHeader>
+        <TableHeader className="sticky top-0 z-10">
           <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
-            <TableHead className="text-slate-50 font-semibold py-2 text-center">EMPRESA</TableHead>
-            <TableHead className="text-slate-50 font-semibold py-2 text-center">FORNECEDOR</TableHead>
-            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">PRODUTO</TableHead>
-            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
-            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
-            <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">QT CX<br/>COMPRA</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">QTD<br/>DISPONÍVEL</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">PENDENTE</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">DIAS<br/>ESTOQUE</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">M-3</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">M-2</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">M-1</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">M-0</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>UN</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>CX</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">VALOR<br/>ESTOQUE</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">LIVRO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center bg-slate-900">EMPRESA</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center bg-slate-900">FORNECEDOR</TableHead>
+            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center bg-slate-900">PRODUTO</TableHead>
+            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center bg-slate-900">EAN</TableHead>
+            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center bg-slate-900">DESCRIÇÃO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center bg-slate-900">CATEGORIA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">QT CX<br/>COMPRA</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">QTD<br/>DISPONÍVEL</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">PENDENTE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">DIAS<br/>ESTOQUE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">M-3</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">M-2</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">M-1</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">M-0</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">CUSTO<br/>UN</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">CUSTO<br/>CX</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">VALOR<br/>ESTOQUE</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2 bg-slate-900">LIVRO</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
