@@ -39,6 +39,7 @@ const ClearDatabaseButton = () => {
       // Atualizar todas as queries
       queryClient.invalidateQueries({ queryKey: ["estoque"] });
       queryClient.invalidateQueries({ queryKey: ["produtos"] });
+      queryClient.invalidateQueries({ queryKey: ["pedidos"] });
       queryClient.invalidateQueries({ queryKey: ["stats"] });
 
       toast.success("Banco de dados limpo com sucesso!");
@@ -67,13 +68,14 @@ const ClearDatabaseButton = () => {
             <ul className="list-disc list-inside mt-2 space-y-1">
               <li>Todos os produtos</li>
               <li>Todo o estoque</li>
+              <li>Todos os pedidos e itens de pedidos</li>
               <li>Todas as empresas</li>
               <li>Todos os fornecedores</li>
               <li>Todas as categorias</li>
             </ul>
-            <p className="mt-3 font-semibold text-destructive">
+            <div className="mt-3 font-semibold text-destructive">
               Esta ação não pode ser desfeita!
-            </p>
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

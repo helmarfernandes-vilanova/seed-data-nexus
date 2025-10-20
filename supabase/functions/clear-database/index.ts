@@ -92,6 +92,29 @@ Deno.serve(async (req) => {
       throw estoqueError;
     }
 
+    // Deletar pedidos e itens antes de produtos/empresas/fornecedores
+    console.log('Deleting pedidos_itens...');
+    const { error: pedidosItensError } = await supabaseService
+      .from('pedidos_itens')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000');
+
+    if (pedidosItensError) {
+      console.error('Error deleting pedidos_itens:', pedidosItensError);
+      throw pedidosItensError;
+    }
+
+    console.log('Deleting pedidos...');
+    const { error: pedidosError } = await supabaseService
+      .from('pedidos')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000');
+
+    if (pedidosError) {
+      console.error('Error deleting pedidos:', pedidosError);
+      throw pedidosError;
+    }
+
     console.log('Deleting produtos...');
     const { error: produtosError } = await supabaseService
       .from('produtos')
