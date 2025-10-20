@@ -1,4 +1,4 @@
-import { Building2, Package, Lightbulb, ShoppingCart } from "lucide-react";
+import { Building2, Package, Lightbulb, ShoppingCart, ChevronDown } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -9,8 +9,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import LogoutButton from "@/components/LogoutButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -20,7 +24,11 @@ const nivItems = [
 
 const comprasItems = [
   { title: "Sugestão", url: "/sugestao", icon: Lightbulb },
-  { title: "Pedido", url: "/pedido/501-hc", icon: ShoppingCart },
+];
+
+const pedidoSubItems = [
+  { title: "Pedido 501-HC", url: "/pedido/501-hc" },
+  { title: "Pedido ERP", url: "/pedido/erp" },
 ];
 
 export function AppSidebar() {
@@ -67,6 +75,31 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              
+              <Collapsible defaultOpen className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton>
+                      <ShoppingCart className="h-4 w-4" />
+                      {showLabels && <span>Pedido</span>}
+                      {showLabels && <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />}
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {pedidoSubItems.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.url}>
+                          <SidebarMenuSubButton asChild>
+                            <NavLink to={subItem.url} end className={getNavCls}>
+                              {showLabels && <span>{subItem.title}</span>}
+                            </NavLink>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
