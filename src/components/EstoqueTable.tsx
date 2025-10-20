@@ -10,25 +10,59 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const EstoqueTable = () => {
+interface EstoqueTableProps {
+  empresaCodigo?: string;
+  fornecedorCodigo?: string;
+  codigoOuEan?: string;
+  categoria?: string;
+}
+
+const EstoqueTable = ({ 
+  empresaCodigo = "", 
+  fornecedorCodigo = "", 
+  codigoOuEan = "", 
+  categoria = "todas" 
+}: EstoqueTableProps) => {
   const { data: estoque, isLoading } = useQuery({
-    queryKey: ["estoque"],
+    queryKey: ["estoque", empresaCodigo, fornecedorCodigo, codigoOuEan, categoria],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("estoque")
         .select(`
           *,
-          produto:produtos(
+          produto:produtos!inner(
             codigo,
             descricao,
             ean,
             qt_cx_compra,
             categoria:categorias(nome),
-            fornecedor:fornecedores(codigo)
+            fornecedor:fornecedores!inner(codigo)
           ),
-          empresa:empresas(codigo, nome)
+          empresa:empresas!inner(codigo, nome)
         `)
         .limit(1000);
+
+      // Aplicar filtro de empresa
+      if (empresaCodigo) {
+        query = query.eq("empresa.codigo", empresaCodigo);
+      }
+
+      // Aplicar filtro de fornecedor
+      if (fornecedorCodigo) {
+        query = query.eq("produto.fornecedor.codigo", fornecedorCodigo);
+      }
+
+      // Aplicar filtro de código ou EAN
+      if (codigoOuEan) {
+        query = query.or(`produto.codigo.ilike.%${codigoOuEan}%,produto.ean.ilike.%${codigoOuEan}%`);
+      }
+
+      // Aplicar filtro de categoria
+      if (categoria && categoria !== "todas") {
+        query = query.eq("produto.categoria.nome", categoria);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       
