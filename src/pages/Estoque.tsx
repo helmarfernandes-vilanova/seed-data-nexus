@@ -11,8 +11,8 @@ import ImportDialog from "@/components/ImportDialog";
 import ClearDatabaseButton from "@/components/ClearDatabaseButton";
 
 const Estoque = () => {
-  const [empresaSelecionada, setEmpresaSelecionada] = useState("");
-  const [fornecedorSelecionado, setFornecedorSelecionado] = useState("");
+  const [empresaSelecionada, setEmpresaSelecionada] = useState("all");
+  const [fornecedorSelecionado, setFornecedorSelecionado] = useState("all");
   const [codigoOuEan, setCodigoOuEan] = useState("");
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("todas");
   // Buscar empresas disponíveis
@@ -136,7 +136,7 @@ const Estoque = () => {
                       <SelectValue placeholder="Todas as empresas" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">
-                      <SelectItem value="">Todas as empresas</SelectItem>
+                      <SelectItem value="all">Todas as empresas</SelectItem>
                       {empresas?.map((empresa) => (
                         <SelectItem key={empresa.codigo} value={empresa.codigo}>
                           {empresa.codigo} - {empresa.nome}
@@ -153,7 +153,7 @@ const Estoque = () => {
                       <SelectValue placeholder="Todos os fornecedores" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">
-                      <SelectItem value="">Todos os fornecedores</SelectItem>
+                      <SelectItem value="all">Todos os fornecedores</SelectItem>
                       {fornecedores?.map((fornecedor) => (
                         <SelectItem key={fornecedor.codigo} value={fornecedor.codigo}>
                           {fornecedor.codigo}
@@ -194,8 +194,8 @@ const Estoque = () => {
           </CardHeader>
           <CardContent>
             <EstoqueTable 
-              empresaCodigo={empresaSelecionada}
-              fornecedorCodigo={fornecedorSelecionado}
+              empresaCodigo={empresaSelecionada === "all" ? "" : empresaSelecionada}
+              fornecedorCodigo={fornecedorSelecionado === "all" ? "" : fornecedorSelecionado}
               codigoOuEan={codigoOuEan}
               categoria={categoriaSelecionada}
             />
