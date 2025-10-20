@@ -81,6 +81,7 @@ const EstoqueTable = () => {
             <TableHead className="text-center text-slate-50 font-semibold py-2">M-0</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>UN</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>CX</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">VALOR<br/>ESTOQUE</TableHead>
             <TableHead className="text-center text-slate-50 font-semibold py-2">LIVRO</TableHead>
           </TableRow>
         </TableHeader>
@@ -141,6 +142,11 @@ const EstoqueTable = () => {
               </TableCell>
               <TableCell className="text-right font-medium py-1">
                 {item.custo_cx ? Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
+              </TableCell>
+              <TableCell className="text-right font-medium py-1">
+                {item.custo_cx && item.qtd_disponivel 
+                  ? (Number(item.custo_cx) * Number(item.qtd_disponivel)).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) 
+                  : "-"}
               </TableCell>
               <TableCell className="text-right py-1">
                 {item.livro !== null && item.livro !== undefined ? Number(item.livro).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
