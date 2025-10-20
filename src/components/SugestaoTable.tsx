@@ -280,7 +280,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                   <Input
                     type="number"
                     min="0"
-                    className="w-20 h-7 text-center font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="w-20 h-7 text-center font-bold text-base bg-blue-50 dark:bg-blue-950/50 border-2 border-blue-300 dark:border-blue-700 focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     value={editingRow[item.id]?.qtdPallet || ""}
                     onChange={(e) => handleQtdChange(item.id, "qtdPallet", e.target.value)}
                     placeholder="0"
@@ -290,7 +290,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                   <Input
                     type="number"
                     min="0"
-                    className="w-20 h-7 text-center font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="w-20 h-7 text-center font-bold text-base bg-blue-50 dark:bg-blue-950/50 border-2 border-blue-300 dark:border-blue-700 focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     value={editingRow[item.id]?.qtdCamada || ""}
                     onChange={(e) => handleQtdChange(item.id, "qtdCamada", e.target.value)}
                     placeholder="0"
