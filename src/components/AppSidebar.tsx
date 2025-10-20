@@ -27,8 +27,8 @@ const comprasItems = [
 ];
 
 const pedidoSubItems = [
-  { title: "Pedido 501-HC", url: "/pedido/501-hc" },
-  { title: "Pedido ERP", url: "/pedido/erp" },
+  { title: "Rascunho", url: "/pedido/501-hc" },
+  { title: "ERP", url: "/pedido/erp" },
 ];
 
 export function AppSidebar() {
