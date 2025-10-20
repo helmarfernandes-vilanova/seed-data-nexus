@@ -40,6 +40,7 @@ const ClearDatabaseButton = () => {
       queryClient.invalidateQueries({ queryKey: ["estoque"] });
       queryClient.invalidateQueries({ queryKey: ["produtos"] });
       queryClient.invalidateQueries({ queryKey: ["pedidos"] });
+      queryClient.invalidateQueries({ queryKey: ["condicoes"] });
       queryClient.invalidateQueries({ queryKey: ["stats"] });
 
       toast.success("Banco de dados limpo com sucesso!");

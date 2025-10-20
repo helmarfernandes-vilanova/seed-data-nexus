@@ -387,6 +387,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_clear_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

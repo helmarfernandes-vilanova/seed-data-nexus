@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
 
     console.log('Starting database clear by admin:', user.email);
 
-    // Usar o service role para ignorar RLS
+    // Use service role to call the secure admin function
     const supabaseService = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
@@ -69,94 +69,13 @@ Deno.serve(async (req) => {
       }
     });
 
-    // Deletar na ordem correta para respeitar foreign keys
-    console.log('Deleting condicoes_comerciais...');
-    const { error: condicoesError } = await supabaseService
-      .from('condicoes_comerciais')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+    // Call the secure database function that handles all deletions atomically
+    console.log('Calling admin_clear_data function...');
+    const { error: clearError } = await supabaseService.rpc('admin_clear_data');
 
-    if (condicoesError) {
-      console.error('Error deleting condicoes_comerciais:', condicoesError);
-      throw condicoesError;
-    }
-
-    console.log('Deleting estoque...');
-    const { error: estoqueError } = await supabaseService
-      .from('estoque')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (estoqueError) {
-      console.error('Error deleting estoque:', estoqueError);
-      throw estoqueError;
-    }
-
-    // Deletar pedidos e itens antes de produtos/empresas/fornecedores
-    console.log('Deleting pedidos_itens...');
-    const { error: pedidosItensError } = await supabaseService
-      .from('pedidos_itens')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (pedidosItensError) {
-      console.error('Error deleting pedidos_itens:', pedidosItensError);
-      throw pedidosItensError;
-    }
-
-    console.log('Deleting pedidos...');
-    const { error: pedidosError } = await supabaseService
-      .from('pedidos')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (pedidosError) {
-      console.error('Error deleting pedidos:', pedidosError);
-      throw pedidosError;
-    }
-
-    console.log('Deleting produtos...');
-    const { error: produtosError } = await supabaseService
-      .from('produtos')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (produtosError) {
-      console.error('Error deleting produtos:', produtosError);
-      throw produtosError;
-    }
-
-    console.log('Deleting categorias...');
-    const { error: categoriasError } = await supabaseService
-      .from('categorias')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (categoriasError) {
-      console.error('Error deleting categorias:', categoriasError);
-      throw categoriasError;
-    }
-
-    console.log('Deleting fornecedores...');
-    const { error: fornecedoresError } = await supabaseService
-      .from('fornecedores')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (fornecedoresError) {
-      console.error('Error deleting fornecedores:', fornecedoresError);
-      throw fornecedoresError;
-    }
-
-    console.log('Deleting empresas...');
-    const { error: empresasError } = await supabaseService
-      .from('empresas')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000');
-
-    if (empresasError) {
-      console.error('Error deleting empresas:', empresasError);
-      throw empresasError;
+    if (clearError) {
+      console.error('Error clearing database:', clearError);
+      throw clearError;
     }
 
     console.log('Database cleared successfully');
