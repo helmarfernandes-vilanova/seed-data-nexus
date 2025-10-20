@@ -46,8 +46,8 @@ export function AppSidebar() {
       <SidebarContent className="pt-6">
         {showLabels && (
           <div className="px-4 pb-4 mb-2">
-            <h2 className="text-lg font-bold text-sidebar-foreground">Sistema de Compras</h2>
-            <p className="text-xs text-sidebar-foreground/60 mt-1">Painel de Controle</p>
+            <h2 className="text-lg font-bold text-sidebar-foreground">FlyWheel</h2>
+            <p className="text-xs text-sidebar-foreground/60 mt-1">Compras</p>
           </div>
         )}
         
