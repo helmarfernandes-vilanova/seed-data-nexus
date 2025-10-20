@@ -42,9 +42,9 @@ All colors MUST be HSL.
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 194 55% 35%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 194 50% 32%;
+    --sidebar-accent: 194 45% 48%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 194 45% 28%;
+    --sidebar-border: 194 40% 32%;
     --sidebar-ring: 194 55% 35%;
 
     --success: 155 60% 45%;
@@ -85,7 +85,7 @@ All colors MUST be HSL.
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 194 59% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 194 50% 28%;
+    --sidebar-accent: 194 50% 32%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 194 45% 18%;
     --sidebar-ring: 194 59% 39%;

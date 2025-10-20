@@ -37,18 +37,27 @@ export function AppSidebar() {
   const showLabels = open || isMobile;
 
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-muted text-primary font-medium" : "hover:bg-muted/50";
+    isActive 
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold shadow-sm" 
+      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground transition-all duration-200";
 
   return (
-    <Sidebar collapsible="icon" className="border-r">
-      <SidebarContent className="pt-4">
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+      <SidebarContent className="pt-6">
+        {showLabels && (
+          <div className="px-4 pb-4 mb-2">
+            <h2 className="text-lg font-bold text-sidebar-foreground">Sistema de Gestão</h2>
+            <p className="text-xs text-sidebar-foreground/60 mt-1">Painel de Controle</p>
+          </div>
+        )}
+        
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1 px-2">
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="rounded-lg">
                   <NavLink to="/estoque" end className={getNavCls}>
-                    <Package className="h-4 w-4" />
+                    <Package className="h-5 w-5" />
                     {showLabels && <span>Estoque</span>}
                   </NavLink>
                 </SidebarMenuButton>
@@ -56,9 +65,9 @@ export function AppSidebar() {
               
               {nivItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="rounded-lg">
                     <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-5 w-5" />
                       {showLabels && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
@@ -67,9 +76,9 @@ export function AppSidebar() {
               
               {comprasItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="rounded-lg">
                     <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-5 w-5" />
                       {showLabels && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
@@ -79,19 +88,19 @@ export function AppSidebar() {
               <Collapsible defaultOpen className="group/collapsible">
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton>
-                      <ShoppingCart className="h-4 w-4" />
+                    <SidebarMenuButton className="rounded-lg hover:bg-sidebar-accent/50 transition-all duration-200">
+                      <ShoppingCart className="h-5 w-5" />
                       {showLabels && <span>Pedido</span>}
-                      {showLabels && <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />}
+                      {showLabels && <ChevronDown className="ml-auto h-4 w-4 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-180" />}
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
+                  <CollapsibleContent className="transition-all duration-300">
+                    <SidebarMenuSub className="ml-3 mt-1 space-y-1 border-l-2 border-sidebar-border pl-3">
                       {pedidoSubItems.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.url}>
-                          <SidebarMenuSubButton asChild>
+                          <SidebarMenuSubButton asChild className="rounded-md">
                             <NavLink to={subItem.url} end className={getNavCls}>
-                              {showLabels && <span>{subItem.title}</span>}
+                              {showLabels && <span className="text-sm">{subItem.title}</span>}
                             </NavLink>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
@@ -104,13 +113,15 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <div className="px-3 py-2">
+      
+      <SidebarFooter className="border-t border-sidebar-border mt-auto">
+        <div className="px-3 py-3">
           <LogoutButton showLabel={showLabels} />
         </div>
         {showLabels && (
-          <div className="px-3 py-2 text-xs text-muted-foreground">
-            Sistema de Gestão v1.0
+          <div className="px-4 py-3 text-xs text-sidebar-foreground/50 bg-sidebar-accent/30">
+            <p className="font-medium">v1.0</p>
+            <p className="mt-0.5">Sistema de Gestão</p>
           </div>
         )}
       </SidebarFooter>
