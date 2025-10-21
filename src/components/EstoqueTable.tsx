@@ -125,64 +125,64 @@ const EstoqueTable = ({
               key={item.id}
               className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
             >
-              <TableCell className="font-medium text-xs py-1">
+              <TableCell className="font-medium text-xs py-1 relative z-0">
                 {item.empresa?.codigo || "-"}
               </TableCell>
-              <TableCell className="text-xs py-1">
+              <TableCell className="text-xs py-1 relative z-0">
                 {item.produto?.fornecedor?.codigo || "-"}
               </TableCell>
               <TableCell className={`font-medium font-mono text-xs py-1 sticky left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}>
                 {item.produto?.codigo || "-"}
               </TableCell>
-              <TableCell className="font-mono text-xs py-1">
+              <TableCell className="font-mono text-xs py-1 relative z-0">
                 {item.produto?.ean || "-"}
               </TableCell>
-              <TableCell className="text-sm py-1">
+              <TableCell className="text-sm py-1 relative z-0">
                 <div className="max-w-[300px] whitespace-nowrap overflow-hidden text-ellipsis">
                   {item.produto?.descricao || "-"}
                 </div>
               </TableCell>
-              <TableCell className="py-1">
+              <TableCell className="py-1 relative z-0">
                 <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary whitespace-nowrap">
                   {item.produto?.categoria?.nome || "Sem categoria"}
                 </span>
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.produto?.qt_cx_compra ?? "-"}
               </TableCell>
-              <TableCell className="text-right font-medium py-1">
+              <TableCell className="text-right font-medium py-1 relative z-0">
                 {Number(item.qtd_disponivel || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {Number(item.pendente || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.dias_estoque !== null && item.dias_estoque !== undefined ? Number(item.dias_estoque).toFixed(2) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.m_3 !== null && item.m_3 !== undefined ? Number(item.m_3).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.m_2 !== null && item.m_2 !== undefined ? Number(item.m_2).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.m_1 !== null && item.m_1 !== undefined ? Number(item.m_1).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.m_0 !== null && item.m_0 !== undefined ? Number(item.m_0).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.custo_un ? Number(item.custo_un).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right font-medium py-1">
+              <TableCell className="text-right font-medium py-1 relative z-0">
                 {item.custo_cx ? Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right font-medium py-1">
+              <TableCell className="text-right font-medium py-1 relative z-0">
                 {item.custo_cx && item.qtd_disponivel 
                   ? (Number(item.custo_cx) * Number(item.qtd_disponivel)).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) 
                   : "-"}
               </TableCell>
-              <TableCell className="text-right py-1">
+              <TableCell className="text-right py-1 relative z-0">
                 {item.livro !== null && item.livro !== undefined ? Number(item.livro).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
             </TableRow>
