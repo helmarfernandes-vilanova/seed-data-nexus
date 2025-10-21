@@ -101,7 +101,7 @@ const EstoqueTable = ({
           <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
             <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">EMPRESA</TableHead>
             <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">FORNECEDOR</TableHead>
-            <TableHead className="min-w-[100px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">PRODUTO</TableHead>
+            <TableHead className="min-w-[100px] sticky top-0 left-0 z-30 bg-slate-900 text-slate-50 font-semibold py-2 text-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.3)]">PRODUTO</TableHead>
             <TableHead className="min-w-[120px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
             <TableHead className="min-w-[300px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
             <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
@@ -131,7 +131,7 @@ const EstoqueTable = ({
               <TableCell className="text-xs py-1">
                 {item.produto?.fornecedor?.codigo || "-"}
               </TableCell>
-              <TableCell className="font-medium font-mono text-xs py-1">
+              <TableCell className={`font-medium font-mono text-xs py-1 sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}>
                 {item.produto?.codigo || "-"}
               </TableCell>
               <TableCell className="font-mono text-xs py-1">
