@@ -114,14 +114,14 @@ const Estoque = () => {
         <Card>
           <CardHeader>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-3">
                 <div>
                   <CardTitle className="text-lg md:text-xl">Itens em Estoque</CardTitle>
                   <CardDescription className="text-sm">
                     Visualize e gerencie todo o estoque de produtos por empresa
                   </CardDescription>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <ClearDatabaseButton />
                   <ImportDialog />
                 </div>
