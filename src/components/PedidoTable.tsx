@@ -128,36 +128,36 @@ const PedidoTable = ({ empresaCodigo }: PedidoTableProps) => {
   }
 
   return (
-    <div className="rounded-md border [&>div]:max-h-[70vh] [&>div]:overflow-auto">
-      <Table className="min-w-max">
+    <div className="rounded-md border overflow-x-auto">
+      <Table>
         <TableHeader>
-          <TableRow className="bg-slate-900 hover:bg-slate-900">
-            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[160px] text-slate-50 font-semibold text-center">DATA<br/>CRIAÇÃO</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[160px] text-slate-50 font-semibold text-center">DATA<br/>ATUALIZAÇÃO</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[120px] text-slate-50 font-semibold text-center">STATUS</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[120px]">TOTAL<br/>ITENS</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[240px] text-slate-50 font-semibold text-center">OBSERVAÇÕES</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[140px]">AÇÕES</TableHead>
+          <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
+            <TableHead className="min-w-[140px] text-slate-50 font-semibold py-2 text-center">DATA<br/>CRIAÇÃO</TableHead>
+            <TableHead className="min-w-[140px] text-slate-50 font-semibold py-2 text-center">DATA<br/>ATUALIZAÇÃO</TableHead>
+            <TableHead className="text-slate-50 font-semibold py-2 text-center">STATUS</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>ITENS</TableHead>
+            <TableHead className="min-w-[200px] text-slate-50 font-semibold py-2 text-center">OBSERVAÇÕES</TableHead>
+            <TableHead className="text-center text-slate-50 font-semibold py-2">AÇÕES</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {pedidos.map((pedido, index) => (
             <TableRow 
               key={pedido.id}
-              className={index % 2 === 0 ? "bg-background" : "bg-muted/30"}
+              className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
             >
-              <TableCell className="text-xs min-w-[160px]">{pedido.dataCriacao}</TableCell>
-              <TableCell className="text-xs min-w-[160px]">{pedido.dataAtualizacao}</TableCell>
-              <TableCell className="min-w-[120px]">
+              <TableCell className="text-xs py-1">{pedido.dataCriacao}</TableCell>
+              <TableCell className="text-xs py-1">{pedido.dataAtualizacao}</TableCell>
+              <TableCell className="py-1">
                 <span className="capitalize text-xs">{pedido.status}</span>
               </TableCell>
-              <TableCell className="text-right font-medium min-w-[120px]">{pedido.totalItens}</TableCell>
-              <TableCell className="text-sm min-w-[240px]">
-                <div className="max-w-[240px] whitespace-nowrap overflow-hidden text-ellipsis">
+              <TableCell className="text-right font-medium py-1">{pedido.totalItens}</TableCell>
+              <TableCell className="text-sm py-1">
+                <div className="max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
                   {pedido.observacoes || "-"}
                 </div>
               </TableCell>
-              <TableCell className="text-center min-w-[140px]">
+              <TableCell className="text-center py-1">
                 <div className="flex gap-1 justify-center">
                   <Button
                     variant="ghost"

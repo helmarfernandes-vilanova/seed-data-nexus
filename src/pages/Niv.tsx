@@ -21,16 +21,16 @@ const Niv = () => {
       <main className="container mx-auto px-4 py-4 md:py-8">
         <Card>
           <CardHeader>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="flex-1">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
                 <CardTitle className="text-lg md:text-xl">Condições Comerciais - {empresaAtual?.nome}</CardTitle>
                 <CardDescription className="text-sm">
                   Visualize preços, quantidades e informações comerciais dos produtos
                 </CardDescription>
               </div>
-              <div className="flex gap-2 items-center flex-wrap">
+              <div className="flex gap-2 items-center">
                 <Select value={empresaSelecionada} onValueChange={setEmpresaSelecionada}>
-                  <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectTrigger className="w-full md:w-[180px]">
                     <SelectValue placeholder="Selecione empresa" />
                   </SelectTrigger>
                   <SelectContent>
@@ -41,10 +41,8 @@ const Niv = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                <div className="flex gap-2">
-                  <ClearDatabaseButton />
-                  <ImportDialogNiv />
-                </div>
+                <ClearDatabaseButton />
+                <ImportDialogNiv />
               </div>
             </div>
           </CardHeader>

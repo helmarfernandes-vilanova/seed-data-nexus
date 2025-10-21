@@ -209,18 +209,18 @@ const Sugestao = () => {
         <Card>
           <CardHeader>
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div className="flex-1">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
                   <CardTitle className="text-lg md:text-xl">Sugestão de Compra</CardTitle>
                   <CardDescription className="text-sm">
                     Análise de DDV e cálculo de pedidos baseado em histórico de vendas
                   </CardDescription>
                 </div>
                 <div className="flex gap-2 flex-wrap">
-                  <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido} className="flex-1 sm:flex-none text-sm whitespace-nowrap">
+                  <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido} className="flex-1 md:flex-none text-sm">
                     Criar Pedido
                   </Button>
-                  <Button disabled={isSaving} onClick={handleSavePedido} className="flex-1 sm:flex-none text-sm whitespace-nowrap">
+                  <Button disabled={isSaving} onClick={handleSavePedido} className="flex-1 md:flex-none text-sm">
                     {isSaving ? "Salvando..." : "Salvar Pedido"}
                   </Button>
                 </div>
