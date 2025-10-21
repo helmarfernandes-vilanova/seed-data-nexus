@@ -96,7 +96,7 @@ const EstoqueTable = ({
 
   return (
     <div className="rounded-md border overflow-x-auto">
-      <Table>
+      <Table className="border-separate border-spacing-0">
         <TableHeader>
           <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
             <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">EMPRESA</TableHead>
