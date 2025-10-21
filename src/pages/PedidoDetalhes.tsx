@@ -317,36 +317,36 @@ const PedidoDetalhes = () => {
                 Nenhum item encontrado neste pedido
               </div>
             ) : (
-              <div className="rounded-md border overflow-x-auto">
-                <Table>
+              <div className="rounded-md border [&>div]:max-h-[70vh] [&>div]:overflow-auto">
+                <Table className="min-w-max">
                   <TableHeader>
-                    <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
-                      <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">CÓD<br/>PRODUTO</TableHead>
-                      <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
-                      <TableHead className="min-w-[200px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
-                      <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">EMB<br/>COMPRA</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇCX<br/>NIV</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇUN<br/>NIV</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇCX<br/>NF</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PÇUN<br/>NF</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">DESC<br/>NF</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">VERBA<br/>UNID</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">VERBA<br/>CX</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO<br/>FINAL</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>PEDIDO</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">ESTOQUE</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">NOVO<br/>ESTOQUE</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">CUSTO<br/>ATUAL</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">NOVO<br/>CUSTO</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">PREÇO<br/>ATUAL</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">QTD<br/>PALLET</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">QTD<br/>CAMADA</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>PALLET</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">CARGAS</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>NF</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>NIV</TableHead>
-                      <TableHead className="text-center text-slate-50 font-semibold py-2">TOTAL<br/>VERBA</TableHead>
+                    <TableRow className="bg-slate-900 hover:bg-slate-900">
+                      <TableHead className="sticky top-0 left-0 z-50 bg-slate-900 min-w-[120px] text-slate-50 font-semibold text-center">CÓD<br/>PRODUTO</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[140px] text-slate-50 font-semibold text-center">EAN</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[250px] text-slate-50 font-semibold text-center">DESCRIÇÃO</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[150px] text-slate-50 font-semibold text-center">CATEGORIA</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">EMB<br/>COMPRA</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">PÇCX<br/>NIV</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">PÇUN<br/>NIV</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">PÇCX<br/>NF</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">PÇUN<br/>NF</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">DESC<br/>NF</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">VERBA<br/>UNID</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">VERBA<br/>CX</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[120px]">PREÇO<br/>FINAL</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">TOTAL<br/>PEDIDO</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">ESTOQUE</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">NOVO<br/>ESTOQUE</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">CUSTO<br/>ATUAL</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">NOVO<br/>CUSTO</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">PREÇO<br/>ATUAL</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">QTD<br/>PALLET</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">QTD<br/>CAMADA</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">TOTAL<br/>PALLET</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">CARGAS</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">TOTAL<br/>NF</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">TOTAL<br/>NIV</TableHead>
+                      <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">TOTAL<br/>VERBA</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -419,33 +419,33 @@ const PedidoDetalhes = () => {
                       return (
                         <TableRow 
                           key={item.id}
-                          className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+                          className={index % 2 === 0 ? "bg-background" : "bg-muted/30"}
                         >
-                          <TableCell className="font-mono text-xs py-1">{item.codigoProduto}</TableCell>
-                          <TableCell className="font-mono text-xs py-1">{item.ean}</TableCell>
-                          <TableCell className="text-sm py-1 whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">{item.descricao}</TableCell>
-                          <TableCell className="text-xs text-muted-foreground py-1">{item.categoria}</TableCell>
-                          <TableCell className="text-right font-medium py-1">{item.embCompra}</TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="sticky left-0 z-40 bg-inherit font-mono text-xs border-r border-muted/40 min-w-[120px]">{item.codigoProduto}</TableCell>
+                          <TableCell className="font-mono text-xs min-w-[140px]">{item.ean}</TableCell>
+                          <TableCell className="text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[250px] min-w-[250px]">{item.descricao}</TableCell>
+                          <TableCell className="text-xs text-muted-foreground min-w-[150px]">{item.categoria}</TableCell>
+                          <TableCell className="text-right font-medium min-w-[110px]">{item.embCompra}</TableCell>
+                          <TableCell className="text-right min-w-[110px]">
                             {item.precoNiv ? Number(item.precoNiv).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {precoUnidNiv && precoUnidNiv > 0
                               ? precoUnidNiv.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                               : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {item.precoNf ? Number(item.precoNf).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {precoUnidNf && precoUnidNf > 0
                               ? precoUnidNf.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                               : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {descOffNf ? `${(descOffNf * 100).toFixed(2)}%` : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             <Input
                               type="text"
                               step="0.01"
@@ -465,43 +465,43 @@ const PedidoDetalhes = () => {
                               placeholder="0,00"
                             />
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {verbaCx ? verbaCx.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[120px]">
                             {precoFinal ? precoFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right font-medium py-1">
+                          <TableCell className="text-right font-medium min-w-[110px]">
                             {item.qtdPedido}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {item.estoqueAtual != null ? item.estoqueAtual : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {novoEstoque != null ? novoEstoque : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {item.custoAtual != null ? Number(item.custoAtual).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {novoCusto ? novoCusto.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {item.precoAtual != null ? Number(item.precoAtual).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-center py-1">{item.qtdPallet}</TableCell>
-                          <TableCell className="text-center py-1">{item.qtdCamada}</TableCell>
-                          <TableCell className="text-right py-1">{item.qtdPallet}</TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-center min-w-[110px]">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-center min-w-[110px]">{item.qtdCamada}</TableCell>
+                          <TableCell className="text-right min-w-[110px]">{item.qtdPallet}</TableCell>
+                          <TableCell className="text-right min-w-[110px]">
                             {cargas ? cargas.toFixed(2) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {totalNf ? totalNf.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {totalNiv ? totalNiv.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
-                          <TableCell className="text-right py-1">
+                          <TableCell className="text-right min-w-[110px]">
                             {totalVerba ? totalVerba.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-"}
                           </TableCell>
                         </TableRow>
