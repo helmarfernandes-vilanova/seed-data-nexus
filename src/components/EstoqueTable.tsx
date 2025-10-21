@@ -95,94 +95,95 @@ const EstoqueTable = ({
   }
 
   return (
-    <div className="rounded-md border [&>div]:max-h-[70vh] [&>div]:overflow-auto">
-      <Table className="min-w-max border-separate border-spacing-0">
-        <TableHeader>
-          <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center w-[64px] min-w-[64px]">EMPRESA</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center w-[80px] min-w-[80px]">FORNECEDOR</TableHead>
-            <TableHead className="min-w-[96px] w-[96px] sticky top-0 left-0 z-40 bg-slate-900 text-slate-50 font-semibold py-2 text-center">PRODUTO</TableHead>
-            <TableHead className="min-w-[120px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
-            <TableHead className="min-w-[300px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">QT CX<br/>COMPRA</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">QTD<br/>DISPONÍVEL</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">PENDENTE</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">DIAS<br/>ESTOQUE</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">M-3</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">M-2</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">M-1</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">M-0</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">CUSTO<br/>UN</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">CUSTO<br/>CX</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">VALOR<br/>ESTOQUE</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold py-2">LIVRO</TableHead>
-          </TableRow>
-        </TableHeader>
+    <div className="rounded-md border">
+      <div className="overflow-auto max-h-[70vh]">
+        <Table className="min-w-max">
+          <TableHeader>
+            <TableRow className="bg-slate-900 hover:bg-slate-900">
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[64px]">EMPRESA</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[80px]">FORNECEDOR</TableHead>
+              <TableHead className="sticky top-0 left-0 z-50 bg-slate-900 text-slate-50 font-semibold text-center min-w-[96px]">PRODUTO</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[120px]">EAN</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[300px]">DESCRIÇÃO</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[150px]">CATEGORIA</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">QT CX<br/>COMPRA</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">QTD<br/>DISPONÍVEL</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">PENDENTE</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">DIAS<br/>ESTOQUE</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-3</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-2</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-1</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-0</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">CUSTO<br/>UN</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">CUSTO<br/>CX</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">VALOR<br/>ESTOQUE</TableHead>
+              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">LIVRO</TableHead>
+            </TableRow>
+          </TableHeader>
           <TableBody>
             {estoque.map((item, index) => (
             <TableRow 
               key={item.id}
-              className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+              className={index % 2 === 0 ? "bg-background" : "bg-muted/30"}
             >
-              <TableCell className="font-medium text-xs py-1 relative z-0 w-[64px] min-w-[64px]">
+              <TableCell className="font-medium text-xs">
                 {item.empresa?.codigo || "-"}
               </TableCell>
-              <TableCell className="text-xs py-1 relative z-0 w-[80px] min-w-[80px]">
+              <TableCell className="text-xs">
                 {item.produto?.fornecedor?.codigo || "-"}
               </TableCell>
-              <TableCell className="font-mono text-xs py-1 sticky left-0 z-40 bg-background w-[96px] min-w-[96px] border-r border-muted/40">
+              <TableCell className="sticky left-0 z-40 bg-inherit font-mono text-xs border-r border-muted/40">
                 {item.produto?.codigo || "-"}
               </TableCell>
-              <TableCell className="font-mono text-xs py-1 relative z-0">
+              <TableCell className="font-mono text-xs">
                 {item.produto?.ean || "-"}
               </TableCell>
-              <TableCell className="text-sm py-1 relative z-0">
+              <TableCell className="text-sm">
                 <div className="max-w-[300px] whitespace-nowrap overflow-hidden text-ellipsis">
                   {item.produto?.descricao || "-"}
                 </div>
               </TableCell>
-              <TableCell className="py-1 relative z-0">
+              <TableCell>
                 <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary whitespace-nowrap">
                   {item.produto?.categoria?.nome || "Sem categoria"}
                 </span>
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.produto?.qt_cx_compra ?? "-"}
               </TableCell>
-              <TableCell className="text-right font-medium py-1 relative z-0">
+              <TableCell className="text-right font-medium">
                 {Number(item.qtd_disponivel || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {Number(item.pendente || 0).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.dias_estoque !== null && item.dias_estoque !== undefined ? Number(item.dias_estoque).toFixed(2) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.m_3 !== null && item.m_3 !== undefined ? Number(item.m_3).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.m_2 !== null && item.m_2 !== undefined ? Number(item.m_2).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.m_1 !== null && item.m_1 !== undefined ? Number(item.m_1).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.m_0 !== null && item.m_0 !== undefined ? Number(item.m_0).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.custo_un ? Number(item.custo_un).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right font-medium py-1 relative z-0">
+              <TableCell className="text-right font-medium">
                 {item.custo_cx ? Number(item.custo_cx).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
-              <TableCell className="text-right font-medium py-1 relative z-0">
+              <TableCell className="text-right font-medium">
                 {item.custo_cx && item.qtd_disponivel 
                   ? (Number(item.custo_cx) * Number(item.qtd_disponivel)).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) 
                   : "-"}
               </TableCell>
-              <TableCell className="text-right py-1 relative z-0">
+              <TableCell className="text-right">
                 {item.livro !== null && item.livro !== undefined ? Number(item.livro).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : "-"}
               </TableCell>
             </TableRow>
@@ -190,6 +191,7 @@ const EstoqueTable = ({
           </TableBody>
         </Table>
       </div>
+    </div>
   );
 };
 
