@@ -82,7 +82,7 @@ const Estoque = () => {
     <div className="flex-1">
       <main className="container mx-auto px-4 py-4 md:py-8">
         {/* Cards de Estatísticas */}
-        <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-4 md:mb-8">
+        <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4 mb-4 md:mb-8">
           <StatsCard
             title="Valor Total de Estoque"
             value={stats?.valorTotalEstoque || 0}
