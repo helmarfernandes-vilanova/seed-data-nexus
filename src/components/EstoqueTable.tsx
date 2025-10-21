@@ -95,7 +95,7 @@ const EstoqueTable = ({
   }
 
   return (
-    <div className="rounded-md border overflow-x-auto">
+    <div className="rounded-md border overflow-x-auto [&>div]:max-h-[70vh] [&>div]:overflow-y-auto">
       <Table className="border-separate border-spacing-0">
         <TableHeader>
           <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
