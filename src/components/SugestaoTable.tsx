@@ -216,29 +216,29 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
     });
 
     return (
-    <div className="rounded-md border overflow-x-auto">
-      <Table>
+    <div className="rounded-md border [&>div]:max-h-[70vh] [&>div]:overflow-auto">
+      <Table className="min-w-max">
         <TableHeader>
-          <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
-            <TableHead className="min-w-[100px] text-slate-50 font-semibold py-2 text-center">COD<br/>PRODUTO</TableHead>
-            <TableHead className="min-w-[120px] text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
-            <TableHead className="min-w-[300px] text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
-            <TableHead className="text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">EMB<br/>COMPRA</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">ESTOQUE</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">PENDENTE</TableHead>
-            <TableHead className="min-w-[120px] text-center text-slate-50 font-semibold py-2">DDV Média<br/>último Mês</TableHead>
-            <TableHead className="min-w-[120px] text-center text-slate-50 font-semibold py-2">DDV Média<br/>3 Meses</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">DIAS DE<br/>ESTOQUE</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">MÊS<br/>-3</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">MÊS<br/>-2</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">MÊS<br/>-1</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">Mês<br/>Atual</TableHead>
-            <TableHead className="text-center text-slate-50 font-semibold py-2">PEDIDO</TableHead>
-            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">QTD<br/>PALLET</TableHead>
-            <TableHead className="text-center min-w-[100px] text-slate-50 font-semibold py-2">QTD<br/>CAMADA</TableHead>
-            <TableHead className="min-w-[100px] text-center text-slate-50 font-semibold py-2">QTD no<br/>Pallet</TableHead>
-            <TableHead className="min-w-[100px] text-center text-slate-50 font-semibold py-2">QTD na<br/>Camada</TableHead>
+          <TableRow className="bg-slate-900 hover:bg-slate-900">
+            <TableHead className="sticky top-0 left-0 z-50 bg-slate-900 min-w-[120px] text-slate-50 font-semibold text-center">COD<br/>PRODUTO</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[140px] text-slate-50 font-semibold text-center">EAN</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[320px] text-slate-50 font-semibold text-center">DESCRIÇÃO</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[180px] text-slate-50 font-semibold text-center">CATEGORIA</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">EMB<br/>COMPRA</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">ESTOQUE</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[110px]">PENDENTE</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[140px] text-center text-slate-50 font-semibold">DDV Média<br/>último Mês</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[140px] text-center text-slate-50 font-semibold">DDV Média<br/>3 Meses</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[120px]">DIAS DE<br/>ESTOQUE</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[100px]">MÊS<br/>-3</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[100px]">MÊS<br/>-2</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[100px]">MÊS<br/>-1</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[100px]">Mês<br/>Atual</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center text-slate-50 font-semibold min-w-[100px]">PEDIDO</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center min-w-[120px] text-slate-50 font-semibold">QTD<br/>PALLET</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-center min-w-[120px] text-slate-50 font-semibold">QTD<br/>CAMADA</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[120px] text-center text-slate-50 font-semibold">QTD no<br/>Pallet</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 min-w-[120px] text-center text-slate-50 font-semibold">QTD na<br/>Camada</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -247,36 +247,36 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             return (
               <TableRow 
                 key={item.id}
-                className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
+                className={index % 2 === 0 ? "bg-background" : "bg-muted/30"}
               >
-                <TableCell className="font-mono text-xs py-1">{item.codigoProduto}</TableCell>
-                <TableCell className="font-mono text-xs py-1">{item.ean}</TableCell>
-                <TableCell className="text-sm py-1 whitespace-nowrap overflow-hidden text-ellipsis max-w-[300px]">{item.descricao}</TableCell>
-                <TableCell className="text-xs text-muted-foreground py-1">{item.categoria}</TableCell>
-                <TableCell className="text-right font-medium py-1">{item.embCompra}</TableCell>
-                <TableCell className="text-right font-medium bg-orange-50 dark:bg-orange-950/30 py-1">
+                <TableCell className="sticky left-0 z-40 bg-inherit font-mono text-xs border-r border-muted/40 min-w-[120px]">{item.codigoProduto}</TableCell>
+                <TableCell className="font-mono text-xs min-w-[140px]">{item.ean}</TableCell>
+                <TableCell className="text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[320px] min-w-[320px]">{item.descricao}</TableCell>
+                <TableCell className="text-xs text-muted-foreground min-w-[180px]">{item.categoria}</TableCell>
+                <TableCell className="text-right font-medium min-w-[110px]">{item.embCompra}</TableCell>
+                <TableCell className="text-right font-medium bg-orange-50 dark:bg-orange-950/30 min-w-[110px]">
                   {item.estoque.toFixed(0)}
                 </TableCell>
-                <TableCell className="text-right font-medium bg-orange-50 dark:bg-orange-950/30 py-1">
+                <TableCell className="text-right font-medium bg-orange-50 dark:bg-orange-950/30 min-w-[110px]">
                   {item.pendente.toFixed(0)}
                 </TableCell>
-                <TableCell className={`text-right py-1 ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
+                <TableCell className={`text-right min-w-[140px] ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.ddvUltimoMes !== null ? item.ddvUltimoMes : "-"}
                 </TableCell>
-                <TableCell className={`text-right py-1 ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
+                <TableCell className={`text-right min-w-[140px] ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.ddv3Meses !== null ? item.ddv3Meses : "-"}
                 </TableCell>
-                <TableCell className={`text-right font-bold py-1 ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
+                <TableCell className={`text-right font-bold min-w-[120px] ${getDiasEstoqueColorClass(item.diasEstoque)}`}>
                   {item.diasEstoque !== null ? item.diasEstoque.toFixed(0) : "-"}
                 </TableCell>
-                <TableCell className="text-right py-1">{item.mes3.toFixed(0)}</TableCell>
-                <TableCell className="text-right py-1">{item.mes2.toFixed(0)}</TableCell>
-                <TableCell className="text-right py-1">{item.mes1.toFixed(0)}</TableCell>
-                <TableCell className="text-right py-1">{item.mesAtual.toFixed(0)}</TableCell>
-                <TableCell className="text-right font-bold bg-orange-50 dark:bg-orange-950/30 py-1">
+                <TableCell className="text-right min-w-[100px]">{item.mes3.toFixed(0)}</TableCell>
+                <TableCell className="text-right min-w-[100px]">{item.mes2.toFixed(0)}</TableCell>
+                <TableCell className="text-right min-w-[100px]">{item.mes1.toFixed(0)}</TableCell>
+                <TableCell className="text-right min-w-[100px]">{item.mesAtual.toFixed(0)}</TableCell>
+                <TableCell className="text-right font-bold bg-orange-50 dark:bg-orange-950/30 min-w-[100px]">
                   {pedido}
                 </TableCell>
-                <TableCell className="text-center py-1">
+                <TableCell className="text-center min-w-[120px]">
                   <Input
                     type="number"
                     min="0"
@@ -286,7 +286,7 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                     placeholder="0"
                   />
                 </TableCell>
-                <TableCell className="text-center py-1">
+                <TableCell className="text-center min-w-[120px]">
                   <Input
                     type="number"
                     min="0"
@@ -296,8 +296,8 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
                     placeholder="0"
                   />
                 </TableCell>
-                <TableCell className="text-right text-muted-foreground py-1">{item.caixasPorPallet}</TableCell>
-                <TableCell className="text-right text-muted-foreground py-1">{item.caixasPorCamada}</TableCell>
+                <TableCell className="text-right text-muted-foreground min-w-[120px]">{item.caixasPorPallet}</TableCell>
+                <TableCell className="text-right text-muted-foreground min-w-[120px]">{item.caixasPorCamada}</TableCell>
               </TableRow>
             );
           })}
