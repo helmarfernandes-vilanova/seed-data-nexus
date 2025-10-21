@@ -96,12 +96,12 @@ const EstoqueTable = ({
 
   return (
     <div className="rounded-md border overflow-x-auto [&>div]:max-h-[70vh] [&>div]:overflow-y-auto">
-      <Table className="border-separate border-spacing-0">
+      <Table className="border-separate border-spacing-0 table-fixed">
         <TableHeader>
           <TableRow className="bg-slate-900 hover:bg-slate-900 h-14">
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">EMPRESA</TableHead>
-            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">FORNECEDOR</TableHead>
-            <TableHead className="min-w-[100px] sticky top-0 left-0 z-40 bg-slate-900 text-slate-50 font-semibold py-2 text-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.3)]">PRODUTO</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center w-[64px] min-w-[64px]">EMPRESA</TableHead>
+            <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center w-[80px] min-w-[80px]">FORNECEDOR</TableHead>
+            <TableHead className="min-w-[96px] w-[96px] sticky top-0 left-0 z-40 bg-slate-900 text-slate-50 font-semibold py-2 text-center">PRODUTO</TableHead>
             <TableHead className="min-w-[120px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">EAN</TableHead>
             <TableHead className="min-w-[300px] sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">DESCRIÇÃO</TableHead>
             <TableHead className="sticky top-0 z-20 bg-slate-900 text-slate-50 font-semibold py-2 text-center">CATEGORIA</TableHead>
@@ -125,13 +125,13 @@ const EstoqueTable = ({
               key={item.id}
               className={`h-9 ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}
             >
-              <TableCell className="font-medium text-xs py-1 relative z-0">
+              <TableCell className="font-medium text-xs py-1 relative z-0 w-[64px] min-w-[64px]">
                 {item.empresa?.codigo || "-"}
               </TableCell>
-              <TableCell className="text-xs py-1 relative z-0">
+              <TableCell className="text-xs py-1 relative z-0 w-[80px] min-w-[80px]">
                 {item.produto?.fornecedor?.codigo || "-"}
               </TableCell>
-              <TableCell className={`font-medium font-mono text-xs py-1 sticky left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] ${index % 2 === 0 ? "bg-background" : "bg-muted/30"}`}>
+              <TableCell className="font-mono text-xs py-1 sticky left-0 z-40 bg-background w-[96px] min-w-[96px] border-r border-muted/40">
                 {item.produto?.codigo || "-"}
               </TableCell>
               <TableCell className="font-mono text-xs py-1 relative z-0">
