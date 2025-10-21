@@ -98,26 +98,26 @@ const EstoqueTable = ({
     <div className="rounded-md border">
       <div className="overflow-auto max-h-[70vh]">
         <Table className="min-w-max">
-          <TableHeader>
+          <TableHeader className="sticky top-0 z-20">
             <TableRow className="bg-slate-900 hover:bg-slate-900">
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[64px]">EMPRESA</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[80px]">FORNECEDOR</TableHead>
-              <TableHead className="sticky top-0 left-0 z-50 bg-slate-900 text-slate-50 font-semibold text-center min-w-[96px]">PRODUTO</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[120px]">EAN</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[300px]">DESCRIÇÃO</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[150px]">CATEGORIA</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">QT CX<br/>COMPRA</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">QTD<br/>DISPONÍVEL</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">PENDENTE</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">DIAS<br/>ESTOQUE</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-3</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-2</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-1</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">M-0</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">CUSTO<br/>UN</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">CUSTO<br/>CX</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">VALOR<br/>ESTOQUE</TableHead>
-              <TableHead className="sticky top-0 z-10 bg-slate-900 text-center text-slate-50 font-semibold">LIVRO</TableHead>
+              <TableHead className="bg-slate-900 text-slate-50 font-semibold text-center min-w-[64px]">EMPRESA</TableHead>
+              <TableHead className="bg-slate-900 text-slate-50 font-semibold text-center min-w-[80px]">FORNECEDOR</TableHead>
+              <TableHead className="sticky left-0 z-10 bg-slate-900 text-slate-50 font-semibold text-center min-w-[96px]">PRODUTO</TableHead>
+              <TableHead className="bg-slate-900 text-slate-50 font-semibold text-center min-w-[120px]">EAN</TableHead>
+              <TableHead className="bg-slate-900 text-slate-50 font-semibold text-center min-w-[300px]">DESCRIÇÃO</TableHead>
+              <TableHead className="bg-slate-900 text-slate-50 font-semibold text-center min-w-[150px]">CATEGORIA</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">QT CX<br/>COMPRA</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">QTD<br/>DISPONÍVEL</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">PENDENTE</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">DIAS<br/>ESTOQUE</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">M-3</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">M-2</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">M-1</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">M-0</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">CUSTO<br/>UN</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">CUSTO<br/>CX</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">VALOR<br/>ESTOQUE</TableHead>
+              <TableHead className="bg-slate-900 text-center text-slate-50 font-semibold">LIVRO</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
