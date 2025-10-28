@@ -80,8 +80,6 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
           const condicao = condicoesData?.find(
             (c) => c.codigo_sku === item.produto?.codigo || c.codigo_ean === item.produto?.ean
           );
-          
-          console.log('Produto:', item.produto?.codigo, 'Condição encontrada:', condicao);
 
           // DDV Média último Mês: SOMA(estoque + pendente + ?) / (mes_1 / 30)
           const somaEstoquePendente = (item.qtd_disponivel || 0) + (item.pendente || 0);

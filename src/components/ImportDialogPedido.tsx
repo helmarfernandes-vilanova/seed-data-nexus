@@ -106,8 +106,9 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
         throw new Error("Planilha vazia");
       }
 
-      // Validar estrutura
+      // Validar estrutura - apenas COD PRODUTO e EAN são obrigatórios
       const firstRow = data[0] as any;
+      console.log("Validando planilha - Primeira linha:", Object.keys(firstRow));
       const requiredFields = ["COD PRODUTO", "EAN"];
       const missingFields = requiredFields.filter(field => !(field in firstRow));
 
