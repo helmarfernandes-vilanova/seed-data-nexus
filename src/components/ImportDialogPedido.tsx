@@ -41,11 +41,22 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
     // Criar planilha modelo
     const template = [
       {
-        "COD PRODUTO": "123456",
-        "EAN": "7891234567890",
-        "Pedido": 100,
-        "QTD PALLET": 2,
-        "QTD CAMADA": 1,
+        "COD PRODUTO": "4602",
+        "EAN": "7891038160308",
+        "QTD PALLET": "",
+        "QTD CAMADA": "",
+      },
+      {
+        "COD PRODUTO": "114999",
+        "EAN": "7891150070967",
+        "QTD PALLET": 12,
+        "QTD CAMADA": "",
+      },
+      {
+        "COD PRODUTO": "114105",
+        "EAN": "7891150065178",
+        "QTD PALLET": 4,
+        "QTD CAMADA": "",
       }
     ];
 
@@ -57,7 +68,6 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
     ws['!cols'] = [
       { wch: 15 },
       { wch: 18 },
-      { wch: 10 },
       { wch: 12 },
       { wch: 12 },
     ];
@@ -98,7 +108,7 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
 
       // Validar estrutura
       const firstRow = data[0] as any;
-      const requiredFields = ["COD PRODUTO", "EAN", "Pedido", "QTD PALLET", "QTD CAMADA"];
+      const requiredFields = ["COD PRODUTO", "EAN"];
       const missingFields = requiredFields.filter(field => !(field in firstRow));
 
       if (missingFields.length > 0) {
@@ -147,11 +157,27 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
       // Processar dados
       const processedData = [];
       let errors = 0;
+      let skipped = 0;
 
       for (const row of data) {
         const rowData = row as any;
-        const codigo = String(rowData["COD PRODUTO"]);
-        const ean = String(rowData["EAN"]);
+        const codigo = String(rowData["COD PRODUTO"] || "").trim();
+        const ean = String(rowData["EAN"] || "").trim();
+        
+        // Ignorar linhas sem código ou EAN
+        if (!codigo && !ean) {
+          skipped++;
+          continue;
+        }
+
+        const qtdPallet = Number(rowData["QTD PALLET"]) || 0;
+        const qtdCamada = Number(rowData["QTD CAMADA"]) || 0;
+
+        // Ignorar linhas sem quantidade
+        if (qtdPallet === 0 && qtdCamada === 0) {
+          skipped++;
+          continue;
+        }
         
         let produto = produtosMap.get(codigo) || produtosMap.get(ean);
 
@@ -161,9 +187,9 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
           continue;
         }
 
-        const qtdPallet = Number(rowData["QTD PALLET"]) || 0;
-        const qtdCamada = Number(rowData["QTD CAMADA"]) || 0;
-        const pedido = Number(rowData["Pedido"]) || 0;
+        // Calcular pedido baseado em pallet e camada
+        // Assumindo que precisa buscar caixas_por_pallet e caixas_por_camada das condições comerciais
+        const pedido = 0; // Será calculado quando salvar o pedido
 
         processedData.push({
           produtoId: produto.id,
@@ -176,13 +202,18 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
         });
       }
 
+      console.log(`Processamento: ${processedData.length} itens válidos, ${skipped} ignorados, ${errors} erros`);
+
       setProgress(100);
 
+      const successMessage = [];
+      if (processedData.length > 0) successMessage.push(`${processedData.length} itens carregados`);
+      if (skipped > 0) successMessage.push(`${skipped} linhas ignoradas`);
+      if (errors > 0) successMessage.push(`${errors} erros`);
+
       setResult({
-        success: true,
-        message: errors > 0 
-          ? `${processedData.length} itens carregados com ${errors} erros`
-          : `${processedData.length} itens carregados com sucesso!`,
+        success: errors < data.length,
+        message: successMessage.join(', '),
         stats: {
           total: data.length,
           processados: processedData.length,
