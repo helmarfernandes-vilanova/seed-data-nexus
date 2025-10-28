@@ -108,28 +108,39 @@ const ImportDialogPedido = ({ empresaCodigo, fornecedorCodigo, onImportSuccess }
 
       // Validar estrutura - apenas COD PRODUTO e EAN são obrigatórios
       const firstRow = data[0] as any;
-      console.log("Validando planilha - Primeira linha:", Object.keys(firstRow));
+      const detectedColumns = Object.keys(firstRow);
+      console.log("Colunas detectadas na planilha:", detectedColumns);
+      console.log("Primeira linha completa:", firstRow);
+      
       const requiredFields = ["COD PRODUTO", "EAN"];
       const missingFields = requiredFields.filter(field => !(field in firstRow));
 
       if (missingFields.length > 0) {
-        throw new Error(`Campos obrigatórios faltando: ${missingFields.join(", ")}`);
+        throw new Error(`Campos obrigatórios faltando: ${missingFields.join(", ")}. Colunas encontradas: ${detectedColumns.join(", ")}`);
       }
 
       setProgress(60);
 
       // Buscar empresa e fornecedor IDs
-      const { data: empresaData } = await supabase
+      const { data: empresaData, error: empresaError } = await supabase
         .from("empresas")
         .select("id")
         .eq("codigo", empresaCodigo)
         .single();
 
-      const { data: fornecedorData } = await supabase
+      const { data: fornecedorData, error: fornecedorError } = await supabase
         .from("fornecedores")
         .select("id")
         .eq("codigo", fornecedorCodigo)
         .single();
+
+      if (empresaError) {
+        throw new Error(`Erro ao buscar empresa: ${empresaError.message}. Verifique sua conexão com a internet.`);
+      }
+
+      if (fornecedorError) {
+        throw new Error(`Erro ao buscar fornecedor: ${fornecedorError.message}. Verifique sua conexão com a internet.`);
+      }
 
       if (!empresaData || !fornecedorData) {
         throw new Error("Empresa ou fornecedor não encontrado");
