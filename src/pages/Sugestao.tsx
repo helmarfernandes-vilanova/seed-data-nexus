@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import SugestaoTable from "@/components/SugestaoTable";
+import ImportDialogPedido from "@/components/ImportDialogPedido";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
@@ -18,7 +19,7 @@ const Sugestao = () => {
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
   const [codigoOuEan, setCodigoOuEan] = useState("");
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("todas");
-  const tableRef = useRef<{ getEditingData: () => any[] }>(null);
+  const tableRef = useRef<{ getEditingData: () => any[]; applyImportedData: (data: any[]) => void }>(null);
 
   // Buscar empresas disponíveis
   const { data: empresas } = useQuery({
@@ -217,6 +218,15 @@ const Sugestao = () => {
                   </CardDescription>
                 </div>
                 <div className="flex gap-2 flex-wrap">
+                  <ImportDialogPedido
+                    empresaCodigo={empresaSelecionada}
+                    fornecedorCodigo={fornecedorSelecionado}
+                    onImportSuccess={(data) => {
+                      if (tableRef.current) {
+                        tableRef.current.applyImportedData(data);
+                      }
+                    }}
+                  />
                   <Button variant="outline" disabled={isSaving} onClick={handleCreatePedido} className="flex-1 md:flex-none text-sm">
                     Criar Pedido
                   </Button>

@@ -21,6 +21,7 @@ interface SugestaoTableProps {
 
 export interface SugestaoTableRef {
   getEditingData: () => any[];
+  applyImportedData: (data: any[]) => void;
 }
 
 const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
@@ -172,6 +173,26 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
           qtdCamada: editingRow[item.id]?.qtdCamada || 0,
           pedido: calcularPedido(item),
         }));
+      },
+      applyImportedData: (data: any[]) => {
+        // Aplicar dados importados ao editingRow
+        const newEditingRow: { [key: string]: { qtdPallet: number; qtdCamada: number } } = {};
+        
+        data.forEach((importedItem) => {
+          // Encontrar o item correspondente nas sugestões
+          const sugestaoItem = sugestoes?.find(
+            (s) => s.produtoId === importedItem.produtoId
+          );
+          
+          if (sugestaoItem) {
+            newEditingRow[sugestaoItem.id] = {
+              qtdPallet: importedItem.qtdPallet || 0,
+              qtdCamada: importedItem.qtdCamada || 0,
+            };
+          }
+        });
+        
+        setEditingRow(newEditingRow);
       },
     }));
 
