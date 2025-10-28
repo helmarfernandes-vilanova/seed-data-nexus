@@ -22,11 +22,12 @@ interface SugestaoTableProps {
 export interface SugestaoTableRef {
   getEditingData: () => any[];
   applyImportedData: (data: any[]) => void;
+  applyImportedVerba: (data: any[]) => void;
 }
 
 const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
   ({ empresaCodigo, fornecedorCodigo, pedidoId, codigoOuEan = "", categoria = "" }, ref) => {
-    const [editingRow, setEditingRow] = useState<{ [key: string]: { qtdPallet: number; qtdCamada: number } }>({});
+    const [editingRow, setEditingRow] = useState<{ [key: string]: { qtdPallet: number; qtdCamada: number; verbaUnid?: number } }>({});
 
     const { data: sugestoes, isLoading } = useQuery({
       queryKey: ["sugestao", empresaCodigo, fornecedorCodigo],
@@ -170,11 +171,12 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
           qtdPallet: editingRow[item.id]?.qtdPallet || 0,
           qtdCamada: editingRow[item.id]?.qtdCamada || 0,
           pedido: calcularPedido(item),
+          verbaUnid: editingRow[item.id]?.verbaUnid || 0,
         }));
       },
       applyImportedData: (data: any[]) => {
         // Aplicar dados importados ao editingRow
-        const newEditingRow: { [key: string]: { qtdPallet: number; qtdCamada: number } } = {};
+        const newEditingRow: { [key: string]: { qtdPallet: number; qtdCamada: number; verbaUnid?: number } } = {};
         
         data.forEach((importedItem) => {
           // Encontrar o item correspondente nas sugestões
@@ -186,11 +188,36 @@ const SugestaoTable = forwardRef<SugestaoTableRef, SugestaoTableProps>(
             newEditingRow[sugestaoItem.id] = {
               qtdPallet: importedItem.qtdPallet || 0,
               qtdCamada: importedItem.qtdCamada || 0,
+              verbaUnid: editingRow[sugestaoItem.id]?.verbaUnid || 0,
             };
           }
         });
         
         setEditingRow(newEditingRow);
+      },
+      applyImportedVerba: (data: any[]) => {
+        // Aplicar verbas importadas ao editingRow
+        setEditingRow((prev) => {
+          const newEditingRow = { ...prev };
+          
+          data.forEach((importedItem) => {
+            // Encontrar o item correspondente nas sugestões
+            const sugestaoItem = sugestoes?.find(
+              (s) => s.produtoId === importedItem.produtoId
+            );
+            
+            if (sugestaoItem) {
+              newEditingRow[sugestaoItem.id] = {
+                ...prev[sugestaoItem.id],
+                qtdPallet: prev[sugestaoItem.id]?.qtdPallet || 0,
+                qtdCamada: prev[sugestaoItem.id]?.qtdCamada || 0,
+                verbaUnid: importedItem.verbaUnid || 0,
+              };
+            }
+          });
+          
+          return newEditingRow;
+        });
       },
     }));
 
