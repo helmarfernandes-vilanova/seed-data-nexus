@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import SugestaoTable from "@/components/SugestaoTable";
 import ImportDialogPedido from "@/components/ImportDialogPedido";
-import ImportDialogVerba from "@/components/ImportDialogVerba";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +19,7 @@ const Sugestao = () => {
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState("1941");
   const [codigoOuEan, setCodigoOuEan] = useState("");
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("todas");
-  const tableRef = useRef<{ getEditingData: () => any[]; applyImportedData: (data: any[]) => void; applyImportedVerba: (data: any[]) => void }>(null);
+  const tableRef = useRef<{ getEditingData: () => any[]; applyImportedData: (data: any[]) => void }>(null);
 
   // Buscar empresas disponíveis
   const { data: empresas } = useQuery({
@@ -186,7 +185,6 @@ const Sugestao = () => {
           estoque_atual: estoque?.qtd_disponivel || null,
           custo_atual: estoque?.custo_un || null,
           preco_atual: estoque?.livro || null,
-          verba_unid: item.verbaUnid || 0,
         };
       });
 
@@ -226,15 +224,6 @@ const Sugestao = () => {
                     onImportSuccess={(data) => {
                       if (tableRef.current) {
                         tableRef.current.applyImportedData(data);
-                      }
-                    }}
-                  />
-                  <ImportDialogVerba
-                    empresaCodigo={empresaSelecionada}
-                    fornecedorCodigo={fornecedorSelecionado}
-                    onImportSuccess={(data) => {
-                      if (tableRef.current) {
-                        tableRef.current.applyImportedVerba(data);
                       }
                     }}
                   />
