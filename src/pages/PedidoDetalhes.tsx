@@ -15,6 +15,7 @@ import {
 import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import ImportDialogVerbaDetalhes from "@/components/ImportDialogVerbaDetalhes";
 
 const PedidoDetalhes = () => {
   const { pedidoId } = useParams<{ pedidoId: string }>();
@@ -191,6 +192,51 @@ const PedidoDetalhes = () => {
     }
   };
 
+  const handleImportVerbas = async (verbasImportadas: Record<string, number>) => {
+    // verbasImportadas vem com produto_id como chave
+    // Precisamos mapear para pedidos_itens.id
+    if (!itens) return;
+
+    const newEditedVerbas: Record<string, number> = {};
+    
+    // Buscar todos os produtos dos itens atuais
+    const codigos = itens.map(item => item.codigoProduto).filter(Boolean);
+    const eans = itens.map(item => item.ean).filter(Boolean);
+    
+    const { data: produtos } = await supabase
+      .from("produtos")
+      .select("id, codigo, ean")
+      .or(`codigo.in.(${codigos.join(",")}),ean.in.(${eans.join(",")})`);
+    
+    if (!produtos) return;
+    
+    // Criar mapa de produto_id por código e EAN
+    const produtoIdPorCodigo = new Map(produtos.map(p => [p.codigo, p.id]));
+    const produtoIdPorEan = new Map(produtos.map(p => [p.ean, p.id]));
+    
+    // Mapear verbas importadas para os itens do pedido
+    itens.forEach((item) => {
+      let produtoId = null;
+      
+      // Tentar encontrar produto_id pelo código ou EAN
+      if (item.codigoProduto && produtoIdPorCodigo.has(item.codigoProduto)) {
+        produtoId = produtoIdPorCodigo.get(item.codigoProduto);
+      } else if (item.ean && produtoIdPorEan.has(item.ean)) {
+        produtoId = produtoIdPorEan.get(item.ean);
+      }
+      
+      // Se encontrou o produto e há verba importada para ele
+      if (produtoId && verbasImportadas[produtoId] !== undefined) {
+        newEditedVerbas[item.id] = verbasImportadas[produtoId];
+      }
+    });
+    
+    setEditedVerbas(prev => ({
+      ...prev,
+      ...newEditedVerbas
+    }));
+  };
+
   if (pedidoLoading || itensLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -303,12 +349,15 @@ const PedidoDetalhes = () => {
                   {pedido.observacoes && ` • ${pedido.observacoes}`}
                 </CardDescription>
               </div>
-              {Object.keys(editedVerbas).length > 0 && (
-                <Button onClick={handleSaveVerbas} disabled={updateVerbasMutation.isPending} className="text-sm">
-                  <Save className="h-4 w-4 mr-2" />
-                  Salvar Alterações
-                </Button>
-              )}
+              <div className="flex gap-2">
+                <ImportDialogVerbaDetalhes onImport={handleImportVerbas} />
+                {Object.keys(editedVerbas).length > 0 && (
+                  <Button onClick={handleSaveVerbas} disabled={updateVerbasMutation.isPending} className="text-sm">
+                    <Save className="h-4 w-4 mr-2" />
+                    Salvar Alterações
+                  </Button>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent>
